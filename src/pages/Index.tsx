@@ -2,10 +2,14 @@
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { CalendarDays, MapPin, Search, UserCheck } from "lucide-react";
+import Navbar from "@/components/Navbar";
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-background">
+      {/* Navbar */}
+      <Navbar />
+      
       {/* Hero Section */}
       <section className="relative">
         <div className="absolute inset-0 bg-gradient-to-r from-primary/90 to-primary/70 z-10" />
