@@ -2,13 +2,37 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { X, Menu } from "lucide-react";
+import { X, Menu, User } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { user, profile, signOut } = useAuth();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  // Function to get user initials for avatar fallback
+  const getUserInitials = () => {
+    if (profile?.full_name) {
+      return profile.full_name
+        .split(" ")
+        .map((n: string) => n[0])
+        .join("")
+        .toUpperCase()
+        .substring(0, 2);
+    }
+    return user?.email?.substring(0, 2).toUpperCase() || "U";
   };
 
   return (
@@ -24,14 +48,42 @@ const Navbar = () => {
             <Link to="/" className="text-foreground hover:text-primary transition-colors">Home</Link>
             <Link to="/explore" className="text-foreground hover:text-primary transition-colors">Explore</Link>
             <Link to="/guides" className="text-foreground hover:text-primary transition-colors">Guides</Link>
-            <div className="ml-4 flex items-center space-x-2">
-              <Button variant="outline" asChild>
-                <Link to="/login">Login</Link>
-              </Button>
-              <Button asChild>
-                <Link to="/register">Register</Link>
-              </Button>
-            </div>
+            
+            {user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="relative h-10 w-10 rounded-full">
+                    <Avatar>
+                      <AvatarImage src={profile?.avatar_url} />
+                      <AvatarFallback>{getUserInitials()}</AvatarFallback>
+                    </Avatar>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem asChild>
+                    <Link to="/profile">Profile</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link to="/bookings">My Bookings</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={() => signOut()}>
+                    Log out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <div className="ml-4 flex items-center space-x-2">
+                <Button variant="outline" asChild>
+                  <Link to="/auth">Login</Link>
+                </Button>
+                <Button asChild>
+                  <Link to="/auth?tab=register">Register</Link>
+                </Button>
+              </div>
+            )}
           </nav>
           
           {/* Mobile Menu Button */}
@@ -66,14 +118,53 @@ const Navbar = () => {
             >
               Guides
             </Link>
-            <div className="pt-2 flex flex-col space-y-2">
-              <Button variant="outline" asChild onClick={toggleMenu}>
-                <Link to="/login">Login</Link>
-              </Button>
-              <Button asChild onClick={toggleMenu}>
-                <Link to="/register">Register</Link>
-              </Button>
-            </div>
+            
+            {user ? (
+              <>
+                <div className="flex items-center space-x-3 py-2">
+                  <Avatar>
+                    <AvatarImage src={profile?.avatar_url} />
+                    <AvatarFallback>{getUserInitials()}</AvatarFallback>
+                  </Avatar>
+                  <div>
+                    <div className="font-medium">{profile?.full_name || user.email}</div>
+                  </div>
+                </div>
+                <Link 
+                  to="/profile" 
+                  className="text-foreground hover:text-primary transition-colors py-2 pl-2"
+                  onClick={toggleMenu}
+                >
+                  Profile
+                </Link>
+                <Link 
+                  to="/bookings" 
+                  className="text-foreground hover:text-primary transition-colors py-2 pl-2"
+                  onClick={toggleMenu}
+                >
+                  My Bookings
+                </Link>
+                <Button 
+                  variant="outline" 
+                  className="w-full mt-2" 
+                  onClick={() => {
+                    signOut();
+                    toggleMenu();
+                  }}
+                >
+                  Log out
+                </Button>
+              </>
+            ) : (
+              <div className="pt-2 flex flex-col space-y-2">
+                <Button variant="outline" asChild onClick={toggleMenu}>
+                  <Link to="/auth">Login</Link>
+                </Button>
+                <Button asChild onClick={toggleMenu}>
+                  <Link to="/auth?tab=register">Register</Link>
+                </Button>
+              </div>
+            )}
           </div>
         </div>
       )}
