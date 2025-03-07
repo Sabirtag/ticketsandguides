@@ -12,6 +12,7 @@ import NotFound from "./pages/NotFound";
 import Explore from "./pages/Explore";
 import Auth from "./pages/Auth";
 import AuthCallback from "./pages/AuthCallback";
+import BookingSite from "./pages/BookingSite";
 
 const queryClient = new QueryClient();
 
@@ -28,6 +29,7 @@ const App = () => (
               <Route path="/explore" element={<Explore />} />
               <Route path="/auth" element={<Auth />} />
               <Route path="/auth/callback" element={<AuthCallback />} />
+              <Route path="/booking" element={<BookingSite />} />
               
               {/* Protected routes */}
               <Route path="/profile" element={
@@ -43,7 +45,6 @@ const App = () => (
               
               {/* These routes will be implemented in future iterations */}
               <Route path="/guides" element={<NotFound />} />
-              <Route path="/booking" element={<NotFound />} />
               <Route path="/terms" element={<NotFound />} />
               <Route path="/privacy" element={<NotFound />} />
               
