@@ -9,7 +9,6 @@ import { SearchProvider } from "@/contexts/SearchContext";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
-import Explore from "./pages/Explore";
 import Auth from "./pages/Auth";
 import AuthCallback from "./pages/AuthCallback";
 import BookingSite from "./pages/BookingSite";
@@ -26,7 +25,6 @@ const App = () => (
           <SearchProvider>
             <Routes>
               <Route path="/" element={<Index />} />
-              <Route path="/explore" element={<Explore />} />
               <Route path="/auth" element={<Auth />} />
               <Route path="/auth/callback" element={<AuthCallback />} />
               <Route path="/booking" element={<BookingSite />} />

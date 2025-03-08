@@ -40,13 +40,18 @@ const Navbar = () => {
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center">
-            <Link to="/" className="text-2xl font-bold text-primary">TAG</Link>
+            <Link to="/" className="flex items-center">
+              <img 
+                src="/lovable-uploads/eddf3f47-f36a-4088-883d-513d144fff3a.png" 
+                alt="TAG - Tickets and Guides" 
+                className="h-12"
+              />
+            </Link>
           </div>
           
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-6">
             <Link to="/" className="text-foreground hover:text-primary transition-colors">Home</Link>
-            <Link to="/explore" className="text-foreground hover:text-primary transition-colors">Explore</Link>
             <Link to="/guides" className="text-foreground hover:text-primary transition-colors">Guides</Link>
             
             {user ? (
@@ -103,13 +108,6 @@ const Navbar = () => {
               onClick={toggleMenu}
             >
               Home
-            </Link>
-            <Link 
-              to="/explore" 
-              className="text-foreground hover:text-primary transition-colors py-2"
-              onClick={toggleMenu}
-            >
-              Explore
             </Link>
             <Link 
               to="/guides" 

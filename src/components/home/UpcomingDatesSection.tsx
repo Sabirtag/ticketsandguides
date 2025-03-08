@@ -1,6 +1,5 @@
 
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import { Calendar } from "lucide-react";
 
 // Helper function to format date
@@ -13,7 +12,6 @@ const formatDate = (date: Date): string => {
 };
 
 const UpcomingDatesSection = () => {
-  const navigate = useNavigate();
   const today = new Date();
 
   return (
@@ -28,7 +26,6 @@ const UpcomingDatesSection = () => {
               <div 
                 key={i} 
                 className="rounded-lg border border-primary/30 bg-primary/5 p-4 text-center cursor-pointer hover:bg-primary/10 transition-colors"
-                onClick={() => navigate('/explore')}
               >
                 <Calendar className="h-6 w-6 mx-auto mb-2 text-primary" />
                 <p className="font-medium">{formatDate(date)}</p>

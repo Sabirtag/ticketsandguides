@@ -1,12 +1,10 @@
 
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useSearch } from "@/contexts/SearchContext";
 
 const HeroSection = () => {
-  const navigate = useNavigate();
   const { searchQuery, setSearchQuery, performSearch, isSearching } = useSearch();
 
   const handleSearch = async (e: React.FormEvent) => {
@@ -56,7 +54,6 @@ const HeroSection = () => {
                 placeholder="Add Date & Time"
                 className="w-full bg-white/90"
                 readOnly
-                onClick={() => navigate('/explore')}
               />
             </div>
             
@@ -66,7 +63,6 @@ const HeroSection = () => {
                 placeholder="Add members"
                 className="w-full bg-white/90"
                 readOnly
-                onClick={() => navigate('/explore')}
               />
             </div>
             
@@ -76,7 +72,6 @@ const HeroSection = () => {
                 placeholder="Get a Guide?"
                 className="w-full bg-white/90"
                 readOnly
-                onClick={() => navigate('/guides')}
               />
             </div>
             
