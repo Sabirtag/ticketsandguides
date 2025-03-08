@@ -41,7 +41,7 @@ const Index = () => {
       <section className="relative h-[600px]">
         <div className="absolute inset-0 z-0">
           <img 
-            src="/lovable-uploads/fbba1d88-ae67-4a77-8edb-6f01992dd434.png" 
+            src="https://images.unsplash.com/photo-1469474968028-56623f02e42e" 
             alt="Heritage background" 
             className="w-full h-full object-cover"
           />
