@@ -2,36 +2,12 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Calendar, MapPin, Star } from "lucide-react";
+import { Calendar, MapPin, Star, Users, Clock } from "lucide-react";
 import Navbar from "@/components/Navbar";
-import AISearch from "@/components/AISearch";
-import SearchResults from "@/components/SearchResults";
+import { Input } from "@/components/ui/input";
 import { useSearch } from "@/contexts/SearchContext";
-
-// Mock featured sites data
-const featuredSites = [
-  {
-    id: 1,
-    name: "Taj Mahal",
-    location: "Agra, Uttar Pradesh",
-    rating: 4.9,
-    image: "https://images.unsplash.com/photo-1564507592333-c60657eea523?q=80&w=2071&auto=format&fit=crop"
-  },
-  {
-    id: 2,
-    name: "Red Fort",
-    location: "Delhi",
-    rating: 4.7,
-    image: "https://images.unsplash.com/photo-1624461050280-25ccc5af9256?q=80&w=1974&auto=format&fit=crop"
-  },
-  {
-    id: 3,
-    name: "Qutub Minar",
-    location: "Delhi",
-    rating: 4.5,
-    image: "https://images.unsplash.com/photo-1557246572-83179c258ac5?q=80&w=2070&auto=format&fit=crop"
-  }
-];
+import SearchResults from "@/components/SearchResults";
+import { Card, CardContent } from "@/components/ui/card";
 
 // Helper function to format date
 const formatDate = (date: Date): string => {
@@ -44,8 +20,17 @@ const formatDate = (date: Date): string => {
 
 const Index = () => {
   const navigate = useNavigate();
-  const { searchResults } = useSearch();
+  const { searchQuery, setSearchQuery, performSearch, isSearching, searchResults } = useSearch();
   const today = new Date();
+
+  const handleSearch = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      await performSearch();
+    } catch (error) {
+      console.error("Search error:", error);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -53,20 +38,78 @@ const Index = () => {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative py-20 bg-primary/10">
-        <div className="container px-4 md:px-6">
-          <div className="flex flex-col items-center text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
-              Discover India's <br className="md:hidden" />
-              <span className="text-primary">Heritage Treasures</span>
-            </h1>
-            <p className="text-xl text-muted-foreground max-w-2xl mb-10">
-              Book tickets for India's most remarkable historical sites and monuments.
-              Your journey through time begins here.
-            </p>
-            <div className="w-full max-w-3xl">
-              <AISearch />
-            </div>
+      <section className="relative h-[600px]">
+        <div className="absolute inset-0 z-0">
+          <img 
+            src="/lovable-uploads/fbba1d88-ae67-4a77-8edb-6f01992dd434.png" 
+            alt="Heritage background" 
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-black/30"></div>
+        </div>
+        
+        <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-4">
+          <h1 className="text-5xl md:text-6xl font-serif font-bold text-white mb-3">
+            Discover Heritage With Us
+          </h1>
+          <p className="text-xl text-white/90 max-w-2xl mb-12">
+            Connecting People to Diverse Attractions and Cultural Wonders
+          </p>
+          
+          {/* Search Bar */}
+          <div className="w-full max-w-5xl bg-white/10 backdrop-blur-sm rounded-lg p-6">
+            <form onSubmit={handleSearch} className="grid grid-cols-1 md:grid-cols-5 gap-3">
+              <div className="md:col-span-1">
+                <label className="block text-white text-sm mb-1">Where</label>
+                <Input
+                  placeholder="Search for Monuments"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full bg-white/90"
+                />
+              </div>
+              
+              <div className="md:col-span-1">
+                <label className="block text-white text-sm mb-1">When</label>
+                <Input
+                  placeholder="Add Date & Time"
+                  className="w-full bg-white/90"
+                  readOnly
+                  onClick={() => navigate('/explore')}
+                />
+              </div>
+              
+              <div className="md:col-span-1">
+                <label className="block text-white text-sm mb-1">Who</label>
+                <Input
+                  placeholder="Add members"
+                  className="w-full bg-white/90"
+                  readOnly
+                  onClick={() => navigate('/explore')}
+                />
+              </div>
+              
+              <div className="md:col-span-1">
+                <label className="block text-white text-sm mb-1">With</label>
+                <Input
+                  placeholder="Get a Guide?"
+                  className="w-full bg-white/90"
+                  readOnly
+                  onClick={() => navigate('/guides')}
+                />
+              </div>
+              
+              <div className="md:col-span-1">
+                <label className="block text-white text-sm mb-1 opacity-0">Book</label>
+                <Button 
+                  type="submit" 
+                  className="w-full h-10 bg-amber-600 hover:bg-amber-700 text-white"
+                  disabled={isSearching || !searchQuery.trim()}
+                >
+                  Book
+                </Button>
+              </div>
+            </form>
           </div>
         </div>
       </section>
@@ -78,56 +121,60 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Featured Sites Section - Only show if no search results */}
+      {/* Why TAG Section */}
       {searchResults.length === 0 && (
-        <section className="py-12 bg-muted/30">
+        <section className="py-16 bg-white">
           <div className="container px-4 md:px-6">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
-              <div>
-                <h2 className="text-2xl font-bold mb-2">Featured Heritage Sites</h2>
+            <h2 className="text-3xl font-serif font-bold text-center mb-16">Why TAG?</h2>
+            
+            <div className="grid md:grid-cols-3 gap-10">
+              <div className="flex flex-col items-center text-center">
+                <div className="w-16 h-16 mb-6">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-amber-600">
+                    <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold mb-3">Skip the line</h3>
                 <p className="text-muted-foreground">
-                  Explore some of India's most iconic historical wonders
+                  Avoid long queues and save time by purchasing your tickets online in advance.
                 </p>
               </div>
-              <Button variant="outline" className="mt-4 md:mt-0" onClick={() => navigate('/explore')}>
-                View All Sites
-              </Button>
-            </div>
-
-            <div className="grid md:grid-cols-3 gap-6">
-              {featuredSites.map((site) => (
-                <div key={site.id} className="group cursor-pointer" onClick={() => navigate(`/booking?site=${site.id}`)}>
-                  <div className="rounded-lg overflow-hidden shadow-md transition-all hover:shadow-lg">
-                    <div className="h-56 overflow-hidden relative">
-                      <img 
-                        src={site.image} 
-                        alt={site.name} 
-                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                      />
-                    </div>
-                    <div className="p-4">
-                      <div className="flex items-start justify-between">
-                        <h3 className="text-xl font-bold">{site.name}</h3>
-                        <div className="flex items-center bg-primary/10 text-primary px-2 py-1 rounded">
-                          <Star className="h-3 w-3 fill-primary mr-1" />
-                          <span className="text-sm font-medium">{site.rating}</span>
-                        </div>
-                      </div>
-                      <div className="flex items-center text-muted-foreground mt-2">
-                        <MapPin className="h-4 w-4 mr-1" />
-                        {site.location}
-                      </div>
-                    </div>
-                  </div>
+              
+              <div className="flex flex-col items-center text-center">
+                <div className="w-16 h-16 mb-6">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-amber-600">
+                    <rect width="18" height="18" x="3" y="3" rx="2"/>
+                    <path d="M3 9h18"/>
+                    <path d="M3 15h18"/>
+                    <path d="M9 3v18"/>
+                    <path d="M15 3v18"/>
+                  </svg>
                 </div>
-              ))}
+                <h3 className="text-xl font-bold mb-3">Book a Guide</h3>
+                <p className="text-muted-foreground">
+                  Enhance your visit by booking certified guides offering you in-depth knowledge and insights.
+                </p>
+              </div>
+              
+              <div className="flex flex-col items-center text-center">
+                <div className="w-16 h-16 mb-6">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-amber-600">
+                    <rect width="20" height="16" x="2" y="4" rx="2"/>
+                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold mb-3">Free Cancellation</h3>
+                <p className="text-muted-foreground">
+                  Enjoy flexibility with free cancellation on all bookings, allowing you to plan your trip with confidence.
+                </p>
+              </div>
             </div>
           </div>
         </section>
       )}
 
       {/* Upcoming Dates Section */}
-      <section className="py-12">
+      <section className="py-12 bg-gray-50">
         <div className="container px-4 md:px-6">
           <h2 className="text-2xl font-bold mb-8">Upcoming Available Dates</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
