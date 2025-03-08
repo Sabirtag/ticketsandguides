@@ -5,9 +5,10 @@ import SearchResults from "@/components/SearchResults";
 import { useSearch } from "@/contexts/SearchContext";
 import HeroSection from "@/components/home/HeroSection";
 import WhyTagSection from "@/components/home/WhyTagSection";
-import UpcomingDatesSection from "@/components/home/UpcomingDatesSection";
 import HowItWorksSection from "@/components/home/HowItWorksSection";
 import Footer from "@/components/home/Footer";
+import PopularDestinations from "@/components/home/PopularDestinations";
+import PopularCities from "@/components/home/PopularCities";
 
 const Index = () => {
   const { searchResults } = useSearch();
@@ -30,8 +31,11 @@ const Index = () => {
       {/* Why TAG Section */}
       {searchResults.length === 0 && <WhyTagSection />}
 
-      {/* Upcoming Dates Section */}
-      <UpcomingDatesSection />
+      {/* Popular Destinations Section */}
+      <PopularDestinations />
+
+      {/* Popular Cities Section */}
+      <PopularCities />
 
       {/* How It Works Section */}
       <HowItWorksSection />
