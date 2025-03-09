@@ -13,6 +13,7 @@ import Auth from "./pages/Auth";
 import AuthCallback from "./pages/AuthCallback";
 import BookingSite from "./pages/BookingSite";
 import Guides from "./pages/Guides";
+import GuideSelection from "./pages/GuideSelection";
 import DestinationDetail from "./pages/DestinationDetail";
 import BookingConfirmation from "./pages/BookingConfirmation";
 import CityPage from "./pages/CityPage";
@@ -33,6 +34,7 @@ const App = () => (
               <Route path="/auth/callback" element={<AuthCallback />} />
               <Route path="/booking" element={<BookingSite />} />
               <Route path="/guides" element={<Guides />} />
+              <Route path="/guide-selection" element={<GuideSelection />} />
               <Route path="/destination/:id" element={<DestinationDetail />} />
               <Route path="/booking-confirmation" element={<BookingConfirmation />} />
               <Route path="/city/:id" element={<CityPage />} />

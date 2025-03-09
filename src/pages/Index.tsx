@@ -5,7 +5,7 @@ import SearchResults from "@/components/SearchResults";
 import { useSearch } from "@/contexts/SearchContext";
 import HeroSection from "@/components/home/HeroSection";
 import WhyTagSection from "@/components/home/WhyTagSection";
-import HowItWorksSection from "@/components/home/HowItWorksSection";
+import GuideRecruitBanner from "@/components/home/GuideRecruitBanner";
 import Footer from "@/components/home/Footer";
 import PopularDestinations from "@/components/home/PopularDestinations";
 import PopularCities from "@/components/home/PopularCities";
@@ -37,8 +37,8 @@ const Index = () => {
       {/* Popular Cities Section */}
       <PopularCities />
 
-      {/* How It Works Section */}
-      <HowItWorksSection />
+      {/* Guide Recruit Banner Section (replacing How It Works) */}
+      <GuideRecruitBanner />
 
       {/* Footer */}
       <Footer />

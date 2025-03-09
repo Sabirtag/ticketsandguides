@@ -1,18 +1,34 @@
 
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useSearch } from "@/contexts/SearchContext";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+import { format } from "date-fns";
+import { CalendarIcon, Users, Sparkles } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const HeroSection = () => {
+  const navigate = useNavigate();
   const { searchQuery, setSearchQuery, performSearch, isSearching } = useSearch();
+  const [date, setDate] = useState<Date | undefined>(undefined);
+  const [visitors, setVisitors] = useState<string>("2 Adults");
+  const [showGuideOptions, setShowGuideOptions] = useState<boolean>(false);
+  const [withGuide, setWithGuide] = useState<boolean>(false);
 
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      await performSearch();
-    } catch (error) {
-      console.error("Search error:", error);
+    
+    if (withGuide) {
+      navigate("/guide-selection");
+    } else {
+      try {
+        await performSearch();
+      } catch (error) {
+        console.error("Search error:", error);
+      }
     }
   };
 
@@ -50,29 +66,125 @@ const HeroSection = () => {
             
             <div className="md:col-span-1">
               <label className="block text-white text-sm mb-1">When</label>
-              <Input
-                placeholder="Add Date & Time"
-                className="w-full bg-white/90"
-                readOnly
-              />
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className={cn(
+                      "w-full justify-start text-left font-normal bg-white/90 border-0",
+                      !date && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {date ? format(date, "PPP") : "Add Date & Time"}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={date}
+                    onSelect={setDate}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
             </div>
             
             <div className="md:col-span-1">
               <label className="block text-white text-sm mb-1">Who</label>
-              <Input
-                placeholder="Add members"
-                className="w-full bg-white/90"
-                readOnly
-              />
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className="w-full justify-start text-left font-normal bg-white/90 border-0"
+                  >
+                    <Users className="mr-2 h-4 w-4" />
+                    {visitors}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-56">
+                  <div className="space-y-2">
+                    <Button 
+                      variant="ghost" 
+                      className="w-full justify-start"
+                      onClick={() => setVisitors("1 Adult")}
+                    >
+                      1 Adult
+                    </Button>
+                    <Button 
+                      variant="ghost" 
+                      className="w-full justify-start"
+                      onClick={() => setVisitors("2 Adults")}
+                    >
+                      2 Adults
+                    </Button>
+                    <Button 
+                      variant="ghost" 
+                      className="w-full justify-start"
+                      onClick={() => setVisitors("2 Adults, 1 Child")}
+                    >
+                      2 Adults, 1 Child
+                    </Button>
+                    <Button 
+                      variant="ghost" 
+                      className="w-full justify-start"
+                      onClick={() => setVisitors("2 Adults, 2 Children")}
+                    >
+                      2 Adults, 2 Children
+                    </Button>
+                    <Button 
+                      variant="ghost" 
+                      className="w-full justify-start"
+                      onClick={() => setVisitors("Group (5+)")}
+                    >
+                      Group (5+)
+                    </Button>
+                  </div>
+                </PopoverContent>
+              </Popover>
             </div>
             
             <div className="md:col-span-1">
               <label className="block text-white text-sm mb-1">With</label>
-              <Input
-                placeholder="Get a Guide?"
-                className="w-full bg-white/90"
-                readOnly
-              />
+              <Popover
+                open={showGuideOptions}
+                onOpenChange={setShowGuideOptions}
+              >
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className="w-full justify-start text-left font-normal bg-white/90 border-0"
+                    onClick={() => setShowGuideOptions(true)}
+                  >
+                    <Sparkles className="mr-2 h-4 w-4" />
+                    {withGuide ? "With a Guide" : "Get a Guide?"}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-56">
+                  <div className="space-y-2">
+                    <Button 
+                      variant="ghost" 
+                      className="w-full justify-start"
+                      onClick={() => {
+                        setWithGuide(true);
+                        setShowGuideOptions(false);
+                      }}
+                    >
+                      With a Guide
+                    </Button>
+                    <Button 
+                      variant="ghost" 
+                      className="w-full justify-start"
+                      onClick={() => {
+                        setWithGuide(false);
+                        setShowGuideOptions(false);
+                      }}
+                    >
+                      No Guide
+                    </Button>
+                  </div>
+                </PopoverContent>
+              </Popover>
             </div>
             
             <div className="md:col-span-1">
@@ -80,9 +192,9 @@ const HeroSection = () => {
               <Button 
                 type="submit" 
                 className="w-full h-10 bg-amber-600 hover:bg-amber-700 text-white"
-                disabled={isSearching || !searchQuery.trim()}
+                disabled={isSearching || (!withGuide && !searchQuery.trim())}
               >
-                Book
+                {withGuide ? "Find Guides" : "Search"}
               </Button>
             </div>
           </form>
