@@ -43,7 +43,7 @@ const Navbar = () => {
           <div className="flex items-center">
             <Link to="/" className="flex items-center">
               <img 
-                src="/lovable-uploads/fbba1d88-ae67-4a77-8edb-6f01992dd434.png" 
+                src="/lovable-uploads/eddf3f47-f36a-4088-883d-513d144fff3a.png" 
                 alt="TAG - Tickets and Guides" 
                 className="h-12"
               />
