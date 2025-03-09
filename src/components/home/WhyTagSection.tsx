@@ -99,11 +99,11 @@ const WhyTagSection = () => {
           </Card>
         </div>
 
-        <style jsx>{`
+        <style dangerouslySetInnerHTML={{ __html: `
           .hide-scrollbar::-webkit-scrollbar {
             display: none;
           }
-        `}</style>
+        `}} />
       </div>
     </section>
   );
