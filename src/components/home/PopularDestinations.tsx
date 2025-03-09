@@ -1,9 +1,12 @@
 
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
 import { MapPin } from "lucide-react";
 
 const PopularDestinations = () => {
+  const navigate = useNavigate();
+  
   const destinations = [
     {
       id: 1,
@@ -31,13 +34,21 @@ const PopularDestinations = () => {
     }
   ];
 
+  const handleDestinationClick = (id: number) => {
+    navigate(`/destination/${id}`);
+  };
+
   return (
     <section className="py-12 bg-gray-50">
       <div className="container px-4 md:px-6">
         <h2 className="text-2xl font-bold mb-8">Popular Destinations Near You</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
           {destinations.map((destination) => (
-            <Card key={destination.id} className="overflow-hidden cursor-pointer hover:shadow-md transition-shadow">
+            <Card 
+              key={destination.id} 
+              className="overflow-hidden cursor-pointer hover:shadow-md transition-shadow"
+              onClick={() => handleDestinationClick(destination.id)}
+            >
               <div className="aspect-video relative overflow-hidden">
                 <img 
                   src={destination.image} 

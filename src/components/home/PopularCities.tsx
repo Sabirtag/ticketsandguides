@@ -1,8 +1,11 @@
 
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { MapPin } from "lucide-react";
 
 const PopularCities = () => {
+  const navigate = useNavigate();
+  
   const cities = [
     {
       id: 1,
@@ -54,13 +57,23 @@ const PopularCities = () => {
     }
   ];
 
+  const handleCityClick = (cityId: number) => {
+    // In a real app, this would navigate to a city-specific page
+    // For now, we'll navigate to a placeholder
+    navigate(`/city/${cityId}`);
+  };
+
   return (
     <section className="py-12 bg-white">
       <div className="container px-4 md:px-6">
         <h2 className="text-2xl font-bold mb-8">Popular Cities</h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
           {cities.map((city) => (
-            <div key={city.id} className="group relative cursor-pointer rounded-lg overflow-hidden h-48">
+            <div 
+              key={city.id} 
+              className="group relative cursor-pointer rounded-lg overflow-hidden h-48"
+              onClick={() => handleCityClick(city.id)}
+            >
               <img 
                 src={city.image} 
                 alt={city.name}

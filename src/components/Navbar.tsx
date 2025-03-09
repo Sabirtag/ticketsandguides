@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { X, Menu, User } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
@@ -17,6 +17,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { user, profile, signOut } = useAuth();
+  const location = useLocation();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -42,7 +43,7 @@ const Navbar = () => {
           <div className="flex items-center">
             <Link to="/" className="flex items-center">
               <img 
-                src="/lovable-uploads/eddf3f47-f36a-4088-883d-513d144fff3a.png" 
+                src="/lovable-uploads/fbba1d88-ae67-4a77-8edb-6f01992dd434.png" 
                 alt="TAG - Tickets and Guides" 
                 className="h-12"
               />
@@ -51,8 +52,8 @@ const Navbar = () => {
           
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-6">
-            <Link to="/" className="text-foreground hover:text-primary transition-colors">Home</Link>
-            <Link to="/guides" className="text-foreground hover:text-primary transition-colors">Guides</Link>
+            <Link to="/" className={`text-foreground hover:text-primary transition-colors ${location.pathname === '/' ? 'font-medium text-primary' : ''}`}>Home</Link>
+            <Link to="/guides" className={`text-foreground hover:text-primary transition-colors ${location.pathname === '/guides' ? 'font-medium text-primary' : ''}`}>Guides</Link>
             
             {user ? (
               <DropdownMenu>
@@ -104,14 +105,14 @@ const Navbar = () => {
           <div className="container mx-auto px-4 py-4 flex flex-col space-y-4">
             <Link 
               to="/" 
-              className="text-foreground hover:text-primary transition-colors py-2"
+              className={`text-foreground hover:text-primary transition-colors py-2 ${location.pathname === '/' ? 'font-medium text-primary' : ''}`}
               onClick={toggleMenu}
             >
               Home
             </Link>
             <Link 
               to="/guides" 
-              className="text-foreground hover:text-primary transition-colors py-2"
+              className={`text-foreground hover:text-primary transition-colors py-2 ${location.pathname === '/guides' ? 'font-medium text-primary' : ''}`}
               onClick={toggleMenu}
             >
               Guides

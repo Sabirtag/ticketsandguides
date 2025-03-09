@@ -1,66 +1,112 @@
 
 import React from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { BadgeCheck, Clock, CreditCard, Users, Building, Shield } from "lucide-react";
 
 const WhyTagSection = () => {
   return (
-    <section className="py-16 bg-white">
+    <section className="py-12 bg-white">
       <div className="container px-4 md:px-6">
-        <h2 className="text-3xl font-serif font-bold text-center mb-16">Why TAG?</h2>
+        <div className="text-center max-w-3xl mx-auto mb-12">
+          <h2 className="text-3xl font-bold mb-4">Why Choose TAG</h2>
+          <p className="text-muted-foreground">
+            TAG is the official platform authorized by the Archaeological Survey of India 
+            for booking tickets to heritage sites across India.
+          </p>
+        </div>
         
-        <div className="grid md:grid-cols-4 gap-10">
-          <div className="flex flex-col items-center text-center">
-            <div className="w-16 h-16 mb-6">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-amber-600">
-                <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
-              </svg>
+        {/* Ministry of Culture Feature Card */}
+        <Card className="mb-12 border-primary/20 bg-primary/5">
+          <CardContent className="p-6 md:p-8 flex flex-col md:flex-row items-center gap-6">
+            <div className="bg-white p-4 rounded-lg">
+              <Building className="h-16 w-16 text-primary" />
             </div>
-            <h3 className="text-xl font-bold mb-3">Skip the line</h3>
-            <p className="text-muted-foreground">
-              Avoid long queues and save time by purchasing your tickets online in advance.
-            </p>
-          </div>
+            <div>
+              <h3 className="text-xl font-bold mb-2">An Initiative by the Ministry of Culture</h3>
+              <p className="text-muted-foreground">
+                Proudly supported by the Ministry of Culture India, this platform aims to enrich your experience 
+                at India's historical and cultural sites.
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+        
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <Card>
+            <CardContent className="p-6">
+              <BadgeCheck className="h-12 w-12 text-primary mb-4" />
+              <h3 className="text-xl font-bold mb-2">Authentic Experience</h3>
+              <p className="text-muted-foreground">
+                Skip the queue with our e-tickets and enjoy direct entry to monuments and heritage sites.
+              </p>
+            </CardContent>
+          </Card>
           
-          <div className="flex flex-col items-center text-center">
-            <div className="w-16 h-16 mb-6">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-amber-600">
-                <rect width="18" height="18" x="3" y="3" rx="2"/>
-                <path d="M3 9h18"/>
-                <path d="M3 15h18"/>
-                <path d="M9 3v18"/>
-                <path d="M15 3v18"/>
-              </svg>
-            </div>
-            <h3 className="text-xl font-bold mb-3">Book a Guide</h3>
-            <p className="text-muted-foreground">
-              Enhance your visit by booking certified guides offering you in-depth knowledge and insights.
-            </p>
-          </div>
+          <Card>
+            <CardContent className="p-6">
+              <Clock className="h-12 w-12 text-primary mb-4" />
+              <h3 className="text-xl font-bold mb-2">Real-time Availability</h3>
+              <p className="text-muted-foreground">
+                Check real-time availability and book tickets for your preferred date and time slot.
+              </p>
+            </CardContent>
+          </Card>
           
-          <div className="flex flex-col items-center text-center">
-            <div className="w-16 h-16 mb-6">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-amber-600">
-                <rect width="20" height="16" x="2" y="4" rx="2"/>
-                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
-              </svg>
-            </div>
-            <h3 className="text-xl font-bold mb-3">Free Cancellation</h3>
-            <p className="text-muted-foreground">
-              Enjoy flexibility with free cancellation on all bookings, allowing you to plan your trip with confidence.
-            </p>
-          </div>
+          <Card>
+            <CardContent className="p-6">
+              <CreditCard className="h-12 w-12 text-primary mb-4" />
+              <h3 className="text-xl font-bold mb-2">Secure Payments</h3>
+              <p className="text-muted-foreground">
+                Multiple payment options with bank-grade security for all your transactions.
+              </p>
+            </CardContent>
+          </Card>
           
-          <div className="flex flex-col items-center text-center">
-            <div className="w-16 h-16 mb-6">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-amber-600">
-                <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/>
-                <path d="m9 12 2 2 4-4"/>
+          <Card>
+            <CardContent className="p-6">
+              <Users className="h-12 w-12 text-primary mb-4" />
+              <h3 className="text-xl font-bold mb-2">Expert Guides</h3>
+              <p className="text-muted-foreground">
+                Connect with certified local guides who can enhance your experience with their knowledge.
+              </p>
+            </CardContent>
+          </Card>
+          
+          <Card>
+            <CardContent className="p-6">
+              <Shield className="h-12 w-12 text-primary mb-4" />
+              <h3 className="text-xl font-bold mb-2">Government Authorized</h3>
+              <p className="text-muted-foreground">
+                Official authorized platform by Archaeological Survey of India for monument tickets.
+              </p>
+            </CardContent>
+          </Card>
+          
+          <Card>
+            <CardContent className="p-6">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="48"
+                height="48"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="text-primary mb-4"
+              >
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
               </svg>
-            </div>
-            <h3 className="text-xl font-bold mb-3">An Initiative by the Ministry of Culture</h3>
-            <p className="text-muted-foreground">
-              Proudly supported by the Ministry of Culture India, this platform aims to enrich your experience at India's historical and cultural sites.
-            </p>
-          </div>
+              <h3 className="text-xl font-bold mb-2">Customer Support</h3>
+              <p className="text-muted-foreground">
+                Dedicated support team to help you with your queries and booking assistance.
+              </p>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </section>

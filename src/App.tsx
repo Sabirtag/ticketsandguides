@@ -12,6 +12,10 @@ import NotFound from "./pages/NotFound";
 import Auth from "./pages/Auth";
 import AuthCallback from "./pages/AuthCallback";
 import BookingSite from "./pages/BookingSite";
+import Guides from "./pages/Guides";
+import DestinationDetail from "./pages/DestinationDetail";
+import BookingConfirmation from "./pages/BookingConfirmation";
+import CityPage from "./pages/CityPage";
 
 const queryClient = new QueryClient();
 
@@ -28,6 +32,10 @@ const App = () => (
               <Route path="/auth" element={<Auth />} />
               <Route path="/auth/callback" element={<AuthCallback />} />
               <Route path="/booking" element={<BookingSite />} />
+              <Route path="/guides" element={<Guides />} />
+              <Route path="/destination/:id" element={<DestinationDetail />} />
+              <Route path="/booking-confirmation" element={<BookingConfirmation />} />
+              <Route path="/city/:id" element={<CityPage />} />
               
               {/* Protected routes */}
               <Route path="/profile" element={
@@ -42,7 +50,6 @@ const App = () => (
               } />
               
               {/* These routes will be implemented in future iterations */}
-              <Route path="/guides" element={<NotFound />} />
               <Route path="/terms" element={<NotFound />} />
               <Route path="/privacy" element={<NotFound />} />
               
