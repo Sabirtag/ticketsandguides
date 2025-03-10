@@ -1,17 +1,17 @@
 
 import React, { useRef } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { BadgeCheck, Clock, CreditCard, Users, Building, Shield } from "lucide-react";
+import { BadgeCheck, Clock, CreditCard, Users, Shield } from "lucide-react";
 
 const WhyTagSection = () => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   return (
-    <section className="py-12 bg-white">
+    <section className="py-8 bg-white">
       <div className="container px-4 md:px-6">
-        <div className="text-center max-w-3xl mx-auto mb-8">
-          <h2 className="text-3xl font-bold mb-4">Why Choose TAG</h2>
-          <p className="text-muted-foreground">
+        <div className="text-center max-w-3xl mx-auto mb-6">
+          <h2 className="text-2xl font-bold mb-2">Why Choose TAG</h2>
+          <p className="text-muted-foreground text-sm">
             TAG is the official platform authorized by the Archaeological Survey of India 
             for booking tickets to heritage sites across India.
           </p>
@@ -19,91 +19,65 @@ const WhyTagSection = () => {
         
         <div 
           ref={scrollContainerRef} 
-          className="flex overflow-x-auto pb-6 hide-scrollbar snap-x"
+          className="flex overflow-x-auto pb-4 hide-scrollbar snap-x"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
-          <Card className="flex-shrink-0 w-80 mr-4 snap-center">
-            <CardContent className="p-6">
-              <BadgeCheck className="h-12 w-12 text-primary mb-4" />
-              <h3 className="text-xl font-bold mb-2">Authentic Experience</h3>
-              <p className="text-muted-foreground">
-                Skip the queue with our e-tickets and enjoy direct entry to monuments and heritage sites.
+          <Card className="flex-shrink-0 w-72 mr-4 snap-center shadow-sm">
+            <CardContent className="p-4">
+              <BadgeCheck className="h-10 w-10 text-primary mb-2" />
+              <h3 className="text-lg font-bold mb-1">Authentic Experience</h3>
+              <p className="text-muted-foreground text-sm">
+                Skip the queue with our e-tickets and enjoy direct entry.
               </p>
             </CardContent>
           </Card>
           
-          <Card className="flex-shrink-0 w-80 mr-4 snap-center">
-            <CardContent className="p-6">
-              <Clock className="h-12 w-12 text-primary mb-4" />
-              <h3 className="text-xl font-bold mb-2">Real-time Availability</h3>
-              <p className="text-muted-foreground">
-                Check real-time availability and book tickets for your preferred date and time slot.
+          <Card className="flex-shrink-0 w-72 mr-4 snap-center shadow-sm">
+            <CardContent className="p-4">
+              <Clock className="h-10 w-10 text-primary mb-2" />
+              <h3 className="text-lg font-bold mb-1">Real-time Availability</h3>
+              <p className="text-muted-foreground text-sm">
+                Book tickets for your preferred date and time.
               </p>
             </CardContent>
           </Card>
           
-          <Card className="flex-shrink-0 w-80 mr-4 snap-center">
-            <CardContent className="p-6">
-              <CreditCard className="h-12 w-12 text-primary mb-4" />
-              <h3 className="text-xl font-bold mb-2">Secure Payments</h3>
-              <p className="text-muted-foreground">
-                Multiple payment options with bank-grade security for all your transactions.
+          <Card className="flex-shrink-0 w-72 mr-4 snap-center shadow-sm">
+            <CardContent className="p-4">
+              <CreditCard className="h-10 w-10 text-primary mb-2" />
+              <h3 className="text-lg font-bold mb-1">Secure Payments</h3>
+              <p className="text-muted-foreground text-sm">
+                Multiple payment options with bank-grade security.
               </p>
             </CardContent>
           </Card>
           
-          <Card className="flex-shrink-0 w-80 mr-4 snap-center">
-            <CardContent className="p-6">
-              <Users className="h-12 w-12 text-primary mb-4" />
-              <h3 className="text-xl font-bold mb-2">Expert Guides</h3>
-              <p className="text-muted-foreground">
-                Connect with certified local guides who can enhance your experience with their knowledge.
+          <Card className="flex-shrink-0 w-72 mr-4 snap-center shadow-sm">
+            <CardContent className="p-4">
+              <Users className="h-10 w-10 text-primary mb-2" />
+              <h3 className="text-lg font-bold mb-1">Expert Guides</h3>
+              <p className="text-muted-foreground text-sm">
+                Connect with certified local guides for enhanced experiences.
               </p>
             </CardContent>
           </Card>
           
-          <Card className="flex-shrink-0 w-80 mr-4 snap-center">
-            <CardContent className="p-6">
-              <Shield className="h-12 w-12 text-primary mb-4" />
-              <h3 className="text-xl font-bold mb-2">Government Authorized</h3>
-              <p className="text-muted-foreground">
-                Official authorized platform by Archaeological Survey of India for monument tickets.
-              </p>
-            </CardContent>
-          </Card>
-          
-          <Card className="flex-shrink-0 w-80 mr-4 snap-center">
-            <CardContent className="p-6">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="48"
-                height="48"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="text-primary mb-4"
-              >
-                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-                <circle cx="9" cy="7" r="4" />
-                <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
-                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-              </svg>
-              <h3 className="text-xl font-bold mb-2">Customer Support</h3>
-              <p className="text-muted-foreground">
-                Dedicated support team to help you with your queries and booking assistance.
+          <Card className="flex-shrink-0 w-72 mr-4 snap-center shadow-sm">
+            <CardContent className="p-4">
+              <Shield className="h-10 w-10 text-primary mb-2" />
+              <h3 className="text-lg font-bold mb-1">Government Authorized</h3>
+              <p className="text-muted-foreground text-sm">
+                Official platform by Archaeological Survey of India.
               </p>
             </CardContent>
           </Card>
         </div>
 
-        <style dangerouslySetInnerHTML={{ __html: `
+        <style jsx>{`
           .hide-scrollbar::-webkit-scrollbar {
             display: none;
           }
-        `}} />
+        `}</style>
       </div>
     </section>
   );
