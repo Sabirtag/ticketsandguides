@@ -39,7 +39,7 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-[rgba(250,250,250,255)]">
       {/* Navbar */}
       <Navbar />
 
@@ -70,7 +70,7 @@ const Index = () => {
               </div>
               <button 
                 onClick={requestUserLocation}
-                className="bg-primary text-primary-foreground px-4 py-2 rounded-md text-sm"
+                className="bg-[rgba(100,73,37,255)] text-primary-foreground px-4 py-2 rounded-md text-sm"
               >
                 Enable Location
               </button>
@@ -82,13 +82,13 @@ const Index = () => {
       {/* Popular Destinations Section */}
       <PopularDestinations userLocation={userLocation} />
 
-      {/* Book Experiences Section - NEW */}
+      {/* Book Experiences Section */}
       <BookExperiences />
 
       {/* Popular Cities Section */}
       <PopularCities userLocation={userLocation} />
 
-      {/* Lesser Known Places Section - NEW */}
+      {/* Lesser Known Places Section */}
       <LesserKnownPlaces />
 
       {/* Guide Recruit Banner Section */}
