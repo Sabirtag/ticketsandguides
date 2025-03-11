@@ -10,7 +10,7 @@ import Footer from "@/components/home/Footer";
 import PopularDestinations from "@/components/home/PopularDestinations";
 import PopularCities from "@/components/home/PopularCities";
 import LesserKnownPlaces from "@/components/home/LesserKnownPlaces";
-import BookExperiences from "@/components/home/BookExperiences";
+import BookExperiences from "@/components/home/experiences/ExperiencesSection";
 import { toast } from "sonner";
 
 const Index = () => {
