@@ -44,13 +44,24 @@ const DestinationsList: React.FC<DestinationsListProps> = ({
   }, [destinations, userLocation]);
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-      {destinationsWithDistance.map(destination => (
-        <DestinationCard 
-          key={destination.id}
-          destination={destination} 
-        />
-      ))}
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pb-2">
+      <div className="md:hidden col-span-2 overflow-x-auto pb-4 scrollbar-none">
+        <div className="inline-flex space-x-4 w-max pl-0.5">
+          {destinationsWithDistance.map(destination => (
+            <div key={destination.id} className="w-[160px] md:w-full flex-shrink-0">
+              <DestinationCard destination={destination} />
+            </div>
+          ))}
+        </div>
+      </div>
+      
+      <div className="hidden md:grid md:grid-cols-4 gap-6 w-full">
+        {destinationsWithDistance.map(destination => (
+          <div key={destination.id}>
+            <DestinationCard destination={destination} />
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

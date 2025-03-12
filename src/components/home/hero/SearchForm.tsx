@@ -13,11 +13,6 @@ interface VisitorCategory {
   count: number;
 }
 
-interface GuidePreferences {
-  languages: string[];
-  budget: number;
-}
-
 interface SearchFormProps {
   date: Date | undefined;
   setDate: React.Dispatch<React.SetStateAction<Date | undefined>>;
@@ -62,14 +57,14 @@ const SearchForm = ({
   };
 
   return (
-    <form onSubmit={handleSearch} className="grid grid-cols-1 md:grid-cols-5 gap-3">
+    <form onSubmit={handleSearch} className="flex flex-col space-y-3 sm:space-y-0 sm:grid sm:grid-cols-2 md:grid-cols-5 sm:gap-3">
       <div className="md:col-span-1">
-        <label className="block text-white text-sm mb-1">Where</label>
+        <label className="block text-white text-xs sm:text-sm mb-1">Where</label>
         <Input
           placeholder="Search for Monuments"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full bg-white/90 text-gray-900 placeholder:text-gray-500"
+          className="w-full bg-white/90 text-gray-900 placeholder:text-gray-500 h-9 sm:h-10"
         />
       </div>
       
@@ -97,10 +92,10 @@ const SearchForm = ({
       </div>
       
       <div className="md:col-span-1">
-        <label className="block text-white text-sm mb-1 opacity-0">Search</label>
+        <label className="block text-white text-xs sm:text-sm mb-1 opacity-0">Search</label>
         <Button 
           type="submit" 
-          className="w-full h-10 bg-[rgba(100,73,37,255)] hover:bg-[rgba(100,73,37,0.9)] text-white"
+          className="w-full h-9 sm:h-10 bg-[rgba(100,73,37,255)] hover:bg-[rgba(100,73,37,0.9)] text-white"
         >
           Search
         </Button>
