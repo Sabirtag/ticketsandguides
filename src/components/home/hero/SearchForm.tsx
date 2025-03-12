@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 import DateSelector from "./DateSelector";
 import VisitorSelector from "./VisitorSelector";
 import GuideSelector from "./GuideSelector";
+import MobileSearchForm from "./MobileSearchForm";
+import { useMobile } from "@/hooks/use-mobile";
 
 interface VisitorCategory {
   type: 'Indian' | 'SAARC' | 'Foreign';
@@ -27,25 +29,14 @@ interface SearchFormProps {
   setShowGuidePreferences: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const SearchForm = ({
-  date,
-  setDate,
-  showVisitors,
-  setShowVisitors,
-  showGuideOptions,
-  setShowGuideOptions,
-  visitors,
-  setVisitors,
-  guideChoice,
-  setGuideChoice,
-  setShowGuidePreferences
-}: SearchFormProps) => {
+const SearchForm = (props: SearchFormProps) => {
   const navigate = useNavigate();
   const { searchQuery, setSearchQuery, performSearch } = useSearch();
+  const isMobile = useMobile();
 
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (guideChoice === "choose_own") {
+    if (props.guideChoice === "choose_own") {
       navigate("/guides");
     } else {
       try {
@@ -55,6 +46,10 @@ const SearchForm = ({
       }
     }
   };
+
+  if (isMobile) {
+    return <MobileSearchForm {...props} />;
+  }
 
   return (
     <form onSubmit={handleSearch} className="flex flex-col space-y-3 sm:space-y-0 sm:grid sm:grid-cols-2 md:grid-cols-5 sm:gap-3">
@@ -69,25 +64,25 @@ const SearchForm = ({
       </div>
       
       <div className="md:col-span-1">
-        <DateSelector date={date} setDate={setDate} />
+        <DateSelector date={props.date} setDate={props.setDate} />
       </div>
       
       <div className="md:col-span-1">
         <VisitorSelector 
-          visitors={visitors} 
-          setVisitors={setVisitors} 
-          showVisitors={showVisitors} 
-          setShowVisitors={setShowVisitors} 
+          visitors={props.visitors} 
+          setVisitors={props.setVisitors} 
+          showVisitors={props.showVisitors} 
+          setShowVisitors={props.setShowVisitors} 
         />
       </div>
       
       <div className="md:col-span-1">
         <GuideSelector 
-          guideChoice={guideChoice}
-          showGuideOptions={showGuideOptions}
-          setShowGuideOptions={setShowGuideOptions}
-          setGuideChoice={setGuideChoice}
-          setShowGuidePreferences={setShowGuidePreferences}
+          guideChoice={props.guideChoice}
+          showGuideOptions={props.showGuideOptions}
+          setShowGuideOptions={props.setShowGuideOptions}
+          setGuideChoice={props.setGuideChoice}
+          setShowGuidePreferences={props.setShowGuidePreferences}
         />
       </div>
       
