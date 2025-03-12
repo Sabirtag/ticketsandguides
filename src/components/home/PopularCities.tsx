@@ -1,6 +1,8 @@
+
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { MapPin } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface City {
   id: number;
@@ -37,6 +39,7 @@ interface PopularCitiesProps {
 const PopularCities: React.FC<PopularCitiesProps> = ({ userLocation }) => {
   const navigate = useNavigate();
   const [sortedCities, setSortedCities] = useState<City[]>([]);
+  const [activeTab, setActiveTab] = useState("Mumbai");
   
   const allCities: City[] = [
     {
@@ -141,37 +144,51 @@ const PopularCities: React.FC<PopularCitiesProps> = ({ userLocation }) => {
   return (
     <section className="py-12 bg-white">
       <div className="container px-4 md:px-6">
-        <h2 className="text-2xl font-bold mb-2">
-          {userLocation ? "Cities Near You" : "Popular Cities"}
+        <h2 className="text-2xl md:text-4xl font-bold mb-6 md:mb-8 font-fitzgerald">
+          Popular Cities in India
         </h2>
-        <p className="text-muted-foreground mb-8">
-          {userLocation 
-            ? "Explore heritage cities closest to your location" 
-            : "Most visited heritage cities across India"}
-        </p>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-          {sortedCities.map((city) => (
-            <div 
-              key={city.id} 
-              className="group relative cursor-pointer rounded-lg overflow-hidden h-48"
-              onClick={() => handleCityClick(city.id)}
-            >
-              <img 
-                src={city.image} 
-                alt={city.name}
-                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
-              <div className="absolute bottom-0 left-0 p-4 w-full">
-                <h3 className="text-white font-bold text-lg">{city.name}</h3>
-                <div className="flex items-center text-white/80 mt-1">
-                  <MapPin className="h-3.5 w-3.5 mr-1" />
-                  <span className="text-xs">{city.attractions} attractions</span>
+        
+        <Tabs defaultValue="Mumbai" className="w-full">
+          <TabsList className="w-full justify-start overflow-x-auto space-x-2 bg-transparent h-auto pb-2 mb-6 border-b">
+            {sortedCities.slice(0, 6).map((city) => (
+              <TabsTrigger 
+                key={city.id} 
+                value={city.name}
+                className={`px-4 py-2 rounded-full data-[state=active]:bg-[rgba(100,73,37,255)] data-[state=active]:text-white`}
+                onClick={() => setActiveTab(city.name)}
+              >
+                {city.name}
+              </TabsTrigger>
+            ))}
+          </TabsList>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            {sortedCities.map((city) => (
+              city.name === activeTab && (
+                <div 
+                  key={city.id} 
+                  className="cursor-pointer rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all"
+                  onClick={() => handleCityClick(city.id)}
+                >
+                  <div className="relative aspect-[16/9]">
+                    <img 
+                      src={city.image} 
+                      alt={city.name}
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-4">
+                      <h3 className="text-white font-bold text-xl">{city.name}</h3>
+                      <div className="flex items-center text-white/90 mt-1">
+                        <MapPin className="h-4 w-4 mr-1" />
+                        <span className="text-sm">{city.attractions} attractions</span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-          ))}
-        </div>
+              )
+            ))}
+          </div>
+        </Tabs>
       </div>
     </section>
   );
