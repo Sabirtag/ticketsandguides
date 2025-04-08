@@ -8,7 +8,7 @@ import DateSelector from "./DateSelector";
 import VisitorSelector from "./VisitorSelector";
 import GuideSelector from "./GuideSelector";
 import MobileSearchForm from "./MobileSearchForm";
-import { useMobile } from "@/hooks/use-mobile";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface VisitorCategory {
   type: 'Indian' | 'SAARC' | 'Foreign';
@@ -32,7 +32,7 @@ interface SearchFormProps {
 const SearchForm = (props: SearchFormProps) => {
   const navigate = useNavigate();
   const { searchQuery, setSearchQuery, performSearch } = useSearch();
-  const isMobile = useMobile();
+  const isMobile = useIsMobile();
 
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
