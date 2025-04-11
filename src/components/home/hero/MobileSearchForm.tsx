@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useSearch } from "@/contexts/SearchContext";
@@ -15,6 +15,8 @@ import { MapPin, Calendar, Users, Sparkles, Search } from "lucide-react";
 import DateSelector from "./DateSelector";
 import VisitorSelector from "./VisitorSelector";
 import GuideSelector from "./GuideSelector";
+import MonumentSuggestions from "@/components/MonumentSuggestions";
+import { Monument } from "@/data/monuments";
 
 interface VisitorCategory {
   type: 'Indian' | 'SAARC' | 'Foreign';
@@ -50,6 +52,7 @@ const MobileSearchForm = ({
 }: MobileSearchFormProps) => {
   const navigate = useNavigate();
   const { searchQuery, setSearchQuery, performSearch } = useSearch();
+  const [showSuggestions, setShowSuggestions] = useState(false);
 
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -64,15 +67,21 @@ const MobileSearchForm = ({
     }
   };
 
+  const handleMonumentSelect = (monument: Monument) => {
+    setSearchQuery(monument.name);
+    setShowSuggestions(false);
+  };
+
   return (
     <div className="w-full">
       <form onSubmit={handleSearch} className="space-y-4">
-        <div className="flex items-center gap-2 bg-white/90 rounded-md p-2">
+        <div className="flex items-center gap-2 bg-white/90 rounded-md p-2 relative">
           <MapPin className="h-5 w-5 text-gray-500" />
           <Input
             placeholder="Search for Monuments"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
+            onFocus={() => setShowSuggestions(true)}
             className="border-0 bg-transparent focus-visible:ring-0 px-0 text-sm"
           />
           <Sheet>
@@ -81,7 +90,7 @@ const MobileSearchForm = ({
                 type="button"
                 variant="outline"
                 size="icon"
-                className="shrink-0"
+                className="shrink-0 bg-white text-[rgba(100,73,37,255)] border-[rgba(100,73,37,255)] hover:bg-[rgba(100,73,37,0.1)]"
               >
                 <Search className="h-4 w-4" />
               </Button>
@@ -135,6 +144,15 @@ const MobileSearchForm = ({
               </div>
             </SheetContent>
           </Sheet>
+          
+          {showSuggestions && (
+            <div className="absolute top-full left-0 right-0 z-50 mt-1">
+              <MonumentSuggestions 
+                searchQuery={searchQuery}
+                onSelect={handleMonumentSelect}
+              />
+            </div>
+          )}
         </div>
       </form>
     </div>

@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useSearch } from "@/contexts/SearchContext";
@@ -9,6 +9,8 @@ import VisitorSelector from "./VisitorSelector";
 import GuideSelector from "./GuideSelector";
 import MobileSearchForm from "./MobileSearchForm";
 import { useIsMobile } from "@/hooks/use-mobile";
+import MonumentSuggestions from "@/components/MonumentSuggestions";
+import { Monument } from "@/data/monuments";
 
 interface VisitorCategory {
   type: 'Indian' | 'SAARC' | 'Foreign';
@@ -33,6 +35,7 @@ const SearchForm = (props: SearchFormProps) => {
   const navigate = useNavigate();
   const { searchQuery, setSearchQuery, performSearch } = useSearch();
   const isMobile = useIsMobile();
+  const [showSuggestions, setShowSuggestions] = useState(false);
 
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -47,20 +50,32 @@ const SearchForm = (props: SearchFormProps) => {
     }
   };
 
+  const handleMonumentSelect = (monument: Monument) => {
+    setSearchQuery(monument.name);
+    setShowSuggestions(false);
+  };
+
   if (isMobile) {
     return <MobileSearchForm {...props} />;
   }
 
   return (
     <form onSubmit={handleSearch} className="flex flex-col space-y-3 sm:space-y-0 sm:grid sm:grid-cols-2 md:grid-cols-5 sm:gap-3">
-      <div className="md:col-span-1">
+      <div className="md:col-span-1 relative">
         <label className="block text-white text-xs sm:text-sm mb-1">Where</label>
         <Input
           placeholder="Search for Monuments"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
+          onFocus={() => setShowSuggestions(true)}
           className="w-full bg-white/90 text-gray-900 placeholder:text-gray-500 h-9 sm:h-10"
         />
+        {showSuggestions && (
+          <MonumentSuggestions 
+            searchQuery={searchQuery}
+            onSelect={handleMonumentSelect}
+          />
+        )}
       </div>
       
       <div className="md:col-span-1">

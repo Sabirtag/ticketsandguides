@@ -62,7 +62,7 @@ const VisitorSelector = ({
                   <Button
                     variant="outline"
                     size="icon"
-                    className="h-7 w-7 sm:h-8 sm:w-8"
+                    className="h-7 w-7 sm:h-8 sm:w-8 bg-white text-[rgba(100,73,37,255)] border-[rgba(100,73,37,255)] hover:bg-[rgba(100,73,37,0.1)]"
                     onClick={() => handleVisitorCountChange(category.type, false)}
                   >
                     <Minus className="h-3 w-3 sm:h-4 sm:w-4" />
@@ -71,7 +71,7 @@ const VisitorSelector = ({
                   <Button
                     variant="outline"
                     size="icon"
-                    className="h-7 w-7 sm:h-8 sm:w-8"
+                    className="h-7 w-7 sm:h-8 sm:w-8 bg-white text-[rgba(100,73,37,255)] border-[rgba(100,73,37,255)] hover:bg-[rgba(100,73,37,0.1)]"
                     onClick={() => handleVisitorCountChange(category.type, true)}
                   >
                     <Plus className="h-3 w-3 sm:h-4 sm:w-4" />

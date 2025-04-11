@@ -41,7 +41,7 @@ const GuideSelector = ({
             variant="outline"
             className="w-full justify-start text-left font-normal bg-white/90 text-gray-900 border-0 h-9 sm:h-10 text-xs sm:text-sm"
           >
-            <Sparkles className="mr-2 h-3 w-3 sm:h-4 sm:w-4" />
+            <Sparkles className="mr-2 h-3 w-3 sm:h-4 sm:w-4 text-[rgba(100,73,37,255)]" />
             {guideChoice === "choose_for_me" ? "Guide chosen for you"
               : guideChoice === "choose_own" ? "Choose own guide"
               : guideChoice === "no_guide" ? "No guide"
@@ -52,21 +52,21 @@ const GuideSelector = ({
           <div className="space-y-2 p-2">
             <Button 
               variant="ghost" 
-              className="w-full justify-start text-xs sm:text-sm"
+              className="w-full justify-start text-xs sm:text-sm hover:bg-[rgba(100,73,37,0.1)] hover:text-[rgba(100,73,37,255)]"
               onClick={() => handleGuideSelection("choose_for_me")}
             >
               Choose a guide for me
             </Button>
             <Button 
               variant="ghost" 
-              className="w-full justify-start text-xs sm:text-sm"
+              className="w-full justify-start text-xs sm:text-sm hover:bg-[rgba(100,73,37,0.1)] hover:text-[rgba(100,73,37,255)]"
               onClick={() => handleGuideSelection("choose_own")}
             >
               I'll choose my own guide
             </Button>
             <Button 
               variant="ghost" 
-              className="w-full justify-start text-xs sm:text-sm"
+              className="w-full justify-start text-xs sm:text-sm hover:bg-[rgba(100,73,37,0.1)] hover:text-[rgba(100,73,37,255)]"
               onClick={() => handleGuideSelection("no_guide")}
             >
               Don't want a guide

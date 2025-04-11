@@ -82,7 +82,7 @@ const Navbar = () => {
               </DropdownMenu>
             ) : (
               <div className="ml-4 flex items-center space-x-2">
-                <Button variant="outline" asChild>
+                <Button variant="outline" asChild className="bg-white text-[rgba(100,73,37,255)] border-[rgba(100,73,37,255)] hover:bg-[rgba(100,73,37,0.1)]">
                   <Link to="/auth">Login</Link>
                 </Button>
                 <Button asChild>
@@ -92,8 +92,8 @@ const Navbar = () => {
             )}
           </nav>
           
-          {/* Mobile Menu Button */}
-          <button className="md:hidden" onClick={toggleMenu}>
+          {/* Mobile Menu Button - Updated with brown color */}
+          <button className="md:hidden text-[rgba(100,73,37,255)]" onClick={toggleMenu}>
             {isMenuOpen ? <X /> : <Menu />}
           </button>
         </div>
@@ -156,7 +156,7 @@ const Navbar = () => {
               </>
             ) : (
               <div className="pt-2 flex flex-col space-y-2">
-                <Button variant="outline" asChild onClick={toggleMenu}>
+                <Button variant="outline" asChild onClick={toggleMenu} className="bg-white text-[rgba(100,73,37,255)] border-[rgba(100,73,37,255)] hover:bg-[rgba(100,73,37,0.1)]">
                   <Link to="/auth">Login</Link>
                 </Button>
                 <Button asChild onClick={toggleMenu}>

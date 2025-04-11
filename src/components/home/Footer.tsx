@@ -19,19 +19,19 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-bold mb-4">Quick Links</h3>
             <ul className="space-y-2">
-              <li><Button variant="link" className="p-0 h-auto text-muted-foreground hover:text-foreground" onClick={() => navigate('/')}>Home</Button></li>
-              <li><Button variant="link" className="p-0 h-auto text-muted-foreground hover:text-foreground" onClick={() => navigate('/explore')}>Explore Sites</Button></li>
-              <li><Button variant="link" className="p-0 h-auto text-muted-foreground hover:text-foreground" onClick={() => navigate('/guides')}>Find Guides</Button></li>
-              <li><Button variant="link" className="p-0 h-auto text-muted-foreground hover:text-foreground" onClick={() => navigate('/')}>About Us</Button></li>
+              <li><Button variant="link" className="p-0 h-auto text-muted-foreground hover:text-foreground bg-transparent hover:bg-transparent" onClick={() => navigate('/')}>Home</Button></li>
+              <li><Button variant="link" className="p-0 h-auto text-muted-foreground hover:text-foreground bg-transparent hover:bg-transparent" onClick={() => navigate('/explore')}>Explore Sites</Button></li>
+              <li><Button variant="link" className="p-0 h-auto text-muted-foreground hover:text-foreground bg-transparent hover:bg-transparent" onClick={() => navigate('/guides')}>Find Guides</Button></li>
+              <li><Button variant="link" className="p-0 h-auto text-muted-foreground hover:text-foreground bg-transparent hover:bg-transparent" onClick={() => navigate('/')}>About Us</Button></li>
             </ul>
           </div>
           <div>
             <h3 className="text-lg font-bold mb-4">Support</h3>
             <ul className="space-y-2">
-              <li><Button variant="link" className="p-0 h-auto text-muted-foreground hover:text-foreground">FAQs</Button></li>
-              <li><Button variant="link" className="p-0 h-auto text-muted-foreground hover:text-foreground">Contact Us</Button></li>
-              <li><Button variant="link" className="p-0 h-auto text-muted-foreground hover:text-foreground" onClick={() => navigate('/terms')}>Terms of Service</Button></li>
-              <li><Button variant="link" className="p-0 h-auto text-muted-foreground hover:text-foreground" onClick={() => navigate('/privacy')}>Privacy Policy</Button></li>
+              <li><Button variant="link" className="p-0 h-auto text-muted-foreground hover:text-foreground bg-transparent hover:bg-transparent">FAQs</Button></li>
+              <li><Button variant="link" className="p-0 h-auto text-muted-foreground hover:text-foreground bg-transparent hover:bg-transparent">Contact Us</Button></li>
+              <li><Button variant="link" className="p-0 h-auto text-muted-foreground hover:text-foreground bg-transparent hover:bg-transparent" onClick={() => navigate('/terms')}>Terms of Service</Button></li>
+              <li><Button variant="link" className="p-0 h-auto text-muted-foreground hover:text-foreground bg-transparent hover:bg-transparent" onClick={() => navigate('/privacy')}>Privacy Policy</Button></li>
             </ul>
           </div>
           <div>
