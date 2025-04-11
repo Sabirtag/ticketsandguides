@@ -58,28 +58,29 @@ const LesserKnownPlaces = () => {
   };
 
   return (
-    <section className="py-12 bg-gray-50">
+    <section className="py-8 md:py-12 bg-white">
       <div className="container px-4 md:px-6">
-        <div className="flex items-center gap-3 mb-6">
-          <Compass className="h-6 w-6 text-primary" />
-          <h2 className="text-2xl font-bold">Hidden Gems of India</h2>
+        <div className="flex items-center gap-2 mb-4">
+          <Compass className="h-6 w-6 text-[rgba(100,73,37,255)]" />
+          <h2 className="text-2xl md:text-3xl font-bold font-fitzgerald">Hidden Gems of India</h2>
         </div>
-        <p className="text-muted-foreground mb-8 max-w-3xl">
+        <p className="text-muted-foreground mb-6 max-w-3xl">
           Discover these lesser-known archaeological wonders that offer unique insights into India's rich cultural heritage, 
           away from the usual tourist crowds.
         </p>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {lesserKnownPlaces.map((place) => (
             <Card 
               key={place.id} 
-              className="overflow-hidden cursor-pointer hover:shadow-md transition-shadow h-full flex flex-col"
+              className="overflow-hidden cursor-pointer card-hover h-full flex flex-col"
               onClick={() => handlePlaceClick(place.id)}
             >
               <div className="aspect-video relative overflow-hidden">
                 <img 
                   src={place.image} 
                   alt={place.name}
+                  loading="lazy"
                   className="w-full h-full object-cover transition-transform hover:scale-105 duration-300"
                 />
                 <Badge 

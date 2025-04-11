@@ -46,21 +46,23 @@ const Index = () => {
       {/* Hero Section */}
       <HeroSection />
 
-      {/* Search Results Section */}
-      <section className="py-12">
-        <div className="container px-4 md:px-6">
-          <SearchResults />
-        </div>
-      </section>
+      {/* Search Results Section - Conditionally rendered with reduced padding */}
+      {searchResults.length > 0 && (
+        <section className="py-6">
+          <div className="container px-4 md:px-6">
+            <SearchResults />
+          </div>
+        </section>
+      )}
 
-      {/* Why TAG Section - Reduced size */}
+      {/* Why TAG Section - only show when no search results */}
       {searchResults.length === 0 && <WhyTagSection />}
 
       {/* Location Request Banner */}
       {!userLocation && !locationRequested && (
-        <div className="bg-primary/10 py-4">
+        <div className="bg-primary/10 py-3">
           <div className="container px-4 md:px-6">
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
               <div className="flex items-center gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
                   <circle cx="12" cy="12" r="10" />

@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { MapPin } from "lucide-react";
+import { MapPin, Building } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface City {
@@ -131,6 +131,7 @@ const PopularCities: React.FC<PopularCitiesProps> = ({ userLocation }) => {
       
       const sorted = citiesWithDistance.sort((a, b) => (a.distance || Infinity) - (b.distance || Infinity));
       setSortedCities(sorted);
+      setActiveTab(sorted[0]?.name || "Mumbai");
     } else {
       const sorted = [...allCities].sort((a, b) => b.popularity - a.popularity);
       setSortedCities(sorted);
@@ -142,19 +143,22 @@ const PopularCities: React.FC<PopularCitiesProps> = ({ userLocation }) => {
   };
 
   return (
-    <section className="py-12 bg-white">
+    <section className="py-8 md:py-12 bg-[#f8f9fa]">
       <div className="container px-4 md:px-6">
-        <h2 className="text-2xl md:text-4xl font-bold mb-6 md:mb-8 font-fitzgerald">
-          Popular Cities in India
-        </h2>
+        <div className="flex items-center gap-2 mb-6">
+          <Building className="h-6 w-6 text-[rgba(100,73,37,255)]" />
+          <h2 className="text-2xl md:text-3xl font-bold font-fitzgerald">
+            Popular Cities in India
+          </h2>
+        </div>
         
-        <Tabs defaultValue="Mumbai" className="w-full">
-          <TabsList className="w-full justify-start overflow-x-auto space-x-2 bg-transparent h-auto pb-2 mb-6 border-b">
+        <Tabs defaultValue={sortedCities[0]?.name || "Mumbai"} className="w-full">
+          <TabsList className="w-full justify-start overflow-x-auto space-x-2 bg-transparent h-auto pb-2 mb-6 border-b scrollbar-none">
             {sortedCities.slice(0, 6).map((city) => (
               <TabsTrigger 
                 key={city.id} 
                 value={city.name}
-                className={`px-4 py-2 rounded-full data-[state=active]:bg-[rgba(100,73,37,255)] data-[state=active]:text-white`}
+                className="px-4 py-2 rounded-full data-[state=active]:bg-[rgba(100,73,37,255)] data-[state=active]:text-white whitespace-nowrap"
                 onClick={() => setActiveTab(city.name)}
               >
                 {city.name}
@@ -162,18 +166,19 @@ const PopularCities: React.FC<PopularCitiesProps> = ({ userLocation }) => {
             ))}
           </TabsList>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
             {sortedCities.map((city) => (
               city.name === activeTab && (
                 <div 
                   key={city.id} 
-                  className="cursor-pointer rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all"
+                  className="cursor-pointer rounded-lg overflow-hidden shadow-sm card-hover"
                   onClick={() => handleCityClick(city.id)}
                 >
                   <div className="relative aspect-[16/9]">
                     <img 
                       src={city.image} 
                       alt={city.name}
+                      loading="lazy"
                       className="w-full h-full object-cover"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-4">

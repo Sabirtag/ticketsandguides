@@ -97,8 +97,9 @@
     @apply bg-[rgba(100,73,37,255)] text-white transition-all duration-300 hover:bg-[rgba(100,73,37,0.9)];
   }
 
+  /* Reduce spacing for section elements */
   section {
-    @apply py-16 md:py-24;
+    @apply py-8 md:py-12; /* Reduced from py-16 md:py-24 */
   }
 }
 
@@ -110,8 +111,19 @@
   .animate-slide-up {
     @apply translate-y-4 opacity-0 animate-[slideUp_0.5s_ease-out_forwards];
   }
+  
+  /* Added efficient grid layouts */
+  .grid-auto-fit {
+    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4;
+  }
+  
+  /* Added optimized card hover */
+  .card-hover {
+    @apply transition-all duration-200 hover:shadow-md hover:translate-y-[-4px];
+  }
 }
 
+/* Keep existing animations */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -139,4 +151,14 @@
 
 .scrollbar-none::-webkit-scrollbar {
   display: none;
+}
+
+/* Optimize image loading */
+img {
+  content-visibility: auto;
+}
+
+/* Added container width constraints for better layout */
+.container {
+  @apply max-w-7xl mx-auto;
 }
