@@ -34,15 +34,19 @@ const HeroSection = () => {
   // Animation for changing word
   const words = ["Heritage", "Culture", "India"];
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
-  const [isAnimating, setIsAnimating] = useState(false);
+  const [animation, setAnimation] = useState("animate-none");
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setIsAnimating(true);
+      // Start fade out animation
+      setAnimation("animate-text-fade-out");
+      
+      // After animation completes, change word and fade in
       setTimeout(() => {
         setCurrentWordIndex((prevIndex) => (prevIndex + 1) % words.length);
-        setIsAnimating(false);
-      }, 500); // Half of the interval for fade out/in
+        setAnimation("animate-text-fade-in");
+      }, 600);
+      
     }, 3000); // Change word every 3 seconds
 
     return () => clearInterval(interval);
@@ -61,8 +65,8 @@ const HeroSection = () => {
       
       <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-4">
         <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-fitzgerald font-bold text-white mb-2 sm:mb-3">
-          Discover{" "}
-          <span className={`inline-block relative ${isAnimating ? "opacity-0 transform -translate-y-2" : "opacity-100 transform translate-y-0"} transition-all duration-500 ease-in-out`}>
+          <span className="animate-pulse-slow">Discover</span>{" "}
+          <span className={`font-fitzgerald ${animation}`} style={{minWidth: "120px", display: "inline-block"}}>
             {words[currentWordIndex]}
           </span>
           {" "}With Us
