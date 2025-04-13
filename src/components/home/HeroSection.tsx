@@ -1,5 +1,4 @@
-
-import React, { useState, useEffect } from "react";
+import React from "react";
 import SearchForm from "./hero/SearchForm";
 import GuidePreferencesDialog from "./hero/GuidePreferencesDialog";
 
@@ -31,23 +30,20 @@ const HeroSection = () => {
     budget: 1500
   });
 
-  // Animation for changing word
   const words = ["Heritage", "Culture", "India"];
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const [animation, setAnimation] = useState("animate-none");
 
   useEffect(() => {
     const interval = setInterval(() => {
-      // Start fade out animation
       setAnimation("animate-text-fade-out");
       
-      // After animation completes, change word and fade in
       setTimeout(() => {
         setCurrentWordIndex((prevIndex) => (prevIndex + 1) % words.length);
         setAnimation("animate-text-fade-in");
       }, 600);
       
-    }, 3000); // Change word every 3 seconds
+    }, 3000);
 
     return () => clearInterval(interval);
   }, []);
@@ -64,12 +60,8 @@ const HeroSection = () => {
       </div>
       
       <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-4">
-        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-fitzgerald font-bold text-white mb-2 sm:mb-3">
-          <span className="animate-shimmer inline-block">Discover</span>{" "}
-          <span className={`font-fitzgerald ${animation}`} style={{minWidth: "120px", display: "inline-block"}}>
-            {words[currentWordIndex]}
-          </span>
-          {" "}<span className="animate-float inline-block">With Us</span>
+        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-fitzgerald font-bold text-white mb-2 sm:mb-3 animate-shimmer">
+          Discover <span className="inline-block">Heritage</span> With Us
         </h1>
         <p className="text-base sm:text-lg md:text-xl text-white/90 max-w-2xl mb-6 sm:mb-8 md:mb-12">
           Connecting People to Diverse Attractions and Cultural Wonders
