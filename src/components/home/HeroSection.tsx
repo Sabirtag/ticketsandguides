@@ -65,11 +65,11 @@ const HeroSection = () => {
       
       <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-4">
         <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-fitzgerald font-bold text-white mb-2 sm:mb-3">
-          <span className="animate-pulse-slow">Discover</span>{" "}
+          <span className="animate-shimmer inline-block">Discover</span>{" "}
           <span className={`font-fitzgerald ${animation}`} style={{minWidth: "120px", display: "inline-block"}}>
             {words[currentWordIndex]}
           </span>
-          {" "}With Us
+          {" "}<span className="animate-float inline-block">With Us</span>
         </h1>
         <p className="text-base sm:text-lg md:text-xl text-white/90 max-w-2xl mb-6 sm:mb-8 md:mb-12">
           Connecting People to Diverse Attractions and Cultural Wonders
