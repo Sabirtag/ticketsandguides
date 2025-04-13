@@ -1,4 +1,5 @@
-import React from "react";
+
+import React, { useState, useEffect } from "react";
 import SearchForm from "./hero/SearchForm";
 import GuidePreferencesDialog from "./hero/GuidePreferencesDialog";
 
@@ -29,24 +30,6 @@ const HeroSection = () => {
     languages: [],
     budget: 1500
   });
-
-  const words = ["Heritage", "Culture", "India"];
-  const [currentWordIndex, setCurrentWordIndex] = useState(0);
-  const [animation, setAnimation] = useState("animate-none");
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setAnimation("animate-text-fade-out");
-      
-      setTimeout(() => {
-        setCurrentWordIndex((prevIndex) => (prevIndex + 1) % words.length);
-        setAnimation("animate-text-fade-in");
-      }, 600);
-      
-    }, 3000);
-
-    return () => clearInterval(interval);
-  }, []);
 
   return (
     <section className="relative h-[500px] sm:h-[600px]">
