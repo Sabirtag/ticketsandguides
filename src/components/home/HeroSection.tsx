@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SearchForm from "./hero/SearchForm";
 import GuidePreferencesDialog from "./hero/GuidePreferencesDialog";
 
@@ -31,6 +31,23 @@ const HeroSection = () => {
     budget: 1500
   });
 
+  // Animation for changing word
+  const words = ["Heritage", "Culture", "India"];
+  const [currentWordIndex, setCurrentWordIndex] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIsAnimating(true);
+      setTimeout(() => {
+        setCurrentWordIndex((prevIndex) => (prevIndex + 1) % words.length);
+        setIsAnimating(false);
+      }, 500); // Half of the interval for fade out/in
+    }, 3000); // Change word every 3 seconds
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <section className="relative h-[500px] sm:h-[600px]">
       <div className="absolute inset-0 z-0">
@@ -44,7 +61,11 @@ const HeroSection = () => {
       
       <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-4">
         <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-fitzgerald font-bold text-white mb-2 sm:mb-3">
-          Discover Heritage With Us
+          Discover{" "}
+          <span className={`inline-block relative ${isAnimating ? "opacity-0 transform -translate-y-2" : "opacity-100 transform translate-y-0"} transition-all duration-500 ease-in-out`}>
+            {words[currentWordIndex]}
+          </span>
+          {" "}With Us
         </h1>
         <p className="text-base sm:text-lg md:text-xl text-white/90 max-w-2xl mb-6 sm:mb-8 md:mb-12">
           Connecting People to Diverse Attractions and Cultural Wonders

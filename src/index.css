@@ -121,6 +121,23 @@
   .card-hover {
     @apply transition-all duration-200 hover:shadow-md hover:translate-y-[-4px];
   }
+
+  /* Text change animation utilities */
+  .text-change-enter {
+    @apply opacity-0 transform translate-y-2;
+  }
+  
+  .text-change-enter-active {
+    @apply opacity-100 transform translate-y-0 transition-all duration-500;
+  }
+  
+  .text-change-exit {
+    @apply opacity-100 transform translate-y-0;
+  }
+  
+  .text-change-exit-active {
+    @apply opacity-0 transform -translate-y-2 transition-all duration-500;
+  }
 }
 
 /* Keep existing animations */
@@ -141,6 +158,29 @@
   to {
     transform: translateY(0);
     opacity: 1;
+  }
+}
+
+/* New animations for text changing */
+@keyframes textFadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes textFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
