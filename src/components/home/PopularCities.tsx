@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { MapPin, Building } from "lucide-react";
@@ -12,6 +11,14 @@ interface City {
   latitude?: number;
   longitude?: number;
   popularity: number;
+}
+
+interface PopularCitiesProps {
+  userLocation?: {
+    latitude: number;
+    longitude: number;
+    accuracy?: number;
+  } | null;
 }
 
 const calculateDistance = (
@@ -31,10 +38,6 @@ const calculateDistance = (
   const distance = R * c; // Distance in km
   return distance;
 };
-
-interface PopularCitiesProps {
-  userLocation?: GeolocationCoordinates | null;
-}
 
 const PopularCities: React.FC<PopularCitiesProps> = ({ userLocation }) => {
   const navigate = useNavigate();

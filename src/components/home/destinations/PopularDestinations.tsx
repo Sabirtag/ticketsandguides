@@ -6,8 +6,13 @@ import DestinationsList from "./DestinationsList";
 import { popularDestinations } from "./destinationsData";
 import { Link } from "react-router-dom";
 
+// Update to accept SimpleLocation type
 interface PopularDestinationsProps {
-  userLocation: GeolocationCoordinates | null;
+  userLocation: {
+    latitude: number;
+    longitude: number;
+    accuracy?: number;
+  } | null;
 }
 
 const PopularDestinations: React.FC<PopularDestinationsProps> = ({ userLocation }) => {

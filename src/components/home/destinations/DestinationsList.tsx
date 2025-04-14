@@ -6,9 +6,14 @@ import { calculateDistance } from "./utils";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+// Update to accept SimpleLocation type
 interface DestinationsListProps {
   destinations: Destination[];
-  userLocation: GeolocationCoordinates | null;
+  userLocation: {
+    latitude: number;
+    longitude: number;
+    accuracy?: number;
+  } | null;
 }
 
 const DestinationsList: React.FC<DestinationsListProps> = ({ 
