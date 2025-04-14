@@ -11,8 +11,16 @@ import GuideRecruitBanner from "@/components/home/GuideRecruitBanner";
 import Footer from "@/components/home/Footer";
 
 const Index = () => {
-  // Default user location to New Delhi
-  const userLocation = { city: "New Delhi", country: "India" };
+  // Create a null userLocation for now, or it could be set via geolocation API
+  const userLocation: GeolocationCoordinates | null = {
+    latitude: 28.6139, // New Delhi coordinates
+    longitude: 77.2090,
+    accuracy: 1,
+    altitude: null,
+    altitudeAccuracy: null,
+    heading: null,
+    speed: null
+  };
   
   return (
     <div className="min-h-screen">
@@ -22,7 +30,7 @@ const Index = () => {
         <WhyTagSection />
         <PopularDestinations userLocation={userLocation} />
         <ExperiencesSection />
-        <PopularCities />
+        <PopularCities userLocation={userLocation} />
         <LesserKnownPlaces />
         <GuideRecruitBanner />
       </main>
