@@ -39,13 +39,15 @@ const GuideSelector = ({
         <PopoverTrigger asChild>
           <Button
             variant="outline"
-            className="w-full justify-start text-left font-normal bg-white/90 text-gray-900 border-0 h-9 sm:h-10 text-xs sm:text-sm"
+            className="w-full justify-start text-left font-normal bg-white/90 text-gray-900 border-0 h-9 sm:h-10 text-xs sm:text-sm truncate"
           >
-            <Sparkles className="mr-2 h-3 w-3 sm:h-4 sm:w-4 text-[rgba(100,73,37,255)]" />
-            {guideChoice === "choose_for_me" ? "Guide chosen for you"
-              : guideChoice === "choose_own" ? "Choose own guide"
-              : guideChoice === "no_guide" ? "No guide"
-              : "Get a Guide?"}
+            <Sparkles className="mr-2 h-3 w-3 sm:h-4 sm:w-4 text-[rgba(100,73,37,255)] flex-shrink-0" />
+            <span className="truncate">
+              {guideChoice === "choose_for_me" ? "Guide chosen for you"
+                : guideChoice === "choose_own" ? "Choose own guide"
+                : guideChoice === "no_guide" ? "No guide"
+                : "Get a Guide?"}
+            </span>
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-auto sm:w-80">
