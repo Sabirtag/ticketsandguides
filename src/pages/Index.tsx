@@ -11,13 +11,16 @@ import GuideRecruitBanner from "@/components/home/GuideRecruitBanner";
 import Footer from "@/components/home/Footer";
 
 const Index = () => {
+  // Default user location to New Delhi
+  const userLocation = { city: "New Delhi", country: "India" };
+  
   return (
     <div className="min-h-screen">
       <Navbar />
       <main>
         <HeroSection />
         <WhyTagSection />
-        <PopularDestinations />
+        <PopularDestinations userLocation={userLocation} />
         <ExperiencesSection />
         <PopularCities />
         <LesserKnownPlaces />

@@ -33,35 +33,44 @@ export const useSearch = () => {
   return context;
 };
 
+// Safely parse JSON from localStorage
+const safelyParseJSON = (key: string, defaultValue: any) => {
+  try {
+    const item = localStorage.getItem(key);
+    if (item === null || item === 'undefined') return defaultValue;
+    return JSON.parse(item);
+  } catch (error) {
+    console.error(`Error parsing localStorage item "${key}":`, error);
+    return defaultValue;
+  }
+};
+
 export const SearchProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isSearching, setIsSearching] = useState(false);
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [searchError, setSearchError] = useState<string | null>(null);
   
-  // Initialize state from localStorage or default values
-  const [searchQuery, setSearchQuery] = useState(() => {
-    const saved = localStorage.getItem("searchQuery");
-    return saved ? JSON.parse(saved) : "";
-  });
+  // Initialize state from localStorage or default values using the safe parser
+  const [searchQuery, setSearchQuery] = useState(() => 
+    safelyParseJSON("searchQuery", "")
+  );
   
   const [date, setDate] = useState<Date | undefined>(() => {
-    const saved = localStorage.getItem("searchDate");
-    return saved ? new Date(JSON.parse(saved)) : undefined;
+    const saved = safelyParseJSON("searchDate", null);
+    return saved ? new Date(saved) : undefined;
   });
   
-  const [visitors, setVisitors] = useState<VisitorCategory[]>(() => {
-    const saved = localStorage.getItem("searchVisitors");
-    return saved ? JSON.parse(saved) : [
+  const [visitors, setVisitors] = useState<VisitorCategory[]>(() => 
+    safelyParseJSON("searchVisitors", [
       { type: 'Indian', count: 0 },
       { type: 'SAARC', count: 0 },
       { type: 'Foreign', count: 0 }
-    ];
-  });
+    ])
+  );
   
-  const [guideChoice, setGuideChoice] = useState<string>(() => {
-    const saved = localStorage.getItem("searchGuideChoice");
-    return saved ? JSON.parse(saved) : "";
-  });
+  const [guideChoice, setGuideChoice] = useState<string>(() => 
+    safelyParseJSON("searchGuideChoice", "")
+  );
 
   // Update localStorage when state changes
   useEffect(() => {
@@ -69,7 +78,11 @@ export const SearchProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   }, [searchQuery]);
   
   useEffect(() => {
-    localStorage.setItem("searchDate", JSON.stringify(date?.toISOString()));
+    if (date) {
+      localStorage.setItem("searchDate", JSON.stringify(date.toISOString()));
+    } else {
+      localStorage.removeItem("searchDate");
+    }
   }, [date]);
   
   useEffect(() => {
