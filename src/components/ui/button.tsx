@@ -4,7 +4,6 @@ import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
-import { ButtonMandala } from "@/assets/mandala-patterns"
 
 const buttonVariants = cva(
   "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 relative overflow-hidden group",
@@ -46,23 +45,13 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, children, ...props }, ref) => {
     const Comp = asChild ? Slot : "button"
     
-    // Create a single React element that contains all children and the mandala
-    const buttonContent = (
-      <React.Fragment>
-        {children}
-        <div className="absolute inset-0 w-full h-full flex items-center justify-center opacity-0 group-hover:opacity-15 transition-opacity duration-300">
-          <ButtonMandala className="text-white transform scale-150" />
-        </div>
-      </React.Fragment>
-    )
-    
     return (
       <Comp
         className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
         {...props}
       >
-        {buttonContent}
+        {children}
       </Comp>
     )
   }

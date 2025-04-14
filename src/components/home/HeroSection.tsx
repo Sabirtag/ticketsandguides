@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import SearchForm from "./hero/SearchForm";
 import GuidePreferencesDialog from "./hero/GuidePreferencesDialog";
 import { useSearch } from "@/contexts/SearchContext";
-import { CornerMandala } from "@/assets/mandala-patterns";
 
 interface GuidePreferences {
   languages: string[];
@@ -32,14 +31,6 @@ const HeroSection = () => {
         <div className="absolute inset-0 bg-black/30"></div>
       </div>
       
-      {/* Mandala corner decorations */}
-      <div className="absolute top-0 left-0 z-10 transform -translate-x-1/4 -translate-y-1/4">
-        <CornerMandala className="text-[#E6CCA9]" />
-      </div>
-      <div className="absolute top-0 right-0 z-10 transform translate-x-1/4 -translate-y-1/4 rotate-90">
-        <CornerMandala className="text-[#E6CCA9]" />
-      </div>
-      
       <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-4 pt-16">
         <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-fitzgerald font-bold text-white mb-2 sm:mb-3 animate-shimmer relative">
           Discover <span className="inline-block">Heritage</span> With Us
@@ -50,10 +41,6 @@ const HeroSection = () => {
         </p>
         
         <div className="w-full max-w-5xl bg-white/10 backdrop-blur-sm rounded-lg p-3 sm:p-4 md:p-6 border border-white/10 relative overflow-hidden">
-          {/* Subtle mandala background pattern */}
-          <div className="absolute top-0 right-0 opacity-5 z-0">
-            <CornerMandala className="text-white w-48 h-48" />
-          </div>
           <SearchForm 
             date={date}
             setDate={setDate}
@@ -76,14 +63,6 @@ const HeroSection = () => {
         guidePreferences={guidePreferences}
         setGuidePreferences={setGuidePreferences}
       />
-      
-      {/* Bottom corner mandalas */}
-      <div className="absolute bottom-0 left-0 z-10 transform -translate-x-1/4 translate-y-1/4 rotate-270">
-        <CornerMandala className="text-[#E6CCA9]" />
-      </div>
-      <div className="absolute bottom-0 right-0 z-10 transform translate-x-1/4 translate-y-1/4 rotate-180">
-        <CornerMandala className="text-[#E6CCA9]" />
-      </div>
     </section>
   );
 };
