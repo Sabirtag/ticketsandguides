@@ -178,7 +178,7 @@ const Guides = () => {
                       <SelectValue placeholder="Select language" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="">Any Language</SelectItem>
+                      <SelectItem value="any">Any Language</SelectItem>
                       <SelectItem value="English">English</SelectItem>
                       <SelectItem value="Hindi">Hindi</SelectItem>
                       <SelectItem value="French">French</SelectItem>
@@ -344,7 +344,7 @@ const Guides = () => {
                   <SelectValue placeholder="Select language" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">Any Language</SelectItem>
+                  <SelectItem value="any">Any Language</SelectItem>
                   <SelectItem value="English">English</SelectItem>
                   <SelectItem value="Hindi">Hindi</SelectItem>
                   <SelectItem value="French">French</SelectItem>
