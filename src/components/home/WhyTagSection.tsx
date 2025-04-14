@@ -7,9 +7,9 @@ const WhyTagSection = () => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   return (
-    <section className="py-6 bg-[rgba(250,245,240,255)]">
+    <section className="py-6 bg-[rgba(250,250,250,255)]">
       <div className="container px-4 md:px-6">
-        <div className="flex flex-col items-center justify-center text-center mb-8 relative">
+        <div className="flex flex-col items-center justify-center text-center mb-8">
           <div className="flex items-center gap-2 mb-2">
             <Award className="h-6 w-6 text-[rgba(100,73,37,255)]" />
             <h2 className="text-2xl md:text-3xl font-bold font-fitzgerald">Why Choose TAG</h2>
@@ -18,14 +18,13 @@ const WhyTagSection = () => {
             TAG is the official platform authorized by the Archaeological Survey of India 
             for booking tickets to heritage sites across India.
           </p>
-          <div className="mt-4 w-32 h-1 bg-gradient-to-r from-transparent via-[rgba(100,73,37,0.3)] to-transparent"></div>
         </div>
         
         <div 
           ref={scrollContainerRef} 
           className="flex overflow-x-auto pb-4 gap-4 scrollbar-none scroll-smooth snap-x"
         >
-          <Card className="flex-shrink-0 w-72 snap-center shadow-sm hover:shadow-md animate-fade-in">
+          <Card className="flex-shrink-0 w-72 snap-center shadow-sm card-hover animate-fade-in">
             <CardContent className="p-4">
               <BadgeCheck className="h-8 w-8 text-[rgba(100,73,37,255)] mb-2" />
               <h3 className="text-lg font-fitzgerald mb-1">Authentic Experience</h3>
@@ -35,7 +34,7 @@ const WhyTagSection = () => {
             </CardContent>
           </Card>
           
-          <Card className="flex-shrink-0 w-72 snap-center shadow-sm hover:shadow-md animate-fade-in [animation-delay:100ms]">
+          <Card className="flex-shrink-0 w-72 snap-center shadow-sm card-hover animate-fade-in [animation-delay:100ms]">
             <CardContent className="p-4">
               <Clock className="h-8 w-8 text-[rgba(100,73,37,255)] mb-2" />
               <h3 className="text-lg font-fitzgerald mb-1">Real-time Availability</h3>
@@ -45,7 +44,7 @@ const WhyTagSection = () => {
             </CardContent>
           </Card>
           
-          <Card className="flex-shrink-0 w-72 snap-center shadow-sm hover:shadow-md animate-fade-in [animation-delay:200ms]">
+          <Card className="flex-shrink-0 w-72 snap-center shadow-sm card-hover animate-fade-in [animation-delay:200ms]">
             <CardContent className="p-4">
               <CreditCard className="h-8 w-8 text-[rgba(100,73,37,255)] mb-2" />
               <h3 className="text-lg font-fitzgerald mb-1">Secure Payments</h3>
@@ -55,7 +54,7 @@ const WhyTagSection = () => {
             </CardContent>
           </Card>
           
-          <Card className="flex-shrink-0 w-72 snap-center shadow-sm hover:shadow-md animate-fade-in [animation-delay:300ms]">
+          <Card className="flex-shrink-0 w-72 snap-center shadow-sm card-hover animate-fade-in [animation-delay:300ms]">
             <CardContent className="p-4">
               <Users className="h-8 w-8 text-[rgba(100,73,37,255)] mb-2" />
               <h3 className="text-lg font-fitzgerald mb-1">Expert Guides</h3>
@@ -65,7 +64,7 @@ const WhyTagSection = () => {
             </CardContent>
           </Card>
           
-          <Card className="flex-shrink-0 w-72 snap-center shadow-sm hover:shadow-md animate-fade-in [animation-delay:400ms]">
+          <Card className="flex-shrink-0 w-72 snap-center shadow-sm card-hover animate-fade-in [animation-delay:400ms]">
             <CardContent className="p-4">
               <Shield className="h-8 w-8 text-[rgba(100,73,37,255)] mb-2" />
               <h3 className="text-lg font-fitzgerald mb-1">Government Authorized</h3>
@@ -75,11 +74,6 @@ const WhyTagSection = () => {
             </CardContent>
           </Card>
         </div>
-      </div>
-      
-      <div className="relative flex items-center justify-center w-full my-8">
-        <div className="flex-grow h-px bg-[rgba(100,73,37,0.2)]"></div>
-        <div className="flex-grow h-px bg-[rgba(100,73,37,0.2)]"></div>
       </div>
     </section>
   );

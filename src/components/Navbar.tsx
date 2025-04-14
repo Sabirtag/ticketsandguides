@@ -71,10 +71,10 @@ const Navbar = () => {
                 <DropdownMenuContent align="end">
                   <DropdownMenuLabel>My Account</DropdownMenuLabel>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem>
+                  <DropdownMenuItem asChild>
                     <Link to="/profile">Profile</Link>
                   </DropdownMenuItem>
-                  <DropdownMenuItem>
+                  <DropdownMenuItem asChild>
                     <Link to="/bookings">My Bookings</Link>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
@@ -85,7 +85,7 @@ const Navbar = () => {
               </DropdownMenu>
             ) : (
               <div className="ml-4 flex items-center space-x-2">
-                <Button asChild variant="outline" className="bg-white text-[rgba(100,73,37,255)] border-[rgba(100,73,37,255)] hover:bg-[rgba(100,73,37,0.1)]">
+                <Button variant="outline" asChild className="bg-white text-[rgba(100,73,37,255)] border-[rgba(100,73,37,255)] hover:bg-[rgba(100,73,37,0.1)]">
                   <Link to="/auth">Login</Link>
                 </Button>
                 <Button asChild>
@@ -159,10 +159,10 @@ const Navbar = () => {
               </>
             ) : (
               <div className="pt-2 flex flex-col space-y-2">
-                <Button asChild variant="outline" className="bg-white text-[rgba(100,73,37,255)] border-[rgba(100,73,37,255)] hover:bg-[rgba(100,73,37,0.1)]">
+                <Button variant="outline" asChild onClick={toggleMenu} className="bg-white text-[rgba(100,73,37,255)] border-[rgba(100,73,37,255)] hover:bg-[rgba(100,73,37,0.1)]">
                   <Link to="/auth">Login</Link>
                 </Button>
-                <Button asChild>
+                <Button asChild onClick={toggleMenu}>
                   <Link to="/auth?tab=register">Register</Link>
                 </Button>
               </div>

@@ -32,15 +32,14 @@ const HeroSection = () => {
       </div>
       
       <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-4 pt-16">
-        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-fitzgerald font-bold text-white mb-2 sm:mb-3 animate-shimmer relative">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-fitzgerald font-bold text-white mb-2 sm:mb-3 animate-shimmer">
           Discover <span className="inline-block">Heritage</span> With Us
-          <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-32 h-1 bg-gradient-to-r from-transparent via-[#E6CCA9]/60 to-transparent"></div>
         </h1>
         <p className="text-base sm:text-lg md:text-xl text-white/90 max-w-2xl mb-6 sm:mb-8 md:mb-12">
           Connecting People to Diverse Attractions and Cultural Wonders
         </p>
         
-        <div className="w-full max-w-5xl bg-white/10 backdrop-blur-sm rounded-lg p-3 sm:p-4 md:p-6 border border-white/10 relative overflow-hidden">
+        <div className="w-full max-w-5xl bg-white/10 backdrop-blur-sm rounded-lg p-3 sm:p-4 md:p-6">
           <SearchForm 
             date={date}
             setDate={setDate}

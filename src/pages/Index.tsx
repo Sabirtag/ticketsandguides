@@ -26,7 +26,7 @@ const Index = () => {
   };
   
   return (
-    <div className="min-h-screen relative overflow-hidden">
+    <div className="min-h-screen">
       <Navbar />
       <main>
         <HeroSection />
