@@ -9,6 +9,7 @@ import PopularCities from "@/components/home/PopularCities";
 import LesserKnownPlaces from "@/components/home/LesserKnownPlaces";
 import GuideRecruitBanner from "@/components/home/GuideRecruitBanner";
 import Footer from "@/components/home/Footer";
+import { CornerMandala, DividerMandala } from "@/assets/mandala-patterns";
 
 // Define a simpler location type that has what we need
 interface SimpleLocation {
@@ -26,14 +27,28 @@ const Index = () => {
   };
   
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen relative overflow-hidden mandala-background">
+      {/* Large background mandala patterns with extremely low opacity */}
+      <div className="fixed top-1/4 left-0 opacity-[0.015] z-0 transform -translate-x-1/2">
+        <CornerMandala className="text-[rgba(100,73,37,255)] w-[600px] h-[600px]" />
+      </div>
+      <div className="fixed bottom-0 right-0 opacity-[0.015] z-0 transform translate-x-1/3">
+        <CornerMandala className="text-[rgba(100,73,37,255)] w-[600px] h-[600px]" />
+      </div>
+      
       <Navbar />
       <main>
         <HeroSection />
         <WhyTagSection />
         <PopularDestinations userLocation={userLocation} />
+        
+        <DividerMandala className="opacity-30" />
+        
         <ExperiencesSection />
         <PopularCities userLocation={userLocation} />
+        
+        <DividerMandala className="opacity-30" />
+        
         <LesserKnownPlaces />
         <GuideRecruitBanner />
       </main>
