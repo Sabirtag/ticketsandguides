@@ -139,7 +139,7 @@ const MobileSearchForm = ({
                   type="submit"
                   className="w-full mt-6 bg-[rgba(100,73,37,255)] hover:bg-[rgba(100,73,37,0.9)]"
                 >
-                  Search
+                  <span>Search</span>
                 </Button>
               </div>
             </SheetContent>

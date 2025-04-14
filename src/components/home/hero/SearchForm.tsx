@@ -111,7 +111,7 @@ const SearchForm = (props: SearchFormProps) => {
           type="submit" 
           className="w-full h-9 sm:h-10 bg-[rgba(100,73,37,255)] hover:bg-[rgba(100,73,37,0.9)] text-white"
         >
-          Book
+          <span>Book</span>
         </Button>
       </div>
     </form>

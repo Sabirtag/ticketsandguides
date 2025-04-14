@@ -31,7 +31,7 @@ const GuideRecruitBanner = () => {
           className="bg-green-600 hover:bg-green-700 text-white px-8 py-6 text-lg h-auto"
           onClick={() => navigate("/guides")}
         >
-          Register Now
+          <span>Register Now</span>
         </Button>
       </div>
     </section>
