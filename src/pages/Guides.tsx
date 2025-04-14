@@ -1,467 +1,623 @@
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/home/Footer";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Card, CardContent } from "@/components/ui/card";
+import { Avatar } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Slider } from "@/components/ui/slider";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Badge } from "@/components/ui/badge";
-import { Search, Filter, X, MapPin, Star } from "lucide-react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Star, ChevronDown, Filter, MapPin } from "lucide-react";
 import { toast } from "sonner";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
-interface GuideProfile {
+interface Guide {
   id: string;
   name: string;
   languages: string[];
-  halfDayRate: number;
-  fullDayRate: number;
-  specialties: string[];
+  specialization: string;
+  experience: number;
   rating: number;
-  responseTime: string;
-  experience: string;
-  about: string;
-  image: string;
+  halfDayPrice: number;
+  fullDayPrice: number;
+  avatar: string;
+  available: boolean;
   location: string;
 }
 
+const guides: Guide[] = [
+  {
+    id: "g1",
+    name: "Rajesh Kumar",
+    languages: ["English", "Hindi", "Sanskrit"],
+    specialization: "Historical Monuments",
+    experience: 12,
+    rating: 4.8,
+    halfDayPrice: 1500,
+    fullDayPrice: 2800,
+    avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=256&q=80",
+    available: true,
+    location: "Delhi"
+  },
+  {
+    id: "g2",
+    name: "Priya Sharma",
+    languages: ["English", "Hindi", "French"],
+    specialization: "Religious Sites",
+    experience: 8,
+    rating: 4.7,
+    halfDayPrice: 1200,
+    fullDayPrice: 2200,
+    avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=256&q=80",
+    available: true,
+    location: "Jaipur"
+  },
+  {
+    id: "g3",
+    name: "Amit Patel",
+    languages: ["English", "Hindi", "Gujarati"],
+    specialization: "Architecture",
+    experience: 15,
+    rating: 4.9,
+    halfDayPrice: 1800,
+    fullDayPrice: 3400,
+    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=256&q=80",
+    available: true,
+    location: "Agra"
+  },
+  {
+    id: "g4",
+    name: "Neha Singh",
+    languages: ["English", "Hindi", "Bengali"],
+    specialization: "Cultural Heritage",
+    experience: 10,
+    rating: 4.6,
+    halfDayPrice: 1350,
+    fullDayPrice: 2500,
+    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=256&q=80",
+    available: true,
+    location: "Kolkata"
+  },
+  {
+    id: "g5",
+    name: "Vikram Reddy",
+    languages: ["English", "Hindi", "Telugu", "Tamil"],
+    specialization: "Historical Monuments",
+    experience: 7,
+    rating: 4.5,
+    halfDayPrice: 1100,
+    fullDayPrice: 2000,
+    avatar: "https://images.unsplash.com/photo-1531891437562-4301cf35b7e4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=256&q=80",
+    available: false,
+    location: "Chennai"
+  },
+  {
+    id: "g6",
+    name: "Meera Iyer",
+    languages: ["English", "Hindi", "Malayalam", "Kannada"],
+    specialization: "Religious Sites",
+    experience: 9,
+    rating: 4.7,
+    halfDayPrice: 1400,
+    fullDayPrice: 2600,
+    avatar: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=256&q=80",
+    available: true,
+    location: "Bangalore"
+  }
+];
+
 const Guides = () => {
-  const location = useLocation();
   const navigate = useNavigate();
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedLanguage, setSelectedLanguage] = useState<string>("");
-  const [priceRange, setPriceRange] = useState<[number, number]>([0, 5000]);
-  const [guides, setGuides] = useState<GuideProfile[]>([]);
-  const [filteredGuides, setFilteredGuides] = useState<GuideProfile[]>([]);
-  const [selectedGuide, setSelectedGuide] = useState<GuideProfile | null>(null);
-  const [showFilters, setShowFilters] = useState(false);
+  const [selectedGuideId, setSelectedGuideId] = useState<string | null>(null);
+  const [priceRange, setPriceRange] = useState<[number, number]>([500, 5000]);
+  const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
+  const [selectedSpecializations, setSelectedSpecializations] = useState<string[]>([]);
+  const [minRating, setMinRating] = useState<number>(0);
+  const [tourDuration, setTourDuration] = useState<"halfDay" | "fullDay">("halfDay");
+  
+  const [detailedGuide, setDetailedGuide] = useState<Guide | null>(null);
+  const [showGuideDetail, setShowGuideDetail] = useState(false);
+  
+  const [showRequestDialog, setShowRequestDialog] = useState(false);
+  const [requestStatus, setRequestStatus] = useState<'pending' | 'accepted' | 'declined' | null>(null);
+  const [timeRemaining, setTimeRemaining] = useState<number>(120);
 
-  // Create mock guide data
-  useEffect(() => {
-    const mockGuides: GuideProfile[] = [
-      {
-        id: "g123",
-        name: "Rahul Sharma",
-        languages: ["English", "Hindi"],
-        halfDayRate: 1200,
-        fullDayRate: 2200,
-        specialties: ["Red Fort", "Qutub Minar"],
-        rating: 4.8,
-        responseTime: "5 min",
-        experience: "5 years",
-        about: "History enthusiast with deep knowledge of Delhi monuments. I specialize in Mughal architecture and can provide insights about the historical significance of monuments.",
-        image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop",
-        location: "Delhi"
-      },
-      {
-        id: "g124",
-        name: "Priya Singh",
-        languages: ["English", "Hindi", "French"],
-        halfDayRate: 1500,
-        fullDayRate: 2800,
-        specialties: ["Taj Mahal", "Agra Fort"],
-        rating: 4.9,
-        responseTime: "3 min",
-        experience: "7 years",
-        about: "Passionate about Indian history and architecture. I've been guiding tourists at the Taj Mahal for 7 years and know all the fascinating stories and hidden details.",
-        image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop",
-        location: "Agra"
-      },
-      {
-        id: "g125",
-        name: "Arjun Patel",
-        languages: ["English", "Gujarati", "Hindi"],
-        halfDayRate: 1000,
-        fullDayRate: 1800,
-        specialties: ["Rani ki Vav", "Sun Temple"],
-        rating: 4.7,
-        responseTime: "10 min",
-        experience: "4 years",
-        about: "Born and raised in Gujarat, I have an intimate knowledge of the cultural heritage of the region. I can show you the architectural marvels and explain their historical context.",
-        image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop",
-        location: "Gujarat"
-      },
-      {
-        id: "g126",
-        name: "Maya Reddy",
-        languages: ["English", "Telugu", "Tamil"],
-        halfDayRate: 1100,
-        fullDayRate: 2000,
-        specialties: ["Hampi", "Mysore Palace"],
-        rating: 4.6,
-        responseTime: "8 min",
-        experience: "3 years",
-        about: "Specialist in South Indian heritage sites. I've studied archaeology and can provide academic insights into the ancient ruins and living traditions of Karnataka.",
-        image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&h=400&fit=crop",
-        location: "Karnataka"
-      },
-      {
-        id: "g127",
-        name: "Vikram Naidu",
-        languages: ["English", "Malayalam", "Tamil"],
-        halfDayRate: 1300,
-        fullDayRate: 2400,
-        specialties: ["Fort Kochi", "Mattancherry Palace"],
-        rating: 4.9,
-        responseTime: "4 min",
-        experience: "6 years",
-        about: "Expert in the multicultural heritage of Kerala. I can show you the influences of Portuguese, Dutch, British, and local cultures in the architecture and lifestyle of Kochi.",
-        image: "https://images.unsplash.com/photo-1540569014015-19a7be504e3a?w=400&h=400&fit=crop",
-        location: "Kerala"
-      }
-    ];
-    
-    setGuides(mockGuides);
-    setFilteredGuides(mockGuides);
-  }, []);
+  // Get unique languages and specializations for filters
+  const allLanguages = Array.from(new Set(guides.flatMap(guide => guide.languages)));
+  const allSpecializations = Array.from(new Set(guides.map(guide => guide.specialization)));
 
-  // Filter guides based on search term and filters
-  useEffect(() => {
-    let filtered = guides.filter(guide => 
-      guide.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      guide.specialties.some(s => s.toLowerCase().includes(searchTerm.toLowerCase())) ||
-      guide.location.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    
-    if (selectedLanguage) {
-      filtered = filtered.filter(guide => 
-        guide.languages.includes(selectedLanguage)
-      );
-    }
-    
-    filtered = filtered.filter(guide => 
-      guide.halfDayRate >= priceRange[0] && guide.halfDayRate <= priceRange[1]
-    );
-    
-    setFilteredGuides(filtered);
-  }, [searchTerm, selectedLanguage, priceRange, guides]);
+  const filteredGuides = guides.filter(guide => {
+    const priceToCheck = tourDuration === "halfDay" ? guide.halfDayPrice : guide.fullDayPrice;
+    const meetsPrice = priceToCheck >= priceRange[0] && priceToCheck <= priceRange[1];
+    const meetsLanguage = selectedLanguages.length === 0 || 
+      selectedLanguages.some(lang => guide.languages.includes(lang));
+    const meetsSpecialization = selectedSpecializations.length === 0 || 
+      selectedSpecializations.includes(guide.specialization);
+    const meetsRating = guide.rating >= minRating;
 
-  const handleBookGuide = (guide: GuideProfile) => {
-    toast.success(`You've booked a tour with ${guide.name}!`);
-    navigate(-1); // Go back to previous page
+    return meetsPrice && meetsLanguage && meetsSpecialization && meetsRating;
+  });
+
+  const handleSelectGuide = (guideId: string) => {
+    setSelectedGuideId(guideId);
   };
 
-  const resetFilters = () => {
-    setSearchTerm("");
-    setSelectedLanguage("");
-    setPriceRange([0, 5000]);
+  const handleViewGuideDetails = (guide: Guide) => {
+    setDetailedGuide(guide);
+    setShowGuideDetail(true);
+  };
+
+  const handleBookGuide = () => {
+    if (!selectedGuideId) {
+      toast.error("Please select a guide first");
+      return;
+    }
+    
+    const selectedGuide = guides.find(g => g.id === selectedGuideId);
+    if (selectedGuide) {
+      setDetailedGuide(selectedGuide);
+      setShowRequestDialog(true);
+      simulateGuideResponse();
+    }
+  };
+
+  const simulateGuideResponse = () => {
+    setRequestStatus('pending');
+    
+    // Start a countdown timer
+    let countdown = 120;
+    const timer = setInterval(() => {
+      countdown -= 1;
+      setTimeRemaining(countdown);
+      
+      if (countdown <= 0) {
+        clearInterval(timer);
+        if (requestStatus === 'pending') {
+          setRequestStatus(null);
+          toast.error("No response from guide. Please try another guide.");
+          setShowRequestDialog(false);
+        }
+      }
+      
+      // Simulate guide accepting after 10 seconds
+      if (countdown === 110) {
+        setRequestStatus('accepted');
+        clearInterval(timer);
+      }
+    }, 1000);
+  };
+
+  const handleConfirmBooking = () => {
+    toast.success(`Guide ${detailedGuide?.name} has been booked for your trip!`);
+    setShowRequestDialog(false);
+    setRequestStatus(null);
+    navigate("/checkout");
+  };
+
+  const toggleLanguage = (language: string) => {
+    setSelectedLanguages(prev => 
+      prev.includes(language) 
+        ? prev.filter(l => l !== language) 
+        : [...prev, language]
+    );
+  };
+
+  const toggleSpecialization = (specialization: string) => {
+    setSelectedSpecializations(prev => 
+      prev.includes(specialization) 
+        ? prev.filter(s => s !== specialization) 
+        : [...prev, specialization]
+    );
   };
 
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
       
-      <main className="container py-8 px-4">
-        <div className="flex justify-between items-center mb-8">
-          <div>
-            <h1 className="text-3xl font-bold mb-2">Find Your Perfect Guide</h1>
-            <p className="text-muted-foreground">Browse expert guides for your heritage experience</p>
-          </div>
-          <Button variant="outline" onClick={() => navigate(-1)}>
-            <X className="h-4 w-4 mr-2" />
-            Back to Search
-          </Button>
-        </div>
+      <div className="container py-8 px-4 md:px-6">
+        <h1 className="text-3xl font-bold mb-6">Select a Tour Guide</h1>
+        <p className="text-muted-foreground mb-8">
+          Choose from our experienced, certified guides to enhance your heritage experience.
+        </p>
         
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          {/* Sidebar Filters */}
-          <div className="hidden md:block space-y-6">
-            <div>
-              <h3 className="font-medium mb-3">Filters</h3>
-              <div className="space-y-4">
-                <div>
-                  <Label>Language</Label>
-                  <Select value={selectedLanguage} onValueChange={setSelectedLanguage}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select language" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="any">Any Language</SelectItem>
-                      <SelectItem value="English">English</SelectItem>
-                      <SelectItem value="Hindi">Hindi</SelectItem>
-                      <SelectItem value="French">French</SelectItem>
-                      <SelectItem value="Telugu">Telugu</SelectItem>
-                      <SelectItem value="Tamil">Tamil</SelectItem>
-                      <SelectItem value="Malayalam">Malayalam</SelectItem>
-                      <SelectItem value="Gujarati">Gujarati</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div>
-                  <Label>Price Range (Half Day)</Label>
-                  <div className="flex items-center space-x-2">
-                    <Input 
-                      type="number" 
-                      value={priceRange[0]} 
-                      onChange={(e) => setPriceRange([parseInt(e.target.value) || 0, priceRange[1]])}
-                      className="w-24"
-                    />
-                    <span>to</span>
-                    <Input 
-                      type="number" 
-                      value={priceRange[1]} 
-                      onChange={(e) => setPriceRange([priceRange[0], parseInt(e.target.value) || 5000])}
-                      className="w-24"
-                    />
-                  </div>
-                </div>
-
-                <Button 
-                  variant="outline" 
-                  onClick={resetFilters}
-                  className="w-full"
-                >
-                  Reset Filters
-                </Button>
-              </div>
-            </div>
+        {/* Filters Section */}
+        <div className="bg-muted/30 rounded-lg p-4 mb-8">
+          <div className="flex items-center mb-4">
+            <Filter className="h-5 w-5 mr-2 text-[rgba(100,73,37,255)]" />
+            <h2 className="text-lg font-semibold">Filters</h2>
           </div>
           
-          {/* Mobile Filters Button */}
-          <div className="md:hidden mb-4">
-            <div className="flex space-x-2">
-              <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-                <Input
-                  placeholder="Search guides, locations..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-9"
-                />
-              </div>
-              <Button 
-                variant="outline" 
-                onClick={() => setShowFilters(true)}
-                className="flex-shrink-0"
-              >
-                <Filter className="h-4 w-4 mr-2" />
-                Filters
-              </Button>
-            </div>
-          </div>
-          
-          {/* Guides List */}
-          <div className="md:col-span-3">
-            <div className="hidden md:flex mb-6">
-              <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-                <Input
-                  placeholder="Search guides, locations..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-9"
-                />
-              </div>
-            </div>
-            
-            {filteredGuides.length === 0 ? (
-              <div className="text-center py-12">
-                <h3 className="text-lg font-medium mb-2">No guides found</h3>
-                <p className="text-muted-foreground mb-4">Try adjusting your filters</p>
-                <Button onClick={resetFilters}>Reset Filters</Button>
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {filteredGuides.map(guide => (
-                  <Card key={guide.id} className="overflow-hidden hover:shadow-md transition-shadow">
-                    <div className="relative h-48">
-                      <img 
-                        src={guide.image} 
-                        alt={guide.name}
-                        className="w-full h-full object-cover"
-                      />
-                      <div className="absolute bottom-3 right-3">
-                        <div className="bg-[rgba(100,73,37,0.8)] text-white px-3 py-1 rounded-full text-sm">
-                          ₹{guide.halfDayRate}+
-                        </div>
-                      </div>
-                      <div className="absolute top-3 right-3">
-                        <div className="flex items-center bg-black/60 text-white px-2 py-1 rounded-full text-xs">
-                          <Star className="h-3 w-3 fill-yellow-400 stroke-yellow-400 mr-1" />
-                          {guide.rating}
-                        </div>
-                      </div>
-                    </div>
-                    <CardHeader className="pb-2">
-                      <div className="flex justify-between items-start">
-                        <CardTitle className="text-lg">{guide.name}</CardTitle>
-                      </div>
-                      <div className="flex items-center text-sm text-muted-foreground">
-                        <MapPin className="h-3 w-3 mr-1" />
-                        {guide.location} • {guide.experience}
-                      </div>
-                    </CardHeader>
-                    <CardContent className="pb-2">
-                      <div className="flex flex-wrap gap-1 mb-2">
-                        {guide.languages.slice(0, 3).map(lang => (
-                          <Badge key={lang} variant="outline" className="bg-[rgba(100,73,37,0.1)] text-[rgba(100,73,37,0.9)] border-[rgba(100,73,37,0.2)]">
-                            {lang}
-                          </Badge>
-                        ))}
-                      </div>
-                      <p className="text-sm line-clamp-2 text-muted-foreground">{guide.about}</p>
-                    </CardContent>
-                    <CardFooter>
-                      <div className="w-full grid grid-cols-2 gap-2">
-                        <Button 
-                          variant="outline"
-                          className="w-full"
-                          onClick={() => setSelectedGuide(guide)}
-                        >
-                          View Profile
-                        </Button>
-                        <Button 
-                          className="w-full bg-[rgba(100,73,37,255)] hover:bg-[rgba(100,73,37,0.9)]"
-                          onClick={() => handleBookGuide(guide)}
-                        >
-                          Book Now
-                        </Button>
-                      </div>
-                    </CardFooter>
-                  </Card>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-      </main>
-      
-      {/* Mobile Filters Dialog */}
-      <Dialog open={showFilters} onOpenChange={setShowFilters}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Filters</DialogTitle>
-            <DialogDescription>Refine your guide search</DialogDescription>
-          </DialogHeader>
-          <div className="space-y-4 py-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Tour Duration */}
             <div>
-              <Label>Language</Label>
-              <Select value={selectedLanguage} onValueChange={setSelectedLanguage}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select language" />
+              <Label className="mb-2 block">Tour Duration</Label>
+              <Select value={tourDuration} onValueChange={(val: "halfDay" | "fullDay") => setTourDuration(val)}>
+                <SelectTrigger className="text-foreground">
+                  <SelectValue placeholder="Select duration" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="any">Any Language</SelectItem>
-                  <SelectItem value="English">English</SelectItem>
-                  <SelectItem value="Hindi">Hindi</SelectItem>
-                  <SelectItem value="French">French</SelectItem>
-                  <SelectItem value="Telugu">Telugu</SelectItem>
-                  <SelectItem value="Tamil">Tamil</SelectItem>
-                  <SelectItem value="Malayalam">Malayalam</SelectItem>
-                  <SelectItem value="Gujarati">Gujarati</SelectItem>
+                  <SelectItem value="halfDay">Half Day (4 Hours)</SelectItem>
+                  <SelectItem value="fullDay">Full Day (8 Hours)</SelectItem>
                 </SelectContent>
               </Select>
             </div>
-
+            
+            {/* Price Range */}
             <div>
-              <Label>Price Range (Half Day)</Label>
-              <div className="flex items-center space-x-2">
-                <Input 
-                  type="number" 
-                  value={priceRange[0]} 
-                  onChange={(e) => setPriceRange([parseInt(e.target.value) || 0, priceRange[1]])}
-                />
-                <span>to</span>
-                <Input 
-                  type="number" 
-                  value={priceRange[1]} 
-                  onChange={(e) => setPriceRange([priceRange[0], parseInt(e.target.value) || 5000])}
-                />
+              <div className="flex justify-between mb-2">
+                <Label>Price Range (₹)</Label>
+                <span className="text-sm">₹{priceRange[0]} - ₹{priceRange[1]}</span>
               </div>
+              <Slider
+                defaultValue={priceRange}
+                min={500}
+                max={5000}
+                step={100}
+                onValueChange={(values) => setPriceRange([values[0], values[1]])}
+              />
             </div>
-
-            <div className="flex justify-between pt-4">
-              <Button 
-                variant="outline" 
-                onClick={resetFilters}
+            
+            {/* Minimum Rating */}
+            <div>
+              <Label className="mb-2 block">Minimum Rating</Label>
+              <Select
+                value={minRating.toString()}
+                onValueChange={(val) => setMinRating(Number(val))}
               >
-                Reset
-              </Button>
-              <Button onClick={() => setShowFilters(false)}>
-                Apply Filters
-              </Button>
+                <SelectTrigger className="text-foreground">
+                  <SelectValue placeholder="Any rating" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="0">Any rating</SelectItem>
+                  <SelectItem value="3">3+ stars</SelectItem>
+                  <SelectItem value="4">4+ stars</SelectItem>
+                  <SelectItem value="4.5">4.5+ stars</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
           </div>
-        </DialogContent>
-      </Dialog>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+            {/* Languages */}
+            <div>
+              <Label className="mb-2 block">Languages</Label>
+              <div className="flex flex-wrap gap-2">
+                {allLanguages.map(language => (
+                  <Badge
+                    key={language}
+                    variant={selectedLanguages.includes(language) ? "default" : "outline"}
+                    className={`cursor-pointer py-1 px-3 ${
+                      selectedLanguages.includes(language)
+                        ? "bg-[rgba(100,73,37,255)] text-white"
+                        : "bg-[rgba(100,73,37,0.1)] text-[rgba(100,73,37,255)] hover:bg-[rgba(100,73,37,0.2)]"
+                    }`}
+                    onClick={() => toggleLanguage(language)}
+                  >
+                    {language}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+            
+            {/* Specializations */}
+            <div>
+              <Label className="mb-2 block">Specializations</Label>
+              <div className="flex flex-wrap gap-2">
+                {allSpecializations.map(specialization => (
+                  <Badge
+                    key={specialization}
+                    variant={selectedSpecializations.includes(specialization) ? "default" : "outline"}
+                    className={`cursor-pointer py-1 px-3 ${
+                      selectedSpecializations.includes(specialization)
+                        ? "bg-[rgba(100,73,37,255)] text-white"
+                        : "bg-[rgba(100,73,37,0.1)] text-[rgba(100,73,37,255)] hover:bg-[rgba(100,73,37,0.2)]"
+                    }`}
+                    onClick={() => toggleSpecialization(specialization)}
+                  >
+                    {specialization}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        {/* Guides Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredGuides.map((guide) => (
+            <Card 
+              key={guide.id} 
+              className={`cursor-pointer transition-all border-2 ${
+                selectedGuideId === guide.id ? "border-[rgba(100,73,37,255)]" : "border-transparent"
+              } ${!guide.available ? "opacity-60" : ""}`}
+              onClick={() => guide.available && handleSelectGuide(guide.id)}
+            >
+              <CardContent className="p-6">
+                <div className="flex items-center gap-4">
+                  <Avatar className="h-16 w-16 border-2 border-muted">
+                    <img src={guide.avatar} alt={guide.name} />
+                  </Avatar>
+                  <div>
+                    <h3 className="font-bold text-lg">{guide.name}</h3>
+                    <div className="flex items-center gap-1 text-yellow-500">
+                      {[...Array(5)].map((_, i) => (
+                        <Star
+                          key={i}
+                          size={14}
+                          fill={i < Math.floor(guide.rating) ? "currentColor" : "none"}
+                          className={i < Math.floor(guide.rating) ? "text-yellow-500" : "text-gray-300"}
+                        />
+                      ))}
+                      <span className="text-sm text-muted-foreground ml-1">{guide.rating}</span>
+                    </div>
+                    <div className="flex items-center text-sm text-muted-foreground mt-1">
+                      <MapPin className="h-3 w-3 mr-1" />
+                      {guide.location}
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="mt-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm text-muted-foreground">Specialization</span>
+                    <span className="font-medium">{guide.specialization}</span>
+                  </div>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm text-muted-foreground">Experience</span>
+                    <span className="font-medium">{guide.experience} years</span>
+                  </div>
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-sm text-muted-foreground">
+                      {tourDuration === "halfDay" ? "Half Day Rate" : "Full Day Rate"}
+                    </span>
+                    <span className="font-medium">₹{tourDuration === "halfDay" ? guide.halfDayPrice : guide.fullDayPrice}</span>
+                  </div>
+                </div>
+                
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {guide.languages.map(lang => (
+                    <Badge key={lang} variant="outline" className="bg-[rgba(100,73,37,0.1)] text-[rgba(100,73,37,255)]">{lang}</Badge>
+                  ))}
+                </div>
+                
+                <div className="flex justify-between mt-4">
+                  <Button 
+                    variant="outline" 
+                    className="text-[rgba(100,73,37,255)] border-[rgba(100,73,37,255)]"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleViewGuideDetails(guide);
+                    }}
+                  >
+                    View Details
+                  </Button>
+                  
+                  {!guide.available && (
+                    <Badge variant="secondary" className="bg-gray-200 text-gray-700">
+                      Not Available
+                    </Badge>
+                  )}
+                  
+                  {guide.available && selectedGuideId === guide.id && (
+                    <Badge variant="default" className="bg-[rgba(100,73,37,255)]">
+                      Selected
+                    </Badge>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+        
+        {filteredGuides.length === 0 && (
+          <div className="text-center py-12">
+            <h3 className="text-lg font-bold mb-2">No guides match your filters</h3>
+            <p className="text-muted-foreground">Try adjusting your filters to see more guides</p>
+          </div>
+        )}
+        
+        <div className="mt-10 flex justify-end">
+          <Button 
+            onClick={handleBookGuide} 
+            disabled={!selectedGuideId}
+            className="bg-[rgba(100,73,37,255)] hover:bg-[rgba(100,73,37,0.9)] text-white"
+          >
+            Book Selected Guide
+          </Button>
+        </div>
+      </div>
       
-      {/* Guide Details Dialog */}
-      <Dialog open={!!selectedGuide} onOpenChange={(open) => !open && setSelectedGuide(null)}>
-        {selectedGuide && (
-          <DialogContent className="sm:max-w-[500px]">
-            <DialogHeader>
-              <DialogTitle>{selectedGuide.name}</DialogTitle>
-              <DialogDescription>Heritage guide profile</DialogDescription>
-            </DialogHeader>
-            <div className="space-y-4 py-4">
-              <div className="flex items-start space-x-4">
-                <img 
-                  src={selectedGuide.image} 
-                  alt={selectedGuide.name} 
-                  className="h-24 w-24 rounded-full object-cover"
-                />
+      {/* Guide Detail Dialog */}
+      <Dialog open={showGuideDetail} onOpenChange={setShowGuideDetail}>
+        <DialogContent className="sm:max-w-[550px]">
+          <DialogHeader>
+            <DialogTitle>Guide Profile</DialogTitle>
+          </DialogHeader>
+          
+          {detailedGuide && (
+            <div className="space-y-4">
+              <div className="flex gap-4 items-start">
+                <Avatar className="h-20 w-20 border-2 border-muted">
+                  <img src={detailedGuide.avatar} alt={detailedGuide.name} />
+                </Avatar>
                 <div>
-                  <div className="flex items-center text-sm mb-1">
-                    <Star className="h-4 w-4 fill-yellow-400 stroke-yellow-400 mr-1" />
-                    <span className="font-medium">{selectedGuide.rating}</span>
-                    <span className="mx-2">•</span>
-                    <span>{selectedGuide.experience}</span>
-                  </div>
-                  <div className="flex items-center text-sm text-muted-foreground mb-2">
-                    <MapPin className="h-3 w-3 mr-1" />
-                    {selectedGuide.location}
-                  </div>
-                  <div className="flex flex-wrap gap-1">
-                    {selectedGuide.languages.map(lang => (
-                      <Badge key={lang} variant="outline" className="bg-[rgba(100,73,37,0.1)] text-[rgba(100,73,37,0.9)] border-[rgba(100,73,37,0.2)]">
-                        {lang}
-                      </Badge>
+                  <h2 className="text-xl font-bold">{detailedGuide.name}</h2>
+                  <div className="flex items-center gap-1 text-yellow-500 mb-1">
+                    {[...Array(5)].map((_, i) => (
+                      <Star
+                        key={i}
+                        size={16}
+                        fill={i < Math.floor(detailedGuide.rating) ? "currentColor" : "none"}
+                        className={i < Math.floor(detailedGuide.rating) ? "text-yellow-500" : "text-gray-300"}
+                      />
                     ))}
+                    <span className="text-sm text-muted-foreground ml-1">{detailedGuide.rating}</span>
+                  </div>
+                  <div className="flex items-center text-sm text-muted-foreground">
+                    <MapPin className="h-3.5 w-3.5 mr-1" />
+                    {detailedGuide.location}
                   </div>
                 </div>
               </div>
               
-              <div>
-                <h4 className="font-medium mb-1">About</h4>
-                <p className="text-sm text-muted-foreground">{selectedGuide.about}</p>
+              <div className="grid grid-cols-2 gap-4 border-t border-b py-4">
+                <div>
+                  <p className="text-sm text-muted-foreground">Specialization</p>
+                  <p className="font-medium">{detailedGuide.specialization}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-muted-foreground">Experience</p>
+                  <p className="font-medium">{detailedGuide.experience} years</p>
+                </div>
+                <div>
+                  <p className="text-sm text-muted-foreground">Half Day Rate</p>
+                  <p className="font-medium">₹{detailedGuide.halfDayPrice}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-muted-foreground">Full Day Rate</p>
+                  <p className="font-medium">₹{detailedGuide.fullDayPrice}</p>
+                </div>
               </div>
               
               <div>
-                <h4 className="font-medium mb-1">Specialties</h4>
-                <div className="flex flex-wrap gap-1">
-                  {selectedGuide.specialties.map(specialty => (
-                    <Badge key={specialty} variant="secondary">
-                      {specialty}
-                    </Badge>
+                <p className="text-sm text-muted-foreground mb-2">Languages</p>
+                <div className="flex flex-wrap gap-2">
+                  {detailedGuide.languages.map(lang => (
+                    <Badge key={lang} variant="outline" className="bg-[rgba(100,73,37,0.1)] text-[rgba(100,73,37,255)]">{lang}</Badge>
                   ))}
                 </div>
               </div>
               
               <div>
-                <h4 className="font-medium mb-1">Rates</h4>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="rounded-lg bg-muted p-3 text-center">
-                    <p className="text-sm text-muted-foreground">Half Day (4 hrs)</p>
-                    <p className="text-lg font-bold">₹{selectedGuide.halfDayRate}</p>
+                <p className="text-sm text-muted-foreground mb-2">Guide Introduction</p>
+                <p>
+                  Hello! I'm {detailedGuide.name}, a passionate guide with {detailedGuide.experience} years 
+                  of experience specializing in {detailedGuide.specialization}. I love sharing the rich 
+                  cultural heritage and historical significance of these magnificent sites. I can communicate 
+                  fluently in {detailedGuide.languages.join(", ")} and can customize the tour based on your 
+                  interests. Looking forward to making your visit memorable!
+                </p>
+              </div>
+              
+              <div className="flex justify-end gap-2">
+                <Button 
+                  variant="outline"
+                  onClick={() => setShowGuideDetail(false)}
+                >
+                  Close
+                </Button>
+                <Button 
+                  className="bg-[rgba(100,73,37,255)] hover:bg-[rgba(100,73,37,0.9)] text-white"
+                  onClick={() => {
+                    setShowGuideDetail(false);
+                    setSelectedGuideId(detailedGuide.id);
+                    setShowRequestDialog(true);
+                    simulateGuideResponse();
+                  }}
+                >
+                  Book This Guide
+                </Button>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
+      
+      {/* Guide Request Dialog */}
+      <Dialog open={showRequestDialog} onOpenChange={setShowRequestDialog}>
+        <DialogContent className="sm:max-w-[500px]">
+          <DialogHeader>
+            <DialogTitle>Guide Request</DialogTitle>
+            <DialogDescription>
+              {requestStatus === 'pending' 
+                ? "Waiting for guide to confirm your booking request" 
+                : requestStatus === 'accepted'
+                ? "Guide has accepted your booking request"
+                : ""}
+            </DialogDescription>
+          </DialogHeader>
+          
+          {detailedGuide && requestStatus === 'pending' && (
+            <div className="py-4">
+              <div className="flex flex-col items-center justify-center text-center mb-4">
+                <div className="w-16 h-16 rounded-full bg-[rgba(100,73,37,0.1)] flex items-center justify-center mb-2">
+                  <img src={detailedGuide.avatar} alt={detailedGuide.name} className="w-full h-full object-cover rounded-full" />
+                </div>
+                <h3 className="text-lg font-semibold">{detailedGuide.name}</h3>
+                <div className="flex items-center text-sm text-muted-foreground">
+                  <span className="mr-1">⭐ {detailedGuide.rating}</span>
+                  <span>• {detailedGuide.experience} years experience</span>
+                </div>
+              </div>
+              
+              <div className="bg-muted rounded-md p-4 mb-4">
+                <p className="text-center mb-2">Guide has been notified of your request</p>
+                <div className="flex justify-center items-center gap-2">
+                  <div className="animate-pulse w-2 h-2 rounded-full bg-amber-500"></div>
+                  <p className="text-sm">Waiting for confirmation ({timeRemaining}s)</p>
+                </div>
+              </div>
+              
+              <p className="text-sm text-muted-foreground text-center mb-4">
+                The guide will confirm your booking shortly. You can wait or cancel and try again.
+              </p>
+              
+              <Button variant="outline" onClick={() => setShowRequestDialog(false)} className="w-full">
+                Cancel Request
+              </Button>
+            </div>
+          )}
+          
+          {detailedGuide && requestStatus === 'accepted' && (
+            <div className="py-4">
+              <div className="bg-green-50 border border-green-200 rounded-md p-4 mb-4">
+                <p className="text-center text-green-700 font-medium">Guide has accepted your request!</p>
+              </div>
+              
+              <div className="flex items-start gap-4 mb-4">
+                <div className="w-16 h-16 rounded-full bg-[rgba(100,73,37,0.1)] flex items-center justify-center flex-shrink-0 overflow-hidden">
+                  <img src={detailedGuide.avatar} alt={detailedGuide.name} className="w-full h-full object-cover" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold">{detailedGuide.name}</h3>
+                  <div className="flex items-center text-sm text-muted-foreground mb-1">
+                    <span className="mr-1">⭐ {detailedGuide.rating}</span>
+                    <span>• {detailedGuide.experience} years experience</span>
                   </div>
-                  <div className="rounded-lg bg-muted p-3 text-center">
-                    <p className="text-sm text-muted-foreground">Full Day (8 hrs)</p>
-                    <p className="text-lg font-bold">₹{selectedGuide.fullDayRate}</p>
+                  <p className="text-sm mb-2">
+                    Languages: {detailedGuide.languages.join(", ")}
+                  </p>
+                  <div className="text-sm font-medium">
+                    {tourDuration === "halfDay" ? "Half Day Rate" : "Full Day Rate"}: 
+                    ₹{tourDuration === "halfDay" ? detailedGuide.halfDayPrice : detailedGuide.fullDayPrice}
                   </div>
                 </div>
               </div>
+              
+              <DialogFooter>
+                <Button 
+                  variant="outline" 
+                  onClick={() => setShowRequestDialog(false)}
+                >
+                  Decline
+                </Button>
+                <Button 
+                  onClick={handleConfirmBooking}
+                  className="bg-[rgba(100,73,37,255)] hover:bg-[rgba(100,73,37,0.9)] text-white"
+                >
+                  Confirm Booking
+                </Button>
+              </DialogFooter>
             </div>
-            <div className="flex justify-end">
-              <Button onClick={() => handleBookGuide(selectedGuide)} className="bg-[rgba(100,73,37,255)] hover:bg-[rgba(100,73,37,0.9)]">
-                Book This Guide
-              </Button>
-            </div>
-          </DialogContent>
-        )}
+          )}
+        </DialogContent>
       </Dialog>
+      
+      <Footer />
     </div>
   );
 };

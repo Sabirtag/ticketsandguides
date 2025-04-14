@@ -1,6 +1,8 @@
+
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/home/Footer";
 import { Button } from "@/components/ui/button";
 import { 
   Card, 
@@ -63,7 +65,7 @@ const Checkout = () => {
       
       <div className="container max-w-6xl py-8 px-4">
         <div className="mb-6">
-          <Button variant="ghost" className="p-0 mb-2" onClick={() => navigate(-1)}>
+          <Button variant="ghost" className="mb-2 px-4 py-2 bg-[rgba(100,73,37,0.05)] hover:bg-[rgba(100,73,37,0.1)] text-[rgba(100,73,37,255)]" onClick={() => navigate(-1)}>
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back
           </Button>
@@ -209,7 +211,7 @@ const Checkout = () => {
               </CardContent>
               <CardFooter>
                 <Button 
-                  className="w-full" 
+                  className="w-full bg-[rgba(100,73,37,255)] text-white hover:bg-[rgba(100,73,37,0.9)]" 
                   onClick={handlePayment} 
                   disabled={isProcessing}
                 >
@@ -223,6 +225,8 @@ const Checkout = () => {
           </div>
         </div>
       </div>
+      
+      <Footer />
     </div>
   );
 };

@@ -1,12 +1,8 @@
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import SearchForm from "./hero/SearchForm";
 import GuidePreferencesDialog from "./hero/GuidePreferencesDialog";
-
-interface VisitorCategory {
-  type: 'Indian' | 'SAARC' | 'Foreign';
-  count: number;
-}
+import { useSearch } from "@/contexts/SearchContext";
 
 interface GuidePreferences {
   languages: string[];
@@ -14,18 +10,11 @@ interface GuidePreferences {
 }
 
 const HeroSection = () => {
-  const [date, setDate] = useState<Date | undefined>(undefined);
+  const { date, setDate, visitors, setVisitors, guideChoice, setGuideChoice } = useSearch();
   const [showVisitors, setShowVisitors] = useState(false);
   const [showGuideOptions, setShowGuideOptions] = useState(false);
   const [showGuidePreferences, setShowGuidePreferences] = useState(false);
-  const [guideChoice, setGuideChoice] = useState<string>("");
   
-  const [visitors, setVisitors] = useState<VisitorCategory[]>([
-    { type: 'Indian', count: 0 },
-    { type: 'SAARC', count: 0 },
-    { type: 'Foreign', count: 0 }
-  ]);
-
   const [guidePreferences, setGuidePreferences] = useState<GuidePreferences>({
     languages: [],
     budget: 1500

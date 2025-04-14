@@ -48,6 +48,7 @@ const GuidePreferencesDialog = ({
   const [matchedGuide, setMatchedGuide] = useState<Guide | null>(null);
   const [guideStatus, setGuideStatus] = useState<'pending' | 'accepted' | 'declined' | null>(null);
   const [timeRemaining, setTimeRemaining] = useState<number>(120);
+  const [selectedSite, setSelectedSite] = useState<string>("");
 
   const handleLanguageClick = (language: string) => {
     setSelectedLanguage(language);
@@ -189,8 +190,8 @@ const GuidePreferencesDialog = ({
             
             <div className="space-y-2">
               <Label htmlFor="heritage-site">Heritage Site (Optional)</Label>
-              <Select>
-                <SelectTrigger>
+              <Select value={selectedSite} onValueChange={setSelectedSite}>
+                <SelectTrigger className="text-foreground">
                   <SelectValue placeholder="Select site (optional)" />
                 </SelectTrigger>
                 <SelectContent>
@@ -277,7 +278,7 @@ const GuidePreferencesDialog = ({
           {!matchingInProgress && !matchedGuide && (
             <>
               <Button variant="outline" onClick={handleCancel}>Cancel</Button>
-              <Button onClick={findGuide}>Find Guide</Button>
+              <Button onClick={findGuide} className="bg-[rgba(100,73,37,255)] text-white hover:bg-[rgba(100,73,37,0.9)]">Find Guide</Button>
             </>
           )}
           
@@ -288,7 +289,7 @@ const GuidePreferencesDialog = ({
           {matchingInProgress && guideStatus === 'accepted' && (
             <>
               <Button variant="outline" onClick={handleCancel}>Decline</Button>
-              <Button onClick={handleConfirmBooking}>Confirm Booking</Button>
+              <Button onClick={handleConfirmBooking} className="bg-[rgba(100,73,37,255)] text-white hover:bg-[rgba(100,73,37,0.9)]">Confirm Booking</Button>
             </>
           )}
         </DialogFooter>

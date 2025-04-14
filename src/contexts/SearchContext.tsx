@@ -1,5 +1,5 @@
 
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
 interface SearchContextType {
@@ -10,6 +10,17 @@ interface SearchContextType {
   setSearchQuery: (query: string) => void;
   performSearch: () => Promise<void>;
   clearSearch: () => void;
+  date: Date | undefined;
+  setDate: React.Dispatch<React.SetStateAction<Date | undefined>>;
+  visitors: VisitorCategory[];
+  setVisitors: React.Dispatch<React.SetStateAction<VisitorCategory[]>>;
+  guideChoice: string;
+  setGuideChoice: React.Dispatch<React.SetStateAction<string>>;
+}
+
+interface VisitorCategory {
+  type: 'Indian' | 'SAARC' | 'Foreign';
+  count: number;
 }
 
 const SearchContext = createContext<SearchContextType | undefined>(undefined);
@@ -26,7 +37,48 @@ export const SearchProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   const [isSearching, setIsSearching] = useState(false);
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [searchError, setSearchError] = useState<string | null>(null);
-  const [searchQuery, setSearchQuery] = useState("");
+  
+  // Initialize state from localStorage or default values
+  const [searchQuery, setSearchQuery] = useState(() => {
+    const saved = localStorage.getItem("searchQuery");
+    return saved ? JSON.parse(saved) : "";
+  });
+  
+  const [date, setDate] = useState<Date | undefined>(() => {
+    const saved = localStorage.getItem("searchDate");
+    return saved ? new Date(JSON.parse(saved)) : undefined;
+  });
+  
+  const [visitors, setVisitors] = useState<VisitorCategory[]>(() => {
+    const saved = localStorage.getItem("searchVisitors");
+    return saved ? JSON.parse(saved) : [
+      { type: 'Indian', count: 0 },
+      { type: 'SAARC', count: 0 },
+      { type: 'Foreign', count: 0 }
+    ];
+  });
+  
+  const [guideChoice, setGuideChoice] = useState<string>(() => {
+    const saved = localStorage.getItem("searchGuideChoice");
+    return saved ? JSON.parse(saved) : "";
+  });
+
+  // Update localStorage when state changes
+  useEffect(() => {
+    localStorage.setItem("searchQuery", JSON.stringify(searchQuery));
+  }, [searchQuery]);
+  
+  useEffect(() => {
+    localStorage.setItem("searchDate", JSON.stringify(date?.toISOString()));
+  }, [date]);
+  
+  useEffect(() => {
+    localStorage.setItem("searchVisitors", JSON.stringify(visitors));
+  }, [visitors]);
+  
+  useEffect(() => {
+    localStorage.setItem("searchGuideChoice", JSON.stringify(guideChoice));
+  }, [guideChoice]);
 
   const performSearch = async () => {
     if (!searchQuery.trim()) {
@@ -60,6 +112,19 @@ export const SearchProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     setSearchQuery("");
     setSearchResults([]);
     setSearchError(null);
+    setDate(undefined);
+    setVisitors([
+      { type: 'Indian', count: 0 },
+      { type: 'SAARC', count: 0 },
+      { type: 'Foreign', count: 0 }
+    ]);
+    setGuideChoice("");
+    
+    // Clear from localStorage
+    localStorage.removeItem("searchQuery");
+    localStorage.removeItem("searchDate");
+    localStorage.removeItem("searchVisitors");
+    localStorage.removeItem("searchGuideChoice");
   };
 
   return (
@@ -71,7 +136,13 @@ export const SearchProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         searchQuery,
         setSearchQuery,
         performSearch,
-        clearSearch
+        clearSearch,
+        date,
+        setDate,
+        visitors,
+        setVisitors,
+        guideChoice,
+        setGuideChoice
       }}
     >
       {children}

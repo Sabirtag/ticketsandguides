@@ -35,6 +35,8 @@ const DateSelector = ({ date, setDate }: DateSelectorProps) => {
             selected={date}
             onSelect={setDate}
             initialFocus
+            disabled={(date) => date < new Date(new Date().setHours(0, 0, 0, 0))}
+            className="pointer-events-auto"
           />
         </PopoverContent>
       </Popover>
