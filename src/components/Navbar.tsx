@@ -36,8 +36,11 @@ const Navbar = () => {
     return user?.email?.substring(0, 2).toUpperCase() || "U";
   };
 
+  // Check if we're on the homepage to make the navbar transparent and absolute
+  const isHomePage = location.pathname === '/';
+
   return (
-    <header className="bg-background border-b sticky top-0 z-50">
+    <header className={`${isHomePage ? 'absolute top-0 left-0 right-0 z-40 bg-transparent' : 'bg-background border-b sticky top-0 z-50'}`}>
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center">
@@ -52,13 +55,13 @@ const Navbar = () => {
           
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-6">
-            <Link to="/" className={`text-foreground hover:text-primary transition-colors ${location.pathname === '/' ? 'font-medium text-primary' : ''}`}>Home</Link>
-            <Link to="/guides" className={`text-foreground hover:text-primary transition-colors ${location.pathname === '/guides' ? 'font-medium text-primary' : ''}`}>Guides</Link>
+            <Link to="/" className={`${isHomePage ? 'text-white' : 'text-foreground'} hover:text-primary transition-colors ${location.pathname === '/' ? 'font-medium text-primary' : ''}`}>Home</Link>
+            <Link to="/guides" className={`${isHomePage ? 'text-white' : 'text-foreground'} hover:text-primary transition-colors ${location.pathname === '/guides' ? 'font-medium text-primary' : ''}`}>Guides</Link>
             
             {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="relative h-10 w-10 rounded-full">
+                  <Button variant="ghost" className={`relative h-10 w-10 rounded-full ${isHomePage ? 'text-white' : ''}`}>
                     <Avatar>
                       <AvatarImage src={profile?.avatar_url} />
                       <AvatarFallback>{getUserInitials()}</AvatarFallback>
@@ -93,7 +96,7 @@ const Navbar = () => {
           </nav>
           
           {/* Mobile Menu Button - Updated with brown color */}
-          <button className="md:hidden text-[rgba(100,73,37,255)]" onClick={toggleMenu}>
+          <button className={`md:hidden ${isHomePage ? 'text-white' : 'text-[rgba(100,73,37,255)]'}`} onClick={toggleMenu}>
             {isMenuOpen ? <X /> : <Menu />}
           </button>
         </div>
@@ -101,7 +104,7 @@ const Navbar = () => {
       
       {/* Mobile Navigation */}
       {isMenuOpen && (
-        <div className="md:hidden bg-background border-t">
+        <div className="md:hidden bg-white border-t">
           <div className="container mx-auto px-4 py-4 flex flex-col space-y-4">
             <Link 
               to="/" 

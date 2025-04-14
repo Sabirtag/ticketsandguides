@@ -32,7 +32,7 @@ const HeroSection = () => {
   });
 
   return (
-    <section className="relative h-[500px] sm:h-[600px]">
+    <section className="relative h-[600px] sm:h-[700px]">
       <div className="absolute inset-0 z-0">
         <img 
           src="https://images.unsplash.com/photo-1469474968028-56623f02e42e" 
@@ -42,7 +42,7 @@ const HeroSection = () => {
         <div className="absolute inset-0 bg-black/30"></div>
       </div>
       
-      <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-4">
+      <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-4 pt-16">
         <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-fitzgerald font-bold text-white mb-2 sm:mb-3 animate-shimmer">
           Discover <span className="inline-block">Heritage</span> With Us
         </h1>

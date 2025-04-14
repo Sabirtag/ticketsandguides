@@ -1,3 +1,4 @@
+
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from "sonner";
@@ -10,6 +11,7 @@ import NotFound from "./pages/NotFound";
 import BookingSite from "./pages/BookingSite";
 import DestinationDetail from "./pages/DestinationDetail";
 import BookingConfirmation from "./pages/BookingConfirmation";
+import Checkout from "./pages/Checkout";
 import { AuthProvider } from "./contexts/AuthContext";
 import { SearchProvider } from "./contexts/SearchContext";
 import Guides from "./pages/Guides";
@@ -28,6 +30,7 @@ const App = () => {
             <Route path="/city/:cityName" element={<CityPage />} />
             <Route path="/monument/:monumentId" element={<BookingSite />} />
             <Route path="/destination/:id" element={<DestinationDetail />} />
+            <Route path="/checkout" element={<Checkout />} />
             <Route path="/confirmation" element={<BookingConfirmation />} />
             <Route path="*" element={<NotFound />} />
           </Routes>

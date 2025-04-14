@@ -6,7 +6,6 @@ import { useSearch } from "@/contexts/SearchContext";
 import HeroSection from "@/components/home/HeroSection";
 import WhyTagSection from "@/components/home/WhyTagSection";
 import GuideRecruitBanner from "@/components/home/GuideRecruitBanner";
-import Footer from "@/components/home/Footer";
 import PopularDestinations from "@/components/home/destinations/PopularDestinations";
 import PopularCities from "@/components/home/PopularCities";
 import LesserKnownPlaces from "@/components/home/LesserKnownPlaces";
@@ -95,9 +94,6 @@ const Index = () => {
 
       {/* Guide Recruit Banner Section */}
       <GuideRecruitBanner />
-
-      {/* Footer */}
-      <Footer />
     </div>
   );
 };

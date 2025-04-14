@@ -37,13 +37,17 @@ const SearchForm = (props: SearchFormProps) => {
   const isMobile = useIsMobile();
   const [showSuggestions, setShowSuggestions] = useState(false);
 
-  const handleSearch = async (e: React.FormEvent) => {
+  const handleBook = async (e: React.FormEvent) => {
     e.preventDefault();
     if (props.guideChoice === "choose_own") {
       navigate("/guides");
+    } else if (props.guideChoice === "choose_for_me") {
+      props.setShowGuidePreferences(true);
     } else {
       try {
         await performSearch();
+        // After search is complete, navigate to checkout
+        navigate("/checkout");
       } catch (error) {
         console.error("Search error:", error);
       }
@@ -60,7 +64,7 @@ const SearchForm = (props: SearchFormProps) => {
   }
 
   return (
-    <form onSubmit={handleSearch} className="flex flex-col space-y-3 sm:space-y-0 sm:grid sm:grid-cols-2 md:grid-cols-5 sm:gap-3">
+    <form onSubmit={handleBook} className="flex flex-col space-y-3 sm:space-y-0 sm:grid sm:grid-cols-2 md:grid-cols-5 sm:gap-3">
       <div className="md:col-span-1 relative">
         <label className="block text-white text-xs sm:text-sm mb-1">Where</label>
         <Input
@@ -102,12 +106,12 @@ const SearchForm = (props: SearchFormProps) => {
       </div>
       
       <div className="md:col-span-1">
-        <label className="block text-white text-xs sm:text-sm mb-1 opacity-0">Search</label>
+        <label className="block text-white text-xs sm:text-sm mb-1 opacity-0">Book</label>
         <Button 
           type="submit" 
           className="w-full h-9 sm:h-10 bg-[rgba(100,73,37,255)] hover:bg-[rgba(100,73,37,0.9)] text-white"
         >
-          Search
+          Book
         </Button>
       </div>
     </form>

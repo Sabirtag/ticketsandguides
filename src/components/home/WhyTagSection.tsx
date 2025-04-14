@@ -9,14 +9,16 @@ const WhyTagSection = () => {
   return (
     <section className="py-6 bg-[rgba(250,250,250,255)]">
       <div className="container px-4 md:px-6">
-        <div className="flex items-center gap-2 mb-4">
-          <Award className="h-6 w-6 text-[rgba(100,73,37,255)]" />
-          <h2 className="text-2xl md:text-3xl font-bold font-fitzgerald">Why Choose TAG</h2>
+        <div className="flex flex-col items-center justify-center text-center mb-8">
+          <div className="flex items-center gap-2 mb-2">
+            <Award className="h-6 w-6 text-[rgba(100,73,37,255)]" />
+            <h2 className="text-2xl md:text-3xl font-bold font-fitzgerald">Why Choose TAG</h2>
+          </div>
+          <p className="text-muted-foreground text-sm max-w-2xl">
+            TAG is the official platform authorized by the Archaeological Survey of India 
+            for booking tickets to heritage sites across India.
+          </p>
         </div>
-        <p className="text-muted-foreground text-sm max-w-3xl mb-6">
-          TAG is the official platform authorized by the Archaeological Survey of India 
-          for booking tickets to heritage sites across India.
-        </p>
         
         <div 
           ref={scrollContainerRef} 

@@ -1,18 +1,14 @@
 
 import React, { useState } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Clock, Languages } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
-
-interface GuidePreferences {
-  languages: string[];
-  budget: number;
-}
+import { useNavigate } from "react-router-dom";
 
 interface GuidePreferencesDialogProps {
   showGuidePreferences: boolean;
@@ -21,199 +17,12 @@ interface GuidePreferencesDialogProps {
   setGuidePreferences: React.Dispatch<React.SetStateAction<GuidePreferences>>;
 }
 
-const GuidePreferencesDialog = ({
-  showGuidePreferences,
-  setShowGuidePreferences,
-  guidePreferences,
-  setGuidePreferences
-}: GuidePreferencesDialogProps) => {
-  const availableLanguages = [
-    "English", "Hindi", "Sanskrit", "French", "German", 
-    "Spanish", "Bengali", "Tamil", "Telugu", "Malayalam"
-  ];
-  
-  const navigate = useNavigate();
-  const [duration, setDuration] = useState<"half" | "full">("half");
-  const [isSearching, setIsSearching] = useState(false);
-  const [foundGuide, setFoundGuide] = useState<GuideProfile | null>(null);
+interface GuidePreferences {
+  languages: string[];
+  budget: number;
+}
 
-  // Mock guide data for demonstration
-  const mockGuide: GuideProfile = {
-    id: "g123",
-    name: "Rahul Sharma",
-    languages: ["English", "Hindi"],
-    halfDayRate: 1200,
-    fullDayRate: 2200,
-    specialties: ["Red Fort", "Qutub Minar"],
-    rating: 4.8,
-    responseTime: "5 min",
-    experience: "5 years",
-    about: "History enthusiast with deep knowledge of Delhi monuments. I specialize in Mughal architecture and can provide insights about the historical significance of monuments.",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop"
-  };
-
-  const handleLanguageToggle = (language: string) => {
-    setGuidePreferences(prev => ({
-      ...prev,
-      languages: prev.languages.includes(language)
-        ? prev.languages.filter(l => l !== language)
-        : [...prev.languages, language]
-    }));
-  };
-
-  const handleFindGuide = () => {
-    if (guidePreferences.languages.length === 0) {
-      toast.error("Please select at least one language");
-      return;
-    }
-
-    setIsSearching(true);
-    
-    // Simulate searching for a guide
-    setTimeout(() => {
-      setIsSearching(false);
-      setFoundGuide(mockGuide);
-    }, 2000);
-  };
-
-  const handleConfirmGuide = () => {
-    if (foundGuide) {
-      toast.success(`Guide ${foundGuide.name} confirmed for your tour!`);
-      setShowGuidePreferences(false);
-    }
-  };
-
-  const handleCancelSearch = () => {
-    setIsSearching(false);
-    setFoundGuide(null);
-    setShowGuidePreferences(false);
-  };
-
-  return (
-    <Dialog open={showGuidePreferences} onOpenChange={setShowGuidePreferences}>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>Guide Preferences</DialogTitle>
-          <DialogDescription>
-            Help us find the perfect guide for you
-          </DialogDescription>
-        </DialogHeader>
-        
-        {isSearching ? (
-          <div className="flex flex-col items-center justify-center py-8 space-y-4">
-            <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
-            <p className="text-center text-sm">Searching for guides that match your preferences...</p>
-            <p className="text-center text-xs text-muted-foreground">This will take up to 2 minutes</p>
-            <Button variant="outline" onClick={handleCancelSearch}>Cancel</Button>
-          </div>
-        ) : foundGuide ? (
-          <div className="space-y-4 py-4">
-            <div className="flex items-center space-x-4">
-              <img 
-                src={foundGuide.image} 
-                alt={foundGuide.name} 
-                className="h-16 w-16 rounded-full object-cover"
-              />
-              <div>
-                <h3 className="font-medium">{foundGuide.name}</h3>
-                <div className="flex items-center text-sm text-muted-foreground">
-                  <span className="flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1 text-yellow-500">
-                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                    </svg>
-                    {foundGuide.rating} • {foundGuide.experience}
-                  </span>
-                </div>
-              </div>
-            </div>
-            
-            <div className="rounded-md bg-muted p-3 space-y-2">
-              <p className="text-sm font-medium">Languages</p>
-              <div className="flex flex-wrap gap-1">
-                {foundGuide.languages.map(lang => (
-                  <span key={lang} className="px-2 py-1 text-xs rounded-full bg-primary/20 text-primary">
-                    {lang}
-                  </span>
-                ))}
-              </div>
-              
-              <p className="text-sm font-medium mt-2">Rate</p>
-              <p className="text-sm">
-                ₹{duration === "half" ? foundGuide.halfDayRate : foundGuide.fullDayRate} for {duration === "half" ? "Half Day (4 hrs)" : "Full Day (8 hrs)"}
-              </p>
-              
-              <p className="text-sm font-medium mt-2">About</p>
-              <p className="text-xs">{foundGuide.about}</p>
-            </div>
-            
-            <div className="flex space-x-2 justify-end">
-              <Button variant="outline" onClick={handleCancelSearch}>Cancel</Button>
-              <Button onClick={handleConfirmGuide}>Confirm Guide</Button>
-            </div>
-          </div>
-        ) : (
-          <div className="grid gap-4 py-4">
-            <div className="space-y-2">
-              <Label>Preferred Languages</Label>
-              <div className="flex flex-wrap gap-2">
-                {availableLanguages.map((language) => (
-                  <Button
-                    key={language}
-                    variant={guidePreferences.languages.includes(language) ? "default" : "outline"}
-                    size="sm"
-                    onClick={() => handleLanguageToggle(language)}
-                    className={guidePreferences.languages.includes(language) 
-                      ? "bg-[rgba(100,73,37,255)] hover:bg-[rgba(100,73,37,0.9)]" 
-                      : "border-[rgba(100,73,37,255)] text-[rgba(100,73,37,255)] bg-[rgba(100,73,37,0.1)] hover:bg-[rgba(100,73,37,0.2)]"}
-                  >
-                    {language}
-                  </Button>
-                ))}
-              </div>
-            </div>
-            
-            <div className="space-y-2">
-              <Label>Duration</Label>
-              <Select value={duration} onValueChange={(value) => setDuration(value as "half" | "full")}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select duration" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="half">Half Day (4 Hours)</SelectItem>
-                  <SelectItem value="full">Full Day (8 Hours)</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            
-            <div className="space-y-2">
-              <Label>Budget Range (₹1000 - ₹5000)</Label>
-              <Slider
-                value={[guidePreferences.budget]}
-                min={1000}
-                max={5000}
-                step={100}
-                onValueChange={(value) => setGuidePreferences(prev => ({ ...prev, budget: value[0] }))}
-              />
-              <div className="text-right text-sm text-muted-foreground">
-                ₹{guidePreferences.budget}
-              </div>
-            </div>
-            
-            <Button
-              onClick={handleFindGuide}
-              className="bg-[rgba(100,73,37,255)] hover:bg-[rgba(100,73,37,0.9)] text-white"
-            >
-              Find My Guide
-            </Button>
-          </div>
-        )}
-      </DialogContent>
-    </Dialog>
-  );
-};
-
-// Type definition for guide profiles
-interface GuideProfile {
+interface Guide {
   id: string;
   name: string;
   languages: string[];
@@ -221,10 +30,271 @@ interface GuideProfile {
   fullDayRate: number;
   specialties: string[];
   rating: number;
-  responseTime: string;
-  experience: string;
-  about: string;
-  image: string;
+  experience: number;
 }
+
+const GuidePreferencesDialog = ({ 
+  showGuidePreferences, 
+  setShowGuidePreferences,
+  guidePreferences,
+  setGuidePreferences
+}: GuidePreferencesDialogProps) => {
+  const navigate = useNavigate();
+  const [selectedLanguage, setSelectedLanguage] = useState<string>("English");
+  const [tourDuration, setTourDuration] = useState<string>("half");
+  const [budget, setBudget] = useState<number>(1500);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [matchingInProgress, setMatchingInProgress] = useState<boolean>(false);
+  const [matchedGuide, setMatchedGuide] = useState<Guide | null>(null);
+  const [guideStatus, setGuideStatus] = useState<'pending' | 'accepted' | 'declined' | null>(null);
+  const [timeRemaining, setTimeRemaining] = useState<number>(120);
+
+  const handleLanguageClick = (language: string) => {
+    setSelectedLanguage(language);
+  };
+
+  const findGuide = () => {
+    setIsLoading(true);
+    setMatchingInProgress(true);
+
+    // Mock finding a guide
+    setTimeout(() => {
+      setIsLoading(false);
+      
+      // Mock guide data
+      const mockGuide: Guide = {
+        id: "g123",
+        name: "Rahul Sharma",
+        languages: [selectedLanguage],
+        halfDayRate: tourDuration === "half" ? budget : budget / 2,
+        fullDayRate: tourDuration === "full" ? budget : budget * 2,
+        specialties: ["Taj Mahal", "Red Fort", "Qutub Minar"],
+        rating: 4.8,
+        experience: 5
+      };
+      
+      setMatchedGuide(mockGuide);
+      setGuideStatus('pending');
+      
+      // Start the countdown timer
+      let countdown = 120;
+      const timer = setInterval(() => {
+        countdown -= 1;
+        setTimeRemaining(countdown);
+        
+        if (countdown <= 0) {
+          clearInterval(timer);
+          // If guide hasn't responded after 2 minutes
+          if (guideStatus === 'pending') {
+            setGuideStatus(null);
+            setMatchingInProgress(false);
+            toast.error("No guides available at the moment. Please try again later.");
+          }
+        }
+        
+        // Simulate guide accepting after 10 seconds
+        if (countdown === 110) {
+          setGuideStatus('accepted');
+          clearInterval(timer);
+        }
+      }, 1000);
+    }, 2000);
+  };
+
+  const handleConfirmBooking = () => {
+    toast.success(`Guide ${matchedGuide?.name} has been booked for your trip!`);
+    setShowGuidePreferences(false);
+    setMatchingInProgress(false);
+    setMatchedGuide(null);
+    setGuideStatus(null);
+    // Navigate to checkout
+    navigate("/checkout");
+  };
+
+  const handleCancel = () => {
+    if (matchingInProgress) {
+      toast.info("Guide search cancelled");
+    }
+    setShowGuidePreferences(false);
+    setMatchingInProgress(false);
+    setMatchedGuide(null);
+    setGuideStatus(null);
+  };
+
+  return (
+    <Dialog open={showGuidePreferences} onOpenChange={setShowGuidePreferences}>
+      <DialogContent className="sm:max-w-[550px]">
+        <DialogHeader>
+          <DialogTitle>Guide Preferences</DialogTitle>
+          <DialogDescription>
+            Tell us what you're looking for in a guide, and we'll match you with the best available option.
+          </DialogDescription>
+        </DialogHeader>
+        
+        {!matchingInProgress && !matchedGuide && (
+          <div className="space-y-6 py-4">
+            <div className="space-y-2">
+              <Label>Preferred Language</Label>
+              <div className="grid grid-cols-3 gap-2 mt-1">
+                {["English", "Hindi", "French", "Spanish", "German", "Japanese"].map((lang) => (
+                  <Badge 
+                    key={lang} 
+                    variant={selectedLanguage === lang ? "default" : "outline"}
+                    className={`py-2 justify-center cursor-pointer ${
+                      selectedLanguage === lang 
+                        ? "bg-[rgba(100,73,37,255)] text-white" 
+                        : "bg-[rgba(100,73,37,0.1)] text-[rgba(100,73,37,255)] hover:bg-[rgba(100,73,37,0.2)]"
+                    }`}
+                    onClick={() => handleLanguageClick(lang)}
+                  >
+                    {lang}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="tourDuration">Tour Duration</Label>
+              <RadioGroup value={tourDuration} onValueChange={setTourDuration} className="flex gap-4 mt-1">
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="half" id="half-day" />
+                  <Label htmlFor="half-day" className="cursor-pointer">Half Day (4 Hours)</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="full" id="full-day" />
+                  <Label htmlFor="full-day" className="cursor-pointer">Full Day (8 Hours)</Label>
+                </div>
+              </RadioGroup>
+            </div>
+            
+            <div className="space-y-2">
+              <div className="flex justify-between">
+                <Label htmlFor="budget">Budget (₹)</Label>
+                <span className="text-sm font-medium">₹{budget}</span>
+              </div>
+              <Slider
+                id="budget"
+                defaultValue={[1500]}
+                max={5000}
+                min={500}
+                step={100}
+                onValueChange={(values) => setBudget(values[0])}
+                className="mt-1"
+              />
+              <div className="flex justify-between text-xs text-muted-foreground">
+                <span>₹500</span>
+                <span>₹5000</span>
+              </div>
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="heritage-site">Heritage Site (Optional)</Label>
+              <Select>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select site (optional)" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="any">Any site</SelectItem>
+                  <SelectItem value="taj-mahal">Taj Mahal</SelectItem>
+                  <SelectItem value="red-fort">Red Fort</SelectItem>
+                  <SelectItem value="qutub-minar">Qutub Minar</SelectItem>
+                  <SelectItem value="amber-fort">Amber Fort</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+        )}
+        
+        {isLoading && (
+          <div className="py-8 flex flex-col items-center justify-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[rgba(100,73,37,255)]"></div>
+            <p className="mt-4 text-center">Finding the perfect guide for you...</p>
+          </div>
+        )}
+        
+        {matchedGuide && guideStatus === 'pending' && (
+          <div className="py-4">
+            <div className="flex flex-col items-center justify-center text-center mb-4">
+              <div className="w-16 h-16 rounded-full bg-[rgba(100,73,37,0.1)] flex items-center justify-center mb-2">
+                <span className="text-2xl">👤</span>
+              </div>
+              <h3 className="text-lg font-semibold">{matchedGuide.name}</h3>
+              <div className="flex items-center text-sm text-muted-foreground">
+                <span className="mr-1">⭐ {matchedGuide.rating}</span>
+                <span>• {matchedGuide.experience} years experience</span>
+              </div>
+            </div>
+            
+            <div className="bg-muted rounded-md p-4 mb-4">
+              <p className="text-center mb-2">Guide has been notified of your request</p>
+              <div className="flex justify-center items-center gap-2">
+                <div className="animate-pulse w-2 h-2 rounded-full bg-amber-500"></div>
+                <p className="text-sm">Waiting for confirmation ({timeRemaining}s)</p>
+              </div>
+            </div>
+            
+            <p className="text-sm text-muted-foreground text-center mb-4">
+              The guide will confirm your booking shortly. You can wait or cancel and try again.
+            </p>
+          </div>
+        )}
+        
+        {matchedGuide && guideStatus === 'accepted' && (
+          <div className="py-4">
+            <div className="bg-green-50 border border-green-200 rounded-md p-4 mb-4">
+              <p className="text-center text-green-700 font-medium">Guide has accepted your request!</p>
+            </div>
+            
+            <div className="flex items-start gap-4 mb-4">
+              <div className="w-16 h-16 rounded-full bg-[rgba(100,73,37,0.1)] flex items-center justify-center flex-shrink-0">
+                <span className="text-2xl">👤</span>
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold">{matchedGuide.name}</h3>
+                <div className="flex items-center text-sm text-muted-foreground mb-1">
+                  <span className="mr-1">⭐ {matchedGuide.rating}</span>
+                  <span>• {matchedGuide.experience} years experience</span>
+                </div>
+                <p className="text-sm mb-2">
+                  Languages: {matchedGuide.languages.join(", ")}
+                </p>
+                <div className="text-sm font-medium">
+                  {tourDuration === "half" ? "Half Day Rate" : "Full Day Rate"}: 
+                  ₹{tourDuration === "half" ? matchedGuide.halfDayRate : matchedGuide.fullDayRate}
+                </div>
+              </div>
+            </div>
+            
+            <div className="border-t pt-4">
+              <p className="text-sm mb-4">
+                Your guide is an expert in {matchedGuide.specialties.join(", ")} and will enhance your heritage experience.
+              </p>
+            </div>
+          </div>
+        )}
+        
+        <DialogFooter>
+          {!matchingInProgress && !matchedGuide && (
+            <>
+              <Button variant="outline" onClick={handleCancel}>Cancel</Button>
+              <Button onClick={findGuide}>Find Guide</Button>
+            </>
+          )}
+          
+          {matchingInProgress && guideStatus === 'pending' && (
+            <Button variant="outline" onClick={handleCancel} className="w-full">Cancel Request</Button>
+          )}
+          
+          {matchingInProgress && guideStatus === 'accepted' && (
+            <>
+              <Button variant="outline" onClick={handleCancel}>Decline</Button>
+              <Button onClick={handleConfirmBooking}>Confirm Booking</Button>
+            </>
+          )}
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+};
 
 export default GuidePreferencesDialog;
