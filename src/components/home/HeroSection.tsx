@@ -4,6 +4,7 @@ import SearchForm from "./hero/SearchForm";
 import GuidePreferencesDialog from "./hero/GuidePreferencesDialog";
 import { useSearch } from "@/contexts/SearchContext";
 import { debounce } from "lodash";
+import { getRandomImage } from "@/utils/unsplash";
 
 interface GuidePreferences {
   languages: string[];
@@ -16,11 +17,22 @@ const HeroSection = () => {
   const [showGuideOptions, setShowGuideOptions] = useState(false);
   const [showGuidePreferences, setShowGuidePreferences] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [backgroundImage, setBackgroundImage] = useState("/lovable-uploads/f45d0261-eccc-4880-b6a0-1d9cc5fc853d.png");
   
   const [guidePreferences, setGuidePreferences] = useState<GuidePreferences>({
     languages: [],
     budget: 1500
   });
+
+  useEffect(() => {
+    const fetchBackgroundImage = async () => {
+      const image = await getRandomImage('indian heritage architecture temple');
+      if (image) {
+        setBackgroundImage(image.urls.regular);
+      }
+    };
+    fetchBackgroundImage();
+  }, []);
 
   useEffect(() => {
     const handleScroll = debounce(() => {
@@ -50,7 +62,7 @@ const HeroSection = () => {
         style={backgroundStyle}
       >
         <img 
-          src="/lovable-uploads/f45d0261-eccc-4880-b6a0-1d9cc5fc853d.png" 
+          src={backgroundImage}
           alt="Indian architectural detail" 
           className="w-full h-full object-cover"
         />
