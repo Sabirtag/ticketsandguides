@@ -1,8 +1,9 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SearchForm from "./hero/SearchForm";
 import GuidePreferencesDialog from "./hero/GuidePreferencesDialog";
 import { useSearch } from "@/contexts/SearchContext";
+import { debounce } from "lodash";
 
 interface GuidePreferences {
   languages: string[];
@@ -14,15 +15,39 @@ const HeroSection = () => {
   const [showVisitors, setShowVisitors] = useState(false);
   const [showGuideOptions, setShowGuideOptions] = useState(false);
   const [showGuidePreferences, setShowGuidePreferences] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
   
   const [guidePreferences, setGuidePreferences] = useState<GuidePreferences>({
     languages: [],
     budget: 1500
   });
 
+  useEffect(() => {
+    const handleScroll = debounce(() => {
+      const scrollPosition = window.scrollY;
+      const progress = Math.min(scrollPosition / 200, 1);
+      setScrollProgress(progress);
+    }, 10);
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const backgroundStyle = {
+    transform: `scale(${1 - (0.2 * scrollProgress)})`,
+    opacity: 1 - scrollProgress,
+  };
+
+  const searchBarStyle = {
+    transform: `translateY(${scrollProgress * -20}px)`,
+  };
+
   return (
-    <section className="relative h-[600px] sm:h-[700px]">
-      <div className="absolute inset-0 z-0">
+    <section className="relative h-[600px] sm:h-[700px] overflow-hidden">
+      <div 
+        className="absolute inset-0 z-0 transition-all duration-400 ease-out"
+        style={backgroundStyle}
+      >
         <img 
           src="/lovable-uploads/f45d0261-eccc-4880-b6a0-1d9cc5fc853d.png" 
           alt="Indian architectural detail" 
@@ -31,7 +56,10 @@ const HeroSection = () => {
         <div className="absolute inset-0 bg-black/30"></div>
       </div>
       
-      <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-4 pt-16">
+      <div 
+        className="relative z-10 h-full flex flex-col items-center justify-center text-center px-4 pt-16"
+        style={searchBarStyle}
+      >
         <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-fitzgerald font-bold text-white mb-2 sm:mb-3 animate-shimmer">
           Discover <span className="inline-block">Heritage</span> With Us
         </h1>
@@ -39,7 +67,11 @@ const HeroSection = () => {
           Connecting People to Diverse Attractions and Cultural Wonders
         </p>
         
-        <div className="w-full max-w-5xl bg-white/10 backdrop-blur-sm rounded-lg p-3 sm:p-4 md:p-6">
+        <div 
+          className={`w-full max-w-5xl bg-white/10 backdrop-blur-sm rounded-lg p-3 sm:p-4 md:p-6 transition-all duration-400 ease-out ${
+            scrollProgress > 0 ? 'sticky top-20' : ''
+          }`}
+        >
           <SearchForm 
             date={date}
             setDate={setDate}
