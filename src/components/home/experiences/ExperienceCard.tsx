@@ -11,7 +11,7 @@ interface ExperienceCardProps {
 const ExperienceCard = ({ experience, onClick }: ExperienceCardProps) => {
   return (
     <div 
-      className="relative rounded-xl overflow-hidden cursor-pointer aspect-[3/4] group mobile-tap-target"
+      className="relative rounded-xl overflow-hidden cursor-pointer card-hover aspect-[3/4] touch-manipulation group"
       onClick={() => onClick(experience.id)}
     >
       <img 
@@ -30,11 +30,11 @@ const ExperienceCard = ({ experience, onClick }: ExperienceCardProps) => {
       </div>
       
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent flex flex-col justify-end p-3 md:p-4">
-        <h3 className="text-base sm:text-lg font-bold text-white mb-1">{experience.title}</h3>
-        <p className="text-white/80 text-xs sm:text-sm mb-1">{experience.location}</p>
-        <p className="text-white/90 text-xs sm:text-sm">{experience.duration}</p>
+        <h3 className="text-lg font-bold text-white mb-1">{experience.title}</h3>
+        <p className="text-white/80 text-sm mb-1">{experience.location}</p>
+        <p className="text-white/90 text-sm">{experience.duration}</p>
         
-        <div className="flex items-center text-white/90 text-xs sm:text-sm mt-2 font-medium">
+        <div className="flex items-center text-white/90 text-sm mt-2 font-medium">
           <span>{experience.price} per person</span>
         </div>
       </div>

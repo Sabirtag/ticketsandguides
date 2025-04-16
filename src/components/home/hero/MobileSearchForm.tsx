@@ -61,7 +61,6 @@ const MobileSearchForm = ({
     } else {
       try {
         await performSearch();
-        navigate("/checkout");
       } catch (error) {
         console.error("Search error:", error);
       }
@@ -73,18 +72,17 @@ const MobileSearchForm = ({
     setShowSuggestions(false);
   };
 
-  // This is the mobile-specific form
   return (
     <div className="w-full">
       <form onSubmit={handleSearch} className="space-y-4">
-        <div className="flex items-center gap-2 bg-white/90 rounded-md p-2 relative mobile-tap-target">
+        <div className="flex items-center gap-2 bg-white/90 rounded-md p-2 relative">
           <MapPin className="h-5 w-5 text-gray-500" />
           <Input
             placeholder="Search for Monuments"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             onFocus={() => setShowSuggestions(true)}
-            className="border-0 bg-transparent focus-visible:ring-0 px-0 text-sm mobile-tap-target"
+            className="border-0 bg-transparent focus-visible:ring-0 px-0 text-sm"
           />
           <Sheet>
             <SheetTrigger asChild>
@@ -92,7 +90,7 @@ const MobileSearchForm = ({
                 type="button"
                 variant="outline"
                 size="icon"
-                className="shrink-0 bg-white text-[rgba(100,73,37,255)] border-[rgba(100,73,37,255)] hover:bg-[rgba(100,73,37,0.1)] mobile-tap-target"
+                className="shrink-0 bg-white text-[rgba(100,73,37,255)] border-[rgba(100,73,37,255)] hover:bg-[rgba(100,73,37,0.1)]"
               >
                 <Search className="h-4 w-4" />
               </Button>
@@ -139,7 +137,7 @@ const MobileSearchForm = ({
 
                 <Button 
                   type="submit"
-                  className="w-full mt-6 bg-[rgba(100,73,37,255)] hover:bg-[rgba(100,73,37,0.9)] mobile-tap-target py-3"
+                  className="w-full mt-6 bg-[rgba(100,73,37,255)] hover:bg-[rgba(100,73,37,0.9)]"
                 >
                   Search
                 </Button>

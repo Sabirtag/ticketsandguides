@@ -59,15 +59,13 @@ const SearchForm = (props: SearchFormProps) => {
     setShowSuggestions(false);
   };
 
-  // Use responsive hook to determine which form to render
   if (isMobile) {
     return <MobileSearchForm {...props} />;
   }
 
-  // Desktop layout - using grid for desktop view
   return (
-    <form onSubmit={handleBook} className="desktop-grid sm:gap-3">
-      <div className="col-span-12 md:col-span-3 relative">
+    <form onSubmit={handleBook} className="flex flex-col space-y-3 sm:space-y-0 sm:grid sm:grid-cols-2 md:grid-cols-5 sm:gap-3">
+      <div className="md:col-span-1 relative">
         <label className="block text-white text-xs sm:text-sm mb-1">Where</label>
         <Input
           placeholder="Search for Monuments"
@@ -77,20 +75,18 @@ const SearchForm = (props: SearchFormProps) => {
           className="w-full bg-white/90 text-gray-900 placeholder:text-gray-500 h-9 sm:h-10"
         />
         {showSuggestions && (
-          <div className="absolute z-50 w-full">
-            <MonumentSuggestions 
-              searchQuery={searchQuery}
-              onSelect={handleMonumentSelect}
-            />
-          </div>
+          <MonumentSuggestions 
+            searchQuery={searchQuery}
+            onSelect={handleMonumentSelect}
+          />
         )}
       </div>
       
-      <div className="col-span-12 md:col-span-2">
+      <div className="md:col-span-1">
         <DateSelector date={props.date} setDate={props.setDate} />
       </div>
       
-      <div className="col-span-12 md:col-span-2">
+      <div className="md:col-span-1">
         <VisitorSelector 
           visitors={props.visitors} 
           setVisitors={props.setVisitors} 
@@ -99,7 +95,7 @@ const SearchForm = (props: SearchFormProps) => {
         />
       </div>
       
-      <div className="col-span-12 md:col-span-3">
+      <div className="md:col-span-1">
         <GuideSelector 
           guideChoice={props.guideChoice}
           showGuideOptions={props.showGuideOptions}
@@ -109,7 +105,7 @@ const SearchForm = (props: SearchFormProps) => {
         />
       </div>
       
-      <div className="col-span-12 md:col-span-2">
+      <div className="md:col-span-1">
         <label className="block text-white text-xs sm:text-sm mb-1 opacity-0">Book</label>
         <Button 
           type="submit" 
