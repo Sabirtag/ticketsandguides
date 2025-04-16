@@ -21,7 +21,7 @@ const DateSelector = ({ date, setDate }: DateSelectorProps) => {
           <Button
             variant="outline"
             className={cn(
-              "w-full justify-start text-left font-normal bg-white/90 text-gray-900 border-0 h-9 sm:h-10 text-xs sm:text-sm",
+              "w-full justify-start text-left font-normal bg-white/90 text-gray-900 border-0 h-9 sm:h-10 text-xs sm:text-sm mobile-tap-target",
               !date && "text-gray-500"
             )}
           >

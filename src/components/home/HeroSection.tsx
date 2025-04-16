@@ -21,7 +21,7 @@ const HeroSection = () => {
   });
 
   return (
-    <section className="relative h-[600px] sm:h-[700px]">
+    <section className="relative h-[50vh] sm:h-[60vh] md:h-[70vh] lg:h-[80vh]">
       <div className="absolute inset-0 z-0">
         <img 
           src="/lovable-uploads/f45d0261-eccc-4880-b6a0-1d9cc5fc853d.png" 
@@ -32,10 +32,10 @@ const HeroSection = () => {
       </div>
       
       <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-4 pt-16">
-        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-fitzgerald font-bold text-white mb-2 sm:mb-3 animate-shimmer">
+        <h1 className="mb-2 sm:mb-3 text-white">
           Discover <span className="inline-block">Heritage</span> With Us
         </h1>
-        <p className="text-base sm:text-lg md:text-xl text-white/90 max-w-2xl mb-6 sm:mb-8 md:mb-12">
+        <p className="text-white/90 max-w-2xl mb-6 sm:mb-8 md:mb-12 responsive-text">
           Connecting People to Diverse Attractions and Cultural Wonders
         </p>
         
