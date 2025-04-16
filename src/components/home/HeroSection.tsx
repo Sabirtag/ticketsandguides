@@ -24,8 +24,8 @@ const HeroSection = () => {
     <section className="relative h-[600px] sm:h-[700px]">
       <div className="absolute inset-0 z-0">
         <img 
-          src="https://images.unsplash.com/photo-1469474968028-56623f02e42e" 
-          alt="Heritage background" 
+          src="/lovable-uploads/f45d0261-eccc-4880-b6a0-1d9cc5fc853d.png" 
+          alt="Indian architectural detail" 
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-black/30"></div>
