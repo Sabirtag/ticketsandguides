@@ -38,8 +38,9 @@ const HeroSection = () => {
     opacity: 1 - scrollProgress,
   };
 
-  const searchBarStyle = {
-    transform: `translateY(${scrollProgress * -20}px)`,
+  const heroTextStyle = {
+    transform: `scale(${1 - (0.2 * scrollProgress)}) translateY(${scrollProgress * -30}px)`,
+    opacity: 1 - scrollProgress,
   };
 
   return (
@@ -56,35 +57,43 @@ const HeroSection = () => {
         <div className="absolute inset-0 bg-black/30"></div>
       </div>
       
-      <div 
-        className="relative z-10 h-full flex flex-col items-center justify-center text-center px-4 pt-16"
-        style={searchBarStyle}
-      >
-        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-fitzgerald font-bold text-white mb-2 sm:mb-3 animate-shimmer">
-          Discover <span className="inline-block">Heritage</span> With Us
-        </h1>
-        <p className="text-base sm:text-lg md:text-xl text-white/90 max-w-2xl mb-6 sm:mb-8 md:mb-12">
-          Connecting People to Diverse Attractions and Cultural Wonders
-        </p>
+      <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-4">
+        <div 
+          className="transition-all duration-400 ease-out mb-8"
+          style={heroTextStyle}
+        >
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-fitzgerald font-bold text-white mb-2 sm:mb-3 animate-shimmer">
+            Discover <span className="inline-block">Heritage</span> With Us
+          </h1>
+          <p className="text-base sm:text-lg md:text-xl text-white/90 max-w-2xl">
+            Connecting People to Diverse Attractions and Cultural Wonders
+          </p>
+        </div>
         
         <div 
-          className={`w-full max-w-5xl bg-white/10 backdrop-blur-sm rounded-lg p-3 sm:p-4 md:p-6 transition-all duration-400 ease-out ${
-            scrollProgress > 0 ? 'sticky top-20' : ''
+          className={`w-full max-w-5xl transition-all duration-400 ease-out ${
+            scrollProgress > 0 
+              ? 'fixed top-4 left-1/2 transform -translate-x-1/2 z-50 px-4 sm:px-6 md:px-8'
+              : 'relative'
           }`}
         >
-          <SearchForm 
-            date={date}
-            setDate={setDate}
-            showVisitors={showVisitors}
-            setShowVisitors={setShowVisitors}
-            showGuideOptions={showGuideOptions}
-            setShowGuideOptions={setShowGuideOptions}
-            visitors={visitors}
-            setVisitors={setVisitors}
-            guideChoice={guideChoice}
-            setGuideChoice={setGuideChoice}
-            setShowGuidePreferences={setShowGuidePreferences}
-          />
+          <div className={`bg-white/10 backdrop-blur-md rounded-lg p-3 sm:p-4 md:p-6 shadow-lg transition-all duration-400 ${
+            scrollProgress > 0 ? 'bg-white/95' : ''
+          }`}>
+            <SearchForm 
+              date={date}
+              setDate={setDate}
+              showVisitors={showVisitors}
+              setShowVisitors={setShowVisitors}
+              showGuideOptions={showGuideOptions}
+              setShowGuideOptions={setShowGuideOptions}
+              visitors={visitors}
+              setVisitors={setVisitors}
+              guideChoice={guideChoice}
+              setGuideChoice={setGuideChoice}
+              setShowGuidePreferences={setShowGuidePreferences}
+            />
+          </div>
         </div>
       </div>
 
