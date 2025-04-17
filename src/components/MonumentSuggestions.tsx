@@ -7,17 +7,23 @@ interface MonumentSuggestionsProps {
   onSelect: (monument: Monument) => void;
 }
 
+/**
+ * Displays a list of monument suggestions based on user search input
+ */
 const MonumentSuggestions: React.FC<MonumentSuggestionsProps> = ({ searchQuery, onSelect }) => {
-  // Filter monuments based on search query
-  const filteredMonuments = searchQuery
-    ? indianMonuments.filter(monument => 
-        monument.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        monument.city.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        monument.state.toLowerCase().includes(searchQuery.toLowerCase())
-      )
-    : [];
+  // Filter monuments based on search query with trimming and case insensitivity
+  const filteredMonuments = React.useMemo(() => {
+    if (!searchQuery?.trim()) return [];
+    
+    const normalizedQuery = searchQuery.toLowerCase().trim();
+    return indianMonuments.filter(monument => 
+      monument.name.toLowerCase().includes(normalizedQuery) ||
+      monument.city.toLowerCase().includes(normalizedQuery) ||
+      monument.state.toLowerCase().includes(normalizedQuery)
+    );
+  }, [searchQuery]);
 
-  if (!searchQuery || filteredMonuments.length === 0) {
+  if (!searchQuery?.trim() || filteredMonuments.length === 0) {
     return null;
   }
 

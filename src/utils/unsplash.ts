@@ -5,6 +5,11 @@ export const unsplash = createApi({
   accessKey: 'KE2-ggaJwTdQXjo42V7lm9_7H3muPZ-gVU2Qsc5vZVE'
 });
 
+/**
+ * Fetches a random image from Unsplash based on a search query
+ * @param query The search term to find an image
+ * @returns The image data or null if an error occurs
+ */
 export const getRandomImage = async (query: string) => {
   try {
     const result = await unsplash.photos.getRandom({
@@ -27,11 +32,20 @@ export const getRandomImage = async (query: string) => {
   }
 };
 
+/**
+ * Searches for images on Unsplash based on a query
+ * @param query The search term
+ * @param page Optional page number for pagination
+ * @param perPage Optional number of results per page
+ * @returns The search results or null if an error occurs
+ */
 export const searchImages = async (query: string, page = 1, perPage = 10) => {
   try {
     const result = await unsplash.search.getPhotos({
       query,
-      orientation: 'landscape'
+      orientation: 'landscape',
+      page,
+      perPage
     });
     
     if (result.type === 'success') {
