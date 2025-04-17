@@ -4,7 +4,6 @@ import SearchForm from "./hero/SearchForm";
 import GuidePreferencesDialog from "./hero/GuidePreferencesDialog";
 import { useSearch } from "@/contexts/SearchContext";
 import { debounce } from "lodash";
-import { getRandomImage } from "@/utils/unsplash";
 
 interface GuidePreferences {
   languages: string[];
@@ -17,22 +16,14 @@ const HeroSection = () => {
   const [showGuideOptions, setShowGuideOptions] = useState(false);
   const [showGuidePreferences, setShowGuidePreferences] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
-  const [backgroundImage, setBackgroundImage] = useState("/lovable-uploads/f45d0261-eccc-4880-b6a0-1d9cc5fc853d.png");
+  
+  // Static majestic fort image from Unsplash
+  const backgroundImage = "https://images.unsplash.com/photo-1585135497273-1a86b09fe70e?ixlib=rb-4.0.3&auto=format&fit=crop&q=80";
   
   const [guidePreferences, setGuidePreferences] = useState<GuidePreferences>({
     languages: [],
     budget: 1500
   });
-
-  useEffect(() => {
-    const fetchBackgroundImage = async () => {
-      const image = await getRandomImage('indian heritage architecture temple');
-      if (image) {
-        setBackgroundImage(image.urls.regular);
-      }
-    };
-    fetchBackgroundImage();
-  }, []);
 
   useEffect(() => {
     const handleScroll = debounce(() => {

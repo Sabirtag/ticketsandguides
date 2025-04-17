@@ -13,7 +13,12 @@ export const getRandomImage = async (query: string) => {
     });
     
     if (result.type === 'success') {
-      return result.response;
+      const response = result.response;
+      // Handle both single object and array responses
+      if (Array.isArray(response)) {
+        return response[0];
+      }
+      return response;
     }
     throw new Error('Failed to fetch image');
   } catch (error) {

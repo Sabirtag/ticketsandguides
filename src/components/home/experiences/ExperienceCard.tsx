@@ -2,6 +2,8 @@
 import React from "react";
 import { Star } from "lucide-react";
 import { Experience } from "./types";
+import ImageGallery from "@/components/common/ImageGallery";
+import { experienceGalleryImages } from "./experienceImages";
 
 interface ExperienceCardProps {
   experience: Experience;
@@ -9,16 +11,17 @@ interface ExperienceCardProps {
 }
 
 const ExperienceCard = ({ experience, onClick }: ExperienceCardProps) => {
+  const images = experienceGalleryImages[experience.id] || [experience.image];
+  
   return (
     <div 
       className="relative rounded-xl overflow-hidden cursor-pointer card-hover aspect-[3/4] touch-manipulation group"
       onClick={() => onClick(experience.id)}
     >
-      <img 
-        src={experience.image} 
+      <ImageGallery 
+        images={images} 
         alt={experience.title}
-        loading="lazy"
-        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+        aspectRatio="portrait"
       />
       
       <div className="absolute top-3 right-3">

@@ -10,8 +10,10 @@ import CityPage from "./pages/CityPage";
 import NotFound from "./pages/NotFound";
 import BookingSite from "./pages/BookingSite";
 import DestinationDetail from "./pages/DestinationDetail";
+import ExperienceDetail from "./pages/ExperienceDetail";
 import BookingConfirmation from "./pages/BookingConfirmation";
 import Checkout from "./pages/Checkout";
+import AllDestinations from "./pages/AllDestinations";
 import { AuthProvider } from "./contexts/AuthContext";
 import { SearchProvider } from "./contexts/SearchContext";
 import Guides from "./pages/Guides";
@@ -30,6 +32,8 @@ const App = () => {
             <Route path="/city/:cityName" element={<CityPage />} />
             <Route path="/monument/:monumentId" element={<BookingSite />} />
             <Route path="/destination/:id" element={<DestinationDetail />} />
+            <Route path="/experience/:id" element={<ExperienceDetail />} />
+            <Route path="/destinations" element={<AllDestinations />} />
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/confirmation" element={<BookingConfirmation />} />
             <Route path="*" element={<NotFound />} />

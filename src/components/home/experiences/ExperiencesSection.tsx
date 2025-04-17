@@ -11,7 +11,7 @@ export const BookExperiences = () => {
   const [showAllExperiences, setShowAllExperiences] = useState(false);
   
   const handleExperienceClick = (id: number) => {
-    navigate(`/guide-selection?experience=${id}`);
+    navigate(`/experience/${id}`);
   };
 
   const visibleExperiences = showAllExperiences 

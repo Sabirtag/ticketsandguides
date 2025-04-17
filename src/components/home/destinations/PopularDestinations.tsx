@@ -28,8 +28,9 @@ const PopularDestinations: React.FC<PopularDestinationsProps> = ({ userLocation 
             variant="ghost" 
             size="sm" 
             className="hidden md:flex items-center text-white bg-[rgba(100,73,37,255)] hover:bg-[rgba(100,73,37,0.9)] ml-auto"
+            asChild
           >
-            View All <ChevronRight className="h-4 w-4 ml-1" />
+            <Link to="/destinations">View All <ChevronRight className="h-4 w-4 ml-1" /></Link>
           </Button>
         </div>
         
