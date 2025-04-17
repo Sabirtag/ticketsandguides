@@ -16,7 +16,7 @@ export const getRandomImage = async (query: string) => {
       const response = result.response;
       // Handle both single object and array responses
       if (Array.isArray(response)) {
-        return response[0];
+        return response[0]; // Return the first item if it's an array
       }
       return response;
     }
@@ -31,8 +31,6 @@ export const searchImages = async (query: string, page = 1, perPage = 10) => {
   try {
     const result = await unsplash.search.getPhotos({
       query,
-      page,
-      perPage,
       orientation: 'landscape'
     });
     
