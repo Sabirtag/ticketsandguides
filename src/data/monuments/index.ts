@@ -1,3 +1,5 @@
+
+import { Monument } from './types';
 import { northIndiaMonuments } from './north';
 import { westIndiaMonuments } from './west';
 import { rajasthanMonuments } from './rajasthan';
