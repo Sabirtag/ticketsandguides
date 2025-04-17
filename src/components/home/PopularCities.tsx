@@ -1,43 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { MapPin, Building } from "lucide-react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-
-interface City {
-  id: number;
-  name: string;
-  attractions: number;
-  image: string;
-  latitude?: number;
-  longitude?: number;
-  popularity: number;
-}
-
-interface PopularCitiesProps {
-  userLocation?: {
-    latitude: number;
-    longitude: number;
-    accuracy?: number;
-  } | null;
-}
-
-const calculateDistance = (
-  lat1: number, 
-  lon1: number, 
-  lat2: number, 
-  lon2: number
-): number => {
-  const R = 6371; // Radius of the earth in km
-  const dLat = (lat2 - lat1) * Math.PI / 180;
-  const dLon = (lon2 - lon1) * Math.PI / 180;
-  const a = 
-    Math.sin(dLat/2) * Math.sin(dLat/2) +
-    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
-    Math.sin(dLon/2) * Math.sin(dLon/2);
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-  const distance = R * c; // Distance in km
-  return distance;
-};
+import { Building } from "lucide-react";
+import { calculateDistance } from "./cities/utils";
+import CityTabs from "./cities/CityTabs";
+import { City, PopularCitiesProps } from "./cities/types";
 
 const PopularCities: React.FC<PopularCitiesProps> = ({ userLocation }) => {
   const navigate = useNavigate();
@@ -155,48 +121,12 @@ const PopularCities: React.FC<PopularCitiesProps> = ({ userLocation }) => {
           </h2>
         </div>
         
-        <Tabs defaultValue={sortedCities[0]?.name || "Mumbai"} className="w-full">
-          <TabsList className="w-full justify-start overflow-x-auto space-x-2 bg-transparent h-auto pb-2 mb-6 border-b scrollbar-none">
-            {sortedCities.slice(0, 6).map((city) => (
-              <TabsTrigger 
-                key={city.id} 
-                value={city.name}
-                className="px-4 py-2 rounded-full data-[state=active]:bg-[rgba(100,73,37,255)] data-[state=active]:text-white whitespace-nowrap"
-                onClick={() => setActiveTab(city.name)}
-              >
-                {city.name}
-              </TabsTrigger>
-            ))}
-          </TabsList>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
-            {sortedCities.map((city) => (
-              city.name === activeTab && (
-                <div 
-                  key={city.id} 
-                  className="cursor-pointer rounded-lg overflow-hidden shadow-sm card-hover"
-                  onClick={() => handleCityClick(city.id)}
-                >
-                  <div className="relative aspect-[16/9]">
-                    <img 
-                      src={city.image} 
-                      alt={city.name}
-                      loading="lazy"
-                      className="w-full h-full object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-4">
-                      <h3 className="text-white font-bold text-xl">{city.name}</h3>
-                      <div className="flex items-center text-white/90 mt-1">
-                        <MapPin className="h-4 w-4 mr-1" />
-                        <span className="text-sm">{city.attractions} attractions</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )
-            ))}
-          </div>
-        </Tabs>
+        <CityTabs 
+          cities={sortedCities}
+          activeTab={activeTab}
+          onTabChange={setActiveTab}
+          onCityClick={handleCityClick}
+        />
       </div>
     </section>
   );
