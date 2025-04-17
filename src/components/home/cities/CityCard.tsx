@@ -14,7 +14,7 @@ const CityCard: React.FC<CityDisplayProps> = ({ city, onCityClick }) => {
   
   return (
     <div 
-      className="cursor-pointer rounded-lg overflow-hidden shadow-sm card-hover"
+      className="cursor-pointer rounded-lg overflow-hidden shadow-sm transition-all duration-300 hover:shadow-md hover:scale-105"
       onClick={handleClick}
     >
       <div className="relative aspect-[16/9]">

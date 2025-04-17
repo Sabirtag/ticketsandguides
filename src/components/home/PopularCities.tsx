@@ -1,14 +1,17 @@
-import React, { useEffect, useState } from "react";
+
+import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { Building } from "lucide-react";
+import { Building, ChevronLeft, ChevronRight } from "lucide-react";
 import { calculateDistance } from "./cities/utils";
 import CityTabs from "./cities/CityTabs";
 import { City, PopularCitiesProps } from "./cities/types";
+import { Button } from "@/components/ui/button";
 
 const PopularCities: React.FC<PopularCitiesProps> = ({ userLocation }) => {
   const navigate = useNavigate();
   const [sortedCities, setSortedCities] = useState<City[]>([]);
   const [activeTab, setActiveTab] = useState("Mumbai");
+  const tabsContainerRef = useRef<HTMLDivElement>(null);
   
   const allCities: City[] = [
     {
@@ -85,6 +88,14 @@ const PopularCities: React.FC<PopularCitiesProps> = ({ userLocation }) => {
     }
   ];
 
+  const scrollTabs = (direction: 'left' | 'right') => {
+    const container = tabsContainerRef.current;
+    if (container) {
+      const scrollAmount = direction === 'right' ? 200 : -200;
+      container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    }
+  };
+
   useEffect(() => {
     if (userLocation && userLocation.latitude && userLocation.longitude) {
       const citiesWithDistance = allCities.map(city => ({
@@ -121,12 +132,34 @@ const PopularCities: React.FC<PopularCitiesProps> = ({ userLocation }) => {
           </h2>
         </div>
         
-        <CityTabs 
-          cities={sortedCities}
-          activeTab={activeTab}
-          onTabChange={setActiveTab}
-          onCityClick={handleCityClick}
-        />
+        <div className="relative">
+          <Button 
+            variant="outline" 
+            size="icon" 
+            className="absolute -left-4 top-1/2 transform -translate-y-1/2 z-10 bg-white/80 rounded-full shadow-md hover:bg-white hidden md:flex"
+            onClick={() => scrollTabs('left')}
+          >
+            <ChevronLeft className="h-5 w-5" />
+          </Button>
+          
+          <div ref={tabsContainerRef} className="overflow-x-auto scrollbar-hide">
+            <CityTabs 
+              cities={sortedCities}
+              activeTab={activeTab}
+              onTabChange={setActiveTab}
+              onCityClick={handleCityClick}
+            />
+          </div>
+          
+          <Button 
+            variant="outline" 
+            size="icon" 
+            className="absolute -right-4 top-1/2 transform -translate-y-1/2 z-10 bg-white/80 rounded-full shadow-md hover:bg-white hidden md:flex"
+            onClick={() => scrollTabs('right')}
+          >
+            <ChevronRight className="h-5 w-5" />
+          </Button>
+        </div>
       </div>
     </section>
   );

@@ -2,3 +2,27 @@
 @import "./styles/base.css";
 @import "./styles/theme.css";
 @import "./styles/animations.css";
+
+/* Card hover effects */
+.card-hover {
+  transition: all 0.3s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Button push effect */
+.btn-push {
+  transition: transform 0.2s ease;
+}
+
+.btn-push:hover {
+  transform: scale(0.95);
+}
+
+.btn-push:active {
+  transform: scale(0.9);
+}
+

@@ -1,5 +1,5 @@
 
-import React, { useMemo } from "react";
+import React, { useMemo, useRef } from "react";
 import { Destination } from "./types";
 import DestinationCard from "./DestinationCard";
 import { calculateDistance } from "./utils";
@@ -20,6 +20,8 @@ const DestinationsList: React.FC<DestinationsListProps> = ({
   destinations, 
   userLocation 
 }) => {
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  
   const destinationsWithDistance = useMemo(() => {
     if (!userLocation) return destinations;
 
@@ -54,7 +56,7 @@ const DestinationsList: React.FC<DestinationsListProps> = ({
   const visibleDestinations = destinationsWithDistance.slice(0, 4);
 
   const scrollContainer = (direction: 'left' | 'right') => {
-    const container = document.getElementById('destinations-scroll-container');
+    const container = scrollContainerRef.current;
     if (container) {
       const scrollAmount = direction === 'right' ? 300 : -300;
       container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
@@ -65,6 +67,7 @@ const DestinationsList: React.FC<DestinationsListProps> = ({
     <div className="relative">
       {/* Mobile scroll view */}
       <div 
+        ref={scrollContainerRef}
         id="destinations-scroll-container"
         className="flex overflow-x-auto gap-4 pb-4 scrollbar-hide -mx-4 px-4 md:hidden"
       >
@@ -89,7 +92,7 @@ const DestinationsList: React.FC<DestinationsListProps> = ({
         <Button 
           variant="outline" 
           size="icon" 
-          className="absolute top-1/2 -left-5 transform -translate-y-1/2 bg-white/80 rounded-full shadow-md hover:bg-white"
+          className="absolute top-1/2 -left-5 transform -translate-y-1/2 bg-white/80 rounded-full shadow-md hover:bg-white z-10"
           onClick={() => scrollContainer('left')}
         >
           <ChevronLeft className="h-5 w-5" />
@@ -97,7 +100,7 @@ const DestinationsList: React.FC<DestinationsListProps> = ({
         <Button 
           variant="outline" 
           size="icon" 
-          className="absolute top-1/2 -right-5 transform -translate-y-1/2 bg-white/80 rounded-full shadow-md hover:bg-white"
+          className="absolute top-1/2 -right-5 transform -translate-y-1/2 bg-white/80 rounded-full shadow-md hover:bg-white z-10"
           onClick={() => scrollContainer('right')}
         >
           <ChevronRight className="h-5 w-5" />

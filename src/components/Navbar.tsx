@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { X, Menu, User } from "lucide-react";
@@ -16,8 +16,18 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const { user, profile, signOut } = useAuth();
   const location = useLocation();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -36,35 +46,52 @@ const Navbar = () => {
     return user?.email?.substring(0, 2).toUpperCase() || "U";
   };
 
-  // Check if we're on the homepage to make the navbar transparent and absolute
+  // Check if we're on the homepage
   const isHomePage = location.pathname === '/';
 
   return (
-    <header className={`${isHomePage ? 'absolute top-0 left-0 right-0 z-40 bg-transparent' : 'bg-background border-b sticky top-0 z-50'}`}>
+    <header className={`fixed top-0 left-0 right-0 z-50 ${isScrolled ? 'bg-white shadow-md' : isHomePage ? 'bg-transparent' : 'bg-white border-b'}`}>
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center">
             <Link to="/" className="flex items-center">
-              <img 
-                src="/lovable-uploads/eddf3f47-f36a-4088-883d-513d144fff3a.png" 
-                alt="TAG - Tickets and Guides" 
-                className="h-12"
-              />
+              <div className="relative overflow-hidden">
+                <div className="absolute w-16 h-16 rounded-full bg-white -left-2 -top-2"></div>
+                <img 
+                  src="/lovable-uploads/eddf3f47-f36a-4088-883d-513d144fff3a.png" 
+                  alt="TAG - Tickets and Guides" 
+                  className="h-12 relative z-10"
+                />
+              </div>
             </Link>
           </div>
           
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-6">
-            <Link to="/" className={`${isHomePage ? 'text-white' : 'text-foreground'} hover:text-primary transition-colors ${location.pathname === '/' ? 'font-medium text-primary' : ''}`}>Home</Link>
-            <Link to="/guides" className={`${isHomePage ? 'text-white' : 'text-foreground'} hover:text-primary transition-colors ${location.pathname === '/guides' ? 'font-medium text-primary' : ''}`}>Guides</Link>
+            <Link 
+              to="/" 
+              className={`${isScrolled ? 'text-foreground' : isHomePage ? 'text-white' : 'text-foreground'} 
+                         hover:text-primary transition-transform hover:scale-95 active:scale-90 
+                         ${location.pathname === '/' ? 'font-medium text-primary' : ''}`}
+            >
+              Home
+            </Link>
+            <Link 
+              to="/guides" 
+              className={`${isScrolled ? 'text-foreground' : isHomePage ? 'text-white' : 'text-foreground'} 
+                         hover:text-primary transition-transform hover:scale-95 active:scale-90 
+                         ${location.pathname === '/guides' ? 'font-medium text-primary' : ''}`}
+            >
+              Guides
+            </Link>
             
             {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className={`relative h-10 w-10 rounded-full ${isHomePage ? 'text-white' : ''}`}>
+                  <Button variant="ghost" className={`relative h-10 w-10 rounded-full ${isScrolled ? '' : isHomePage ? 'text-white' : ''}`}>
                     <Avatar>
                       <AvatarImage src={profile?.avatar_url} />
-                      <AvatarFallback>{getUserInitials()}</AvatarFallback>
+                      <AvatarFallback className="text-black">{getUserInitials()}</AvatarFallback>
                     </Avatar>
                   </Button>
                 </DropdownMenuTrigger>
@@ -85,18 +112,18 @@ const Navbar = () => {
               </DropdownMenu>
             ) : (
               <div className="ml-4 flex items-center space-x-2">
-                <Button variant="outline" asChild className="bg-white text-[rgba(100,73,37,255)] border-[rgba(100,73,37,255)] hover:bg-[rgba(100,73,37,0.1)]">
+                <Button variant="outline" asChild className="bg-white text-[rgba(100,73,37,255)] border-[rgba(100,73,37,255)] hover:bg-[rgba(100,73,37,0.1)] transition-transform hover:scale-95 active:scale-90">
                   <Link to="/auth">Login</Link>
                 </Button>
-                <Button asChild>
+                <Button asChild className="transition-transform hover:scale-95 active:scale-90">
                   <Link to="/auth?tab=register">Register</Link>
                 </Button>
               </div>
             )}
           </nav>
           
-          {/* Mobile Menu Button - Updated with brown color */}
-          <button className={`md:hidden ${isHomePage ? 'text-white' : 'text-[rgba(100,73,37,255)]'}`} onClick={toggleMenu}>
+          {/* Mobile Menu Button */}
+          <button className={`md:hidden ${isScrolled ? 'text-[rgba(100,73,37,255)]' : isHomePage ? 'text-white' : 'text-[rgba(100,73,37,255)]'}`} onClick={toggleMenu}>
             {isMenuOpen ? <X /> : <Menu />}
           </button>
         </div>
@@ -108,14 +135,14 @@ const Navbar = () => {
           <div className="container mx-auto px-4 py-4 flex flex-col space-y-4">
             <Link 
               to="/" 
-              className={`text-foreground hover:text-primary transition-colors py-2 ${location.pathname === '/' ? 'font-medium text-primary' : ''}`}
+              className={`text-foreground hover:text-primary transition-transform hover:scale-95 py-2 ${location.pathname === '/' ? 'font-medium text-primary' : ''}`}
               onClick={toggleMenu}
             >
               Home
             </Link>
             <Link 
               to="/guides" 
-              className={`text-foreground hover:text-primary transition-colors py-2 ${location.pathname === '/guides' ? 'font-medium text-primary' : ''}`}
+              className={`text-foreground hover:text-primary transition-transform hover:scale-95 py-2 ${location.pathname === '/guides' ? 'font-medium text-primary' : ''}`}
               onClick={toggleMenu}
             >
               Guides
@@ -126,7 +153,7 @@ const Navbar = () => {
                 <div className="flex items-center space-x-3 py-2">
                   <Avatar>
                     <AvatarImage src={profile?.avatar_url} />
-                    <AvatarFallback>{getUserInitials()}</AvatarFallback>
+                    <AvatarFallback className="text-black">{getUserInitials()}</AvatarFallback>
                   </Avatar>
                   <div>
                     <div className="font-medium">{profile?.full_name || user.email}</div>
@@ -134,21 +161,21 @@ const Navbar = () => {
                 </div>
                 <Link 
                   to="/profile" 
-                  className="text-foreground hover:text-primary transition-colors py-2 pl-2"
+                  className="text-foreground hover:text-primary transition-transform hover:scale-95 py-2 pl-2"
                   onClick={toggleMenu}
                 >
                   Profile
                 </Link>
                 <Link 
                   to="/bookings" 
-                  className="text-foreground hover:text-primary transition-colors py-2 pl-2"
+                  className="text-foreground hover:text-primary transition-transform hover:scale-95 py-2 pl-2"
                   onClick={toggleMenu}
                 >
                   My Bookings
                 </Link>
                 <Button 
                   variant="outline" 
-                  className="w-full mt-2" 
+                  className="w-full mt-2 transition-transform hover:scale-95" 
                   onClick={() => {
                     signOut();
                     toggleMenu();
@@ -159,10 +186,10 @@ const Navbar = () => {
               </>
             ) : (
               <div className="pt-2 flex flex-col space-y-2">
-                <Button variant="outline" asChild onClick={toggleMenu} className="bg-white text-[rgba(100,73,37,255)] border-[rgba(100,73,37,255)] hover:bg-[rgba(100,73,37,0.1)]">
+                <Button variant="outline" asChild onClick={toggleMenu} className="bg-white text-[rgba(100,73,37,255)] border-[rgba(100,73,37,255)] hover:bg-[rgba(100,73,37,0.1)] transition-transform hover:scale-95">
                   <Link to="/auth">Login</Link>
                 </Button>
-                <Button asChild onClick={toggleMenu}>
+                <Button asChild onClick={toggleMenu} className="transition-transform hover:scale-95">
                   <Link to="/auth?tab=register">Register</Link>
                 </Button>
               </div>

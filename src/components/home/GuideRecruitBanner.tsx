@@ -10,7 +10,7 @@ const GuideRecruitBanner = () => {
     <section className="relative py-20">
       <div className="absolute inset-0 z-0">
         <img 
-          src="https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?ixlib=rb-4.0.3&auto=format&fit=crop&w=1500&q=80" 
+          src="https://images.unsplash.com/photo-1551038247-3d9af20df552?ixlib=rb-4.0.3&auto=format&fit=crop&w=1500&q=80" 
           alt="Guide recruitment background" 
           className="w-full h-full object-cover"
         />

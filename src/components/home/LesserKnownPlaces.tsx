@@ -1,12 +1,14 @@
 
-import React from "react";
+import React, { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
-import { MapPin, Compass } from "lucide-react";
+import { MapPin, Compass, ChevronLeft, ChevronRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 
 const LesserKnownPlaces = () => {
   const navigate = useNavigate();
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
   
   const lesserKnownPlaces = [
     {
@@ -57,6 +59,14 @@ const LesserKnownPlaces = () => {
     navigate(`/booking?site=${id}`);
   };
 
+  const scrollContainer = (direction: 'left' | 'right') => {
+    const container = scrollContainerRef.current;
+    if (container) {
+      const scrollAmount = direction === 'right' ? 300 : -300;
+      container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    }
+  };
+
   return (
     <section className="py-8 md:py-12 bg-white">
       <div className="container px-4 md:px-6">
@@ -69,37 +79,60 @@ const LesserKnownPlaces = () => {
           away from the usual tourist crowds.
         </p>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {lesserKnownPlaces.map((place) => (
-            <Card 
-              key={place.id} 
-              className="overflow-hidden cursor-pointer card-hover h-full flex flex-col"
-              onClick={() => handlePlaceClick(place.id)}
-            >
-              <div className="aspect-video relative overflow-hidden">
-                <img 
-                  src={place.image} 
-                  alt={place.name}
-                  loading="lazy"
-                  className="w-full h-full object-cover transition-transform hover:scale-105 duration-300"
-                />
-                <Badge 
-                  variant="secondary" 
-                  className="absolute top-3 right-3 bg-primary/20 text-primary border-primary/10"
-                >
-                  Hidden Gem
-                </Badge>
-              </div>
-              <CardContent className="p-4 flex-grow flex flex-col">
-                <h3 className="font-bold text-lg mb-2">{place.name}</h3>
-                <div className="flex items-center text-muted-foreground mb-3">
-                  <MapPin className="h-4 w-4 mr-1" />
-                  <span className="text-sm">{place.location}</span>
+        <div className="relative">
+          <Button 
+            variant="outline" 
+            size="icon" 
+            className="absolute -left-4 top-1/2 transform -translate-y-1/2 z-10 bg-white/80 rounded-full shadow-md hover:bg-white hidden md:flex"
+            onClick={() => scrollContainer('left')}
+          >
+            <ChevronLeft className="h-5 w-5" />
+          </Button>
+
+          <div 
+            ref={scrollContainerRef} 
+            className="grid grid-cols-1 md:grid-cols-3 gap-5 overflow-x-auto md:overflow-hidden flex-nowrap md:flex-wrap whitespace-nowrap md:whitespace-normal scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0"
+          >
+            {lesserKnownPlaces.map((place) => (
+              <Card 
+                key={place.id} 
+                className="overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-lg hover:scale-[1.02] h-full flex flex-col inline-block md:inline whitespace-normal"
+                onClick={() => handlePlaceClick(place.id)}
+              >
+                <div className="aspect-video relative overflow-hidden">
+                  <img 
+                    src={place.image} 
+                    alt={place.name}
+                    loading="lazy"
+                    className="w-full h-full object-cover transition-transform hover:scale-105 duration-300"
+                  />
+                  <Badge 
+                    variant="secondary" 
+                    className="absolute top-3 right-3 bg-primary/20 text-primary border-primary/10"
+                  >
+                    Hidden Gem
+                  </Badge>
                 </div>
-                <p className="text-sm text-muted-foreground flex-grow">{place.description}</p>
-              </CardContent>
-            </Card>
-          ))}
+                <CardContent className="p-4 flex-grow flex flex-col">
+                  <h3 className="font-bold text-lg mb-2">{place.name}</h3>
+                  <div className="flex items-center text-muted-foreground mb-3">
+                    <MapPin className="h-4 w-4 mr-1" />
+                    <span className="text-sm">{place.location}</span>
+                  </div>
+                  <p className="text-sm text-muted-foreground flex-grow">{place.description}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          <Button 
+            variant="outline" 
+            size="icon" 
+            className="absolute -right-4 top-1/2 transform -translate-y-1/2 z-10 bg-white/80 rounded-full shadow-md hover:bg-white hidden md:flex"
+            onClick={() => scrollContainer('right')}
+          >
+            <ChevronRight className="h-5 w-5" />
+          </Button>
         </div>
       </div>
     </section>
