@@ -6,7 +6,7 @@ import { rajasthanMonuments } from './rajasthan';
 import { southIndiaMonuments } from './south';
 import { otherMonuments } from './other';
 
-export { Monument } from './types';
+export type { Monument } from './types';
 
 export const indianMonuments: Monument[] = [
   ...northIndiaMonuments,
