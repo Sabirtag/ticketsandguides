@@ -17,9 +17,7 @@ const HeroSection = () => {
   const [isFixed, setIsFixed] = useState(false);
   const [isAttached, setIsAttached] = useState(false);
   const searchFormRef = useRef<HTMLDivElement>(null);
-  const navbarHeight = 64; // Height of navbar in pixels
   
-  // Static majestic fort image from Unsplash
   const backgroundImage = "https://images.unsplash.com/photo-1585135497273-1a86b09fe70e?ixlib=rb-4.0.3&auto=format&fit=crop&q=80";
   
   const [guidePreferences, setGuidePreferences] = useState<GuidePreferences>({
@@ -60,10 +58,10 @@ const HeroSection = () => {
       
       <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-4">
         <div className={`mb-8 transition-all duration-300 ${isFixed ? 'opacity-0 -translate-y-20' : 'opacity-100'}`}>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-fitzgerald font-bold text-white mb-2 sm:mb-3 animate-shimmer">
-            Discover <span className="inline-block">Heritage</span> With Us
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-fitzgerald tracking-wide text-white mb-2 sm:mb-3 bg-clip-text">
+            Discover Heritage With Us
           </h1>
-          <p className="text-base sm:text-lg md:text-xl text-white/90 max-w-2xl">
+          <p className="text-base sm:text-lg md:text-xl text-white/90 max-w-2xl font-fitzgerald">
             Connecting People to Diverse Attractions and Cultural Wonders
           </p>
         </div>
@@ -78,23 +76,19 @@ const HeroSection = () => {
               : 'relative'
           }`}
         >
-          <div className={`bg-white rounded-lg p-3 sm:p-4 md:p-6 shadow-lg border border-gray-200 ${
-            isFixed ? 'animate-fade-in' : ''
-          }`}>
-            <SearchForm 
-              date={date}
-              setDate={setDate}
-              showVisitors={showVisitors}
-              setShowVisitors={setShowVisitors}
-              showGuideOptions={showGuideOptions}
-              setShowGuideOptions={setShowGuideOptions}
-              visitors={visitors}
-              setVisitors={setVisitors}
-              guideChoice={guideChoice}
-              setGuideChoice={setGuideChoice}
-              setShowGuidePreferences={setShowGuidePreferences}
-            />
-          </div>
+          <SearchForm 
+            date={date}
+            setDate={setDate}
+            showVisitors={showVisitors}
+            setShowVisitors={setShowVisitors}
+            showGuideOptions={showGuideOptions}
+            setShowGuideOptions={setShowGuideOptions}
+            visitors={visitors}
+            setVisitors={setVisitors}
+            guideChoice={guideChoice}
+            setGuideChoice={setGuideChoice}
+            setShowGuidePreferences={setShowGuidePreferences}
+          />
         </div>
       </div>
 

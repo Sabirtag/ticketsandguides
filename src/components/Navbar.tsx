@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -55,14 +54,11 @@ const Navbar = () => {
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center">
             <Link to="/" className="flex items-center">
-              <div className="relative overflow-hidden">
-                <div className="absolute w-16 h-16 rounded-full bg-white -left-2 -top-2"></div>
-                <img 
-                  src="/lovable-uploads/eddf3f47-f36a-4088-883d-513d144fff3a.png" 
-                  alt="TAG - Tickets and Guides" 
-                  className="h-12 relative z-10"
-                />
-              </div>
+              <img 
+                src="/lovable-uploads/78423913-30f6-412f-abc1-8063a3b6b1ce.png" 
+                alt="TAG - Tickets and Guides" 
+                className="h-12 w-auto"
+              />
             </Link>
           </div>
           
@@ -112,10 +108,10 @@ const Navbar = () => {
               </DropdownMenu>
             ) : (
               <div className="ml-4 flex items-center space-x-2">
-                <Button variant="outline" asChild className="bg-white text-[rgba(100,73,37,255)] border-[rgba(100,73,37,255)] hover:bg-[rgba(100,73,37,0.1)] transition-transform hover:scale-95 active:scale-90">
+                <Button variant="outline" asChild className="bg-white text-[#006d5b] border-[#006d5b] hover:bg-[#006d5b]/10 transition-transform hover:scale-95 active:scale-90">
                   <Link to="/auth">Login</Link>
                 </Button>
-                <Button asChild className="transition-transform hover:scale-95 active:scale-90">
+                <Button asChild className="bg-[#006d5b] hover:bg-[#006d5b]/90 transition-transform hover:scale-95 active:scale-90">
                   <Link to="/auth?tab=register">Register</Link>
                 </Button>
               </div>
@@ -186,7 +182,7 @@ const Navbar = () => {
               </>
             ) : (
               <div className="pt-2 flex flex-col space-y-2">
-                <Button variant="outline" asChild onClick={toggleMenu} className="bg-white text-[rgba(100,73,37,255)] border-[rgba(100,73,37,255)] hover:bg-[rgba(100,73,37,0.1)] transition-transform hover:scale-95">
+                <Button variant="outline" asChild onClick={toggleMenu} className="bg-white text-[#006d5b] border-[#006d5b] hover:bg-[#006d5b]/10 transition-transform hover:scale-95">
                   <Link to="/auth">Login</Link>
                 </Button>
                 <Button asChild onClick={toggleMenu} className="transition-transform hover:scale-95">
