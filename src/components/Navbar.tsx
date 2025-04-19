@@ -58,7 +58,7 @@ const Navbar = () => {
               <div className="relative overflow-hidden">
                 <div className="absolute w-16 h-16 rounded-full bg-white -left-2 -top-2"></div>
                 <img 
-                  src="/lovable-uploads/fbba1d88-ae67-4a77-8edb-6f01992dd434.png" 
+                  src="/lovable-uploads/eddf3f47-f36a-4088-883d-513d144fff3a.png" 
                   alt="TAG - Tickets and Guides" 
                   className="h-12 relative z-10"
                 />
@@ -71,7 +71,7 @@ const Navbar = () => {
             <Link 
               to="/" 
               className={`${isScrolled ? 'text-foreground' : isHomePage ? 'text-white' : 'text-foreground'} 
-                         hover:text-primary btn-push
+                         hover:text-primary transition-transform hover:scale-95 active:scale-90 
                          ${location.pathname === '/' ? 'font-medium text-primary' : ''}`}
             >
               Home
@@ -79,7 +79,7 @@ const Navbar = () => {
             <Link 
               to="/guides" 
               className={`${isScrolled ? 'text-foreground' : isHomePage ? 'text-white' : 'text-foreground'} 
-                         hover:text-primary btn-push
+                         hover:text-primary transition-transform hover:scale-95 active:scale-90 
                          ${location.pathname === '/guides' ? 'font-medium text-primary' : ''}`}
             >
               Guides
@@ -112,10 +112,10 @@ const Navbar = () => {
               </DropdownMenu>
             ) : (
               <div className="ml-4 flex items-center space-x-2">
-                <Button variant="outline" asChild className="bg-white text-primary border-primary hover:bg-primary/10 btn-push">
+                <Button variant="outline" asChild className="bg-white text-[rgba(100,73,37,255)] border-[rgba(100,73,37,255)] hover:bg-[rgba(100,73,37,0.1)] transition-transform hover:scale-95 active:scale-90">
                   <Link to="/auth">Login</Link>
                 </Button>
-                <Button asChild className="btn-push">
+                <Button asChild className="transition-transform hover:scale-95 active:scale-90">
                   <Link to="/auth?tab=register">Register</Link>
                 </Button>
               </div>
@@ -123,7 +123,7 @@ const Navbar = () => {
           </nav>
           
           {/* Mobile Menu Button */}
-          <button className={`md:hidden ${isScrolled ? 'text-primary' : isHomePage ? 'text-white' : 'text-primary'}`} onClick={toggleMenu}>
+          <button className={`md:hidden ${isScrolled ? 'text-[rgba(100,73,37,255)]' : isHomePage ? 'text-white' : 'text-[rgba(100,73,37,255)]'}`} onClick={toggleMenu}>
             {isMenuOpen ? <X /> : <Menu />}
           </button>
         </div>
@@ -135,14 +135,14 @@ const Navbar = () => {
           <div className="container mx-auto px-4 py-4 flex flex-col space-y-4">
             <Link 
               to="/" 
-              className={`text-foreground hover:text-primary btn-push py-2 ${location.pathname === '/' ? 'font-medium text-primary' : ''}`}
+              className={`text-foreground hover:text-primary transition-transform hover:scale-95 py-2 ${location.pathname === '/' ? 'font-medium text-primary' : ''}`}
               onClick={toggleMenu}
             >
               Home
             </Link>
             <Link 
               to="/guides" 
-              className={`text-foreground hover:text-primary btn-push py-2 ${location.pathname === '/guides' ? 'font-medium text-primary' : ''}`}
+              className={`text-foreground hover:text-primary transition-transform hover:scale-95 py-2 ${location.pathname === '/guides' ? 'font-medium text-primary' : ''}`}
               onClick={toggleMenu}
             >
               Guides
@@ -161,21 +161,21 @@ const Navbar = () => {
                 </div>
                 <Link 
                   to="/profile" 
-                  className="text-foreground hover:text-primary btn-push py-2 pl-2"
+                  className="text-foreground hover:text-primary transition-transform hover:scale-95 py-2 pl-2"
                   onClick={toggleMenu}
                 >
                   Profile
                 </Link>
                 <Link 
                   to="/bookings" 
-                  className="text-foreground hover:text-primary btn-push py-2 pl-2"
+                  className="text-foreground hover:text-primary transition-transform hover:scale-95 py-2 pl-2"
                   onClick={toggleMenu}
                 >
                   My Bookings
                 </Link>
                 <Button 
                   variant="outline" 
-                  className="w-full mt-2 btn-push" 
+                  className="w-full mt-2 transition-transform hover:scale-95" 
                   onClick={() => {
                     signOut();
                     toggleMenu();
@@ -186,10 +186,10 @@ const Navbar = () => {
               </>
             ) : (
               <div className="pt-2 flex flex-col space-y-2">
-                <Button variant="outline" asChild onClick={toggleMenu} className="bg-white text-primary border-primary hover:bg-primary/10 btn-push">
+                <Button variant="outline" asChild onClick={toggleMenu} className="bg-white text-[rgba(100,73,37,255)] border-[rgba(100,73,37,255)] hover:bg-[rgba(100,73,37,0.1)] transition-transform hover:scale-95">
                   <Link to="/auth">Login</Link>
                 </Button>
-                <Button asChild onClick={toggleMenu} className="btn-push">
+                <Button asChild onClick={toggleMenu} className="transition-transform hover:scale-95">
                   <Link to="/auth?tab=register">Register</Link>
                 </Button>
               </div>

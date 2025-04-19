@@ -24,7 +24,7 @@ const CityCard: React.FC<CityDisplayProps> = ({ city, onCityClick }) => {
           loading="lazy"
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-primary/70 to-transparent flex flex-col justify-end p-4">
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-4">
           <h3 className="text-white font-bold text-xl">{city.name}</h3>
           <div className="flex items-center text-white/90 mt-1">
             <MapPin className="h-4 w-4 mr-1" />

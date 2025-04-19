@@ -3,6 +3,8 @@ import React, { useMemo, useRef } from "react";
 import { Destination } from "./types";
 import DestinationCard from "./DestinationCard";
 import { calculateDistance } from "./utils";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 // Update to accept SimpleLocation type
 interface DestinationsListProps {
@@ -53,6 +55,14 @@ const DestinationsList: React.FC<DestinationsListProps> = ({
   // Only show the first 4 destinations
   const visibleDestinations = destinationsWithDistance.slice(0, 4);
 
+  const scrollContainer = (direction: 'left' | 'right') => {
+    const container = scrollContainerRef.current;
+    if (container) {
+      const scrollAmount = direction === 'right' ? 300 : -300;
+      container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    }
+  };
+
   return (
     <div className="relative">
       {/* Mobile scroll view */}
@@ -75,6 +85,26 @@ const DestinationsList: React.FC<DestinationsListProps> = ({
             <DestinationCard destination={destination} />
           </div>
         ))}
+      </div>
+      
+      {/* Desktop navigation buttons */}
+      <div className="hidden md:block">
+        <Button 
+          variant="outline" 
+          size="icon" 
+          className="absolute top-1/2 -left-5 transform -translate-y-1/2 bg-white/80 rounded-full shadow-md hover:bg-white z-10"
+          onClick={() => scrollContainer('left')}
+        >
+          <ChevronLeft className="h-5 w-5" />
+        </Button>
+        <Button 
+          variant="outline" 
+          size="icon" 
+          className="absolute top-1/2 -right-5 transform -translate-y-1/2 bg-white/80 rounded-full shadow-md hover:bg-white z-10"
+          onClick={() => scrollContainer('right')}
+        >
+          <ChevronRight className="h-5 w-5" />
+        </Button>
       </div>
     </div>
   );

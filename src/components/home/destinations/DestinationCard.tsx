@@ -2,7 +2,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Destination } from "./types";
-import { MapPin } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import ImageGallery from "@/components/common/ImageGallery";
 import { destinationGalleryImages } from "./destinationImages";
 
@@ -15,7 +15,7 @@ const DestinationCard: React.FC<DestinationCardProps> = ({ destination }) => {
 
   return (
     <Link to={`/destination/${destination.id}`} className="block group">
-      <div className="relative rounded-xl overflow-hidden cursor-pointer shadow-sm hover:shadow-md transition-all duration-300 hover:scale-105 h-full">
+      <div className="relative rounded-xl overflow-hidden cursor-pointer hover:shadow-md transition-all h-full">
         <div className="relative overflow-hidden aspect-[3/4]">
           <ImageGallery 
             images={images} 
@@ -23,7 +23,7 @@ const DestinationCard: React.FC<DestinationCardProps> = ({ destination }) => {
             aspectRatio="portrait"
           />
           
-          <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-primary/80 via-primary/50 to-transparent pt-12 pb-4 px-4">
+          <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent pt-12 pb-4 px-4">
             <h3 className="text-xl md:text-2xl font-bold text-white">{destination.name}</h3>
             
             {destination.distance !== undefined && (

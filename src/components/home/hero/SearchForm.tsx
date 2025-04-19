@@ -72,7 +72,7 @@ const SearchForm = (props: SearchFormProps) => {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           onFocus={() => setShowSuggestions(true)}
-          className="w-full bg-white text-gray-900 placeholder:text-gray-500 h-9 sm:h-10 border-2 border-gray-200 focus:border-primary rounded-md search-input"
+          className="w-full bg-white text-gray-900 placeholder:text-gray-500 h-9 sm:h-10 border-2 border-gray-200 focus:border-[rgba(100,73,37,255)] rounded-md"
         />
         {showSuggestions && (
           <MonumentSuggestions 
@@ -109,7 +109,7 @@ const SearchForm = (props: SearchFormProps) => {
         <label className="block text-gray-700 text-xs sm:text-sm mb-1 opacity-0">Book</label>
         <Button 
           type="submit" 
-          className="w-full h-9 sm:h-10 bg-primary hover:bg-primary/90 text-white btn-push"
+          className="w-full h-9 sm:h-10 bg-[rgba(100,73,37,255)] hover:bg-[rgba(100,73,37,0.9)] text-white transition-transform hover:scale-95 active:scale-90"
         >
           Book
         </Button>

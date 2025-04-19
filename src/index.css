@@ -15,35 +15,14 @@
 
 /* Button push effect */
 .btn-push {
-  transition: transform 0.2s ease, background-color 0.2s ease;
-  position: relative;
+  transition: transform 0.2s ease;
 }
 
 .btn-push:hover {
-  transform: scale(0.96);
+  transform: scale(0.95);
 }
 
 .btn-push:active {
-  transform: scale(0.92);
+  transform: scale(0.9);
 }
 
-/* Search bar aesthetic border */
-.search-input {
-  border: 1px solid #e2e8f0;
-  transition: all 0.2s ease;
-}
-
-.search-input:focus {
-  border-color: hsl(var(--primary));
-  box-shadow: 0 0 0 1px hsla(var(--primary), 0.2);
-}
-
-/* Enhanced card transitions */
-.destination-card {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.destination-card:hover {
-  transform: translateY(-4px) scale(1.01);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-}
