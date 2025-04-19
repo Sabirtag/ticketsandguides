@@ -32,7 +32,7 @@ const ExperienceCard = ({ experience, onClick }: ExperienceCardProps) => {
         </div>
       </div>
       
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent flex flex-col justify-end p-3 md:p-4">
+      <div className="absolute inset-0 bg-gradient-to-t from-primary/80 via-primary/30 to-transparent flex flex-col justify-end p-3 md:p-4">
         <h3 className="text-lg font-bold text-white mb-1">{experience.title}</h3>
         <p className="text-white/80 text-sm mb-1">{experience.location}</p>
         <p className="text-white/90 text-sm">{experience.duration}</p>
