@@ -10,8 +10,7 @@
 
 .card-hover:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-  border: 2px solid #FF1493;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
 /* Button push effect */
@@ -26,3 +25,4 @@
 .btn-push:active {
   transform: scale(0.9);
 }
+

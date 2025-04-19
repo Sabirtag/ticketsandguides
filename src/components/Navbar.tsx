@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -32,6 +33,7 @@ const Navbar = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  // Function to get user initials for avatar fallback
   const getUserInitials = () => {
     if (profile?.full_name) {
       return profile.full_name
@@ -44,17 +46,19 @@ const Navbar = () => {
     return user?.email?.substring(0, 2).toUpperCase() || "U";
   };
 
+  // Check if we're on the homepage
   const isHomePage = location.pathname === '/';
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 ${isScrolled ? 'bg-[#006466]' : isHomePage ? 'bg-transparent' : 'bg-[#006466]'}`}>
+    <header className={`fixed top-0 left-0 right-0 z-50 ${isScrolled ? 'bg-white shadow-md' : isHomePage ? 'bg-transparent' : 'bg-white border-b'}`}>
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center">
             <Link to="/" className="flex items-center">
               <div className="relative overflow-hidden">
+                <div className="absolute w-16 h-16 rounded-full bg-white -left-2 -top-2"></div>
                 <img 
-                  src="/lovable-uploads/c8e7a711-9d73-42cf-b49d-1ed31a2ba7da.png" 
+                  src="/lovable-uploads/eddf3f47-f36a-4088-883d-513d144fff3a.png" 
                   alt="TAG - Tickets and Guides" 
                   className="h-12 relative z-10"
                 />
@@ -62,20 +66,21 @@ const Navbar = () => {
             </Link>
           </div>
           
+          {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-6">
             <Link 
               to="/" 
-              className={`${isScrolled ? 'text-[#FFD700]' : isHomePage ? 'text-[#FFD700]' : 'text-[#FFD700]'} 
-                         hover:text-[#FF1493] transition-transform hover:scale-95 active:scale-90 
-                         ${location.pathname === '/' ? 'font-medium text-[#FF1493]' : ''}`}
+              className={`${isScrolled ? 'text-foreground' : isHomePage ? 'text-white' : 'text-foreground'} 
+                         hover:text-primary transition-transform hover:scale-95 active:scale-90 
+                         ${location.pathname === '/' ? 'font-medium text-primary' : ''}`}
             >
               Home
             </Link>
             <Link 
               to="/guides" 
-              className={`${isScrolled ? 'text-[#FFD700]' : isHomePage ? 'text-[#FFD700]' : 'text-[#FFD700]'} 
-                         hover:text-[#FF1493] transition-transform hover:scale-95 active:scale-90 
-                         ${location.pathname === '/guides' ? 'font-medium text-[#FF1493]' : ''}`}
+              className={`${isScrolled ? 'text-foreground' : isHomePage ? 'text-white' : 'text-foreground'} 
+                         hover:text-primary transition-transform hover:scale-95 active:scale-90 
+                         ${location.pathname === '/guides' ? 'font-medium text-primary' : ''}`}
             >
               Guides
             </Link>
@@ -83,10 +88,10 @@ const Navbar = () => {
             {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="relative h-10 w-10 rounded-full">
+                  <Button variant="ghost" className={`relative h-10 w-10 rounded-full ${isScrolled ? '' : isHomePage ? 'text-white' : ''}`}>
                     <Avatar>
                       <AvatarImage src={profile?.avatar_url} />
-                      <AvatarFallback className="bg-[#FFD700] text-black">{getUserInitials()}</AvatarFallback>
+                      <AvatarFallback className="text-black">{getUserInitials()}</AvatarFallback>
                     </Avatar>
                   </Button>
                 </DropdownMenuTrigger>
@@ -117,12 +122,14 @@ const Navbar = () => {
             )}
           </nav>
           
+          {/* Mobile Menu Button */}
           <button className={`md:hidden ${isScrolled ? 'text-[rgba(100,73,37,255)]' : isHomePage ? 'text-white' : 'text-[rgba(100,73,37,255)]'}`} onClick={toggleMenu}>
             {isMenuOpen ? <X /> : <Menu />}
           </button>
         </div>
       </div>
       
+      {/* Mobile Navigation */}
       {isMenuOpen && (
         <div className="md:hidden bg-white border-t">
           <div className="container mx-auto px-4 py-4 flex flex-col space-y-4">

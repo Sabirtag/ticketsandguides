@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from "react";
 import SearchForm from "./hero/SearchForm";
 import GuidePreferencesDialog from "./hero/GuidePreferencesDialog";
@@ -54,15 +55,15 @@ const HeroSection = () => {
           alt="Indian architectural detail" 
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-[#006466]/70"></div>
+        <div className="absolute inset-0 bg-black/30"></div>
       </div>
       
       <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-4">
         <div className={`mb-8 transition-all duration-300 ${isFixed ? 'opacity-0 -translate-y-20' : 'opacity-100'}`}>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-fitzgerald font-bold text-[#FFD700] mb-2 sm:mb-3 animate-shimmer">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-fitzgerald font-bold text-white mb-2 sm:mb-3 animate-shimmer">
             Discover <span className="inline-block">Heritage</span> With Us
           </h1>
-          <p className="text-base sm:text-lg md:text-xl text-[#FFD700] font-fitzgerald max-w-2xl">
+          <p className="text-base sm:text-lg md:text-xl text-white/90 max-w-2xl">
             Connecting People to Diverse Attractions and Cultural Wonders
           </p>
         </div>
