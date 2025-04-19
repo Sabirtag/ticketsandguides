@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -34,14 +33,14 @@ const GuideSelector = ({
 
   return (
     <div>
-      <label className="block text-white text-xs sm:text-sm mb-1">With</label>
+      <label className="inline-block bg-white/90 px-2 py-0.5 rounded text-xs sm:text-sm mb-1">With</label>
       <Popover open={showGuideOptions} onOpenChange={setShowGuideOptions}>
         <PopoverTrigger asChild>
           <Button
             variant="outline"
-            className="w-full justify-start text-left font-normal bg-white/90 text-gray-900 border-0 h-9 sm:h-10 text-xs sm:text-sm"
+            className="w-full justify-start text-left font-normal bg-white/90 text-gray-900 border-2 border-[#006d5b] h-9 sm:h-10 text-xs sm:text-sm"
           >
-            <Sparkles className="mr-2 h-3 w-3 sm:h-4 sm:w-4 text-[rgba(100,73,37,255)] flex-shrink-0" />
+            <Sparkles className="mr-2 h-3 w-3 sm:h-4 sm:w-4 text-[#006d5b] flex-shrink-0" />
             <span className="truncate">
               {guideChoice === "choose_for_me" ? "Guide chosen for you"
                 : guideChoice === "choose_own" ? "Choose own guide"
@@ -52,27 +51,18 @@ const GuideSelector = ({
         </PopoverTrigger>
         <PopoverContent className="w-auto sm:w-80">
           <div className="space-y-2 p-2">
-            <Button 
-              variant="ghost" 
-              className="w-full justify-start text-xs sm:text-sm hover:bg-[rgba(100,73,37,0.1)] hover:text-[rgba(100,73,37,255)] text-foreground"
-              onClick={() => handleGuideSelection("choose_for_me")}
-            >
-              Choose a guide for me
-            </Button>
-            <Button 
-              variant="ghost" 
-              className="w-full justify-start text-xs sm:text-sm hover:bg-[rgba(100,73,37,0.1)] hover:text-[rgba(100,73,37,255)] text-foreground"
-              onClick={() => handleGuideSelection("choose_own")}
-            >
-              I'll choose my own guide
-            </Button>
-            <Button 
-              variant="ghost" 
-              className="w-full justify-start text-xs sm:text-sm hover:bg-[rgba(100,73,37,0.1)] hover:text-[rgba(100,73,37,255)] text-foreground"
-              onClick={() => handleGuideSelection("no_guide")}
-            >
-              Don't want a guide
-            </Button>
+            {["choose_for_me", "choose_own", "no_guide"].map((choice) => (
+              <Button 
+                key={choice}
+                variant="ghost" 
+                className="w-full justify-start text-xs sm:text-sm hover:bg-[#006d5b]/10 hover:text-[#006d5b] text-foreground"
+                onClick={() => handleGuideSelection(choice)}
+              >
+                {choice === "choose_for_me" ? "Choose a guide for me"
+                  : choice === "choose_own" ? "I'll choose my own guide"
+                  : "Don't want a guide"}
+              </Button>
+            ))}
           </div>
         </PopoverContent>
       </Popover>

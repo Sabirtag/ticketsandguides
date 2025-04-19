@@ -2,7 +2,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Destination } from "./types";
-import { ChevronRight } from "lucide-react";
 import ImageGallery from "@/components/common/ImageGallery";
 import { destinationGalleryImages } from "./destinationImages";
 

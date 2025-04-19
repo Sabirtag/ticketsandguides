@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -8,7 +7,6 @@ import DateSelector from "./DateSelector";
 import VisitorSelector from "./VisitorSelector";
 import GuideSelector from "./GuideSelector";
 import MobileSearchForm from "./MobileSearchForm";
-import { useIsMobile } from "@/hooks/use-mobile";
 import MonumentSuggestions from "@/components/MonumentSuggestions";
 import { Monument } from "@/data/monuments";
 
@@ -46,7 +44,6 @@ const SearchForm = (props: SearchFormProps) => {
     } else {
       try {
         await performSearch();
-        // After search is complete, navigate to checkout
         navigate("/checkout");
       } catch (error) {
         console.error("Search error:", error);
@@ -66,13 +63,13 @@ const SearchForm = (props: SearchFormProps) => {
   return (
     <form onSubmit={handleBook} className="flex flex-col space-y-3 sm:space-y-0 sm:grid sm:grid-cols-2 md:grid-cols-5 sm:gap-3">
       <div className="md:col-span-1 relative">
-        <label className="block text-gray-700 text-xs sm:text-sm mb-1">Where</label>
+        <label className="inline-block text-xs sm:text-sm mb-1 bg-white/90 px-2 py-0.5 rounded">Where</label>
         <Input
           placeholder="Search for Monuments"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           onFocus={() => setShowSuggestions(true)}
-          className="w-full bg-white text-gray-900 placeholder:text-gray-500 h-9 sm:h-10 border-2 border-[#006d5b] focus:border-[#006d5b] rounded-md"
+          className="w-full bg-white/90 text-gray-900 placeholder:text-gray-500 h-9 sm:h-10 border-2 border-[#006d5b] focus:border-[#006d5b] rounded-md"
         />
         {showSuggestions && (
           <MonumentSuggestions 

@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -77,20 +76,25 @@ const MobileSearchForm = ({
       <form onSubmit={handleSearch} className="space-y-4">
         <div className="flex items-center gap-2 bg-white/90 rounded-md p-2 relative">
           <MapPin className="h-5 w-5 text-gray-500" />
-          <Input
-            placeholder="Search for Monuments"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            onFocus={() => setShowSuggestions(true)}
-            className="border-0 bg-transparent focus-visible:ring-0 px-0 text-sm"
-          />
+          <div className="flex-1">
+            <div className="bg-white/90 px-2 py-0.5 rounded inline-block mb-1">
+              <span className="text-xs text-gray-900">Where</span>
+            </div>
+            <Input
+              placeholder="Search for Monuments"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onFocus={() => setShowSuggestions(true)}
+              className="border-0 bg-transparent focus-visible:ring-0 px-0 text-sm"
+            />
+          </div>
           <Sheet>
             <SheetTrigger asChild>
               <Button
                 type="button"
                 variant="outline"
                 size="icon"
-                className="shrink-0 bg-white text-[rgba(100,73,37,255)] border-[rgba(100,73,37,255)] hover:bg-[rgba(100,73,37,0.1)]"
+                className="shrink-0 bg-white text-[#006d5b] border-[#006d5b] hover:bg-[#006d5b]/10"
               >
                 <Search className="h-4 w-4" />
               </Button>
