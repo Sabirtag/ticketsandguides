@@ -1,8 +1,10 @@
+
 import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useSearch } from "@/contexts/SearchContext";
 import { useNavigate } from "react-router-dom";
+import { useIsMobile } from "@/hooks/use-mobile"; // Add this import
 import DateSelector from "./DateSelector";
 import VisitorSelector from "./VisitorSelector";
 import GuideSelector from "./GuideSelector";
