@@ -1,3 +1,4 @@
+
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from "sonner";
@@ -17,6 +18,7 @@ import { AuthProvider } from "./contexts/AuthContext";
 import { SearchProvider } from "./contexts/SearchContext";
 import Guides from "./pages/Guides";
 import BecomePartner from '@/pages/BecomePartner';
+import AffiliateApproval from '@/components/affiliates/AffiliateApproval';
 
 const App = () => {
   return (
@@ -37,6 +39,7 @@ const App = () => {
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/confirmation" element={<BookingConfirmation />} />
             <Route path="/partner" element={<BecomePartner />} />
+            <Route path="/affiliate-approval" element={<AffiliateApproval />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </SearchProvider>

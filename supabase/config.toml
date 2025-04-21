@@ -1,1 +1,16 @@
+
 project_id = "hymhdfllxtzngzgxedce"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public", "storage", "graphql_public"]
+
+[db]
+port = 54322
+
+[studio]
+port = 54323
+
+[functions.send-affiliate-approval]
+verify_jwt = true

@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -27,13 +28,14 @@ type FormValues = z.infer<typeof formSchema>;
 export const AffiliateApplicationForm = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
+  const { user } = useAuth();
   
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       full_name: '',
       business_name: '',
-      email: '',
+      email: 'sabirborah.borah38@gmail.com', // Pre-filled for demonstration
       social_links: '',
       reason: '',
       preferred_payout_method: 'PayPal',
@@ -46,7 +48,8 @@ export const AffiliateApplicationForm = () => {
         { website: data.social_links } : 
         null;
 
-      const { error } = await supabase
+      // Insert the affiliate application
+      const { data: affiliateData, error } = await supabase
         .from('affiliates')
         .insert({
           full_name: data.full_name,
@@ -55,17 +58,42 @@ export const AffiliateApplicationForm = () => {
           social_links: socialLinksObj,
           reason: data.reason,
           preferred_payout_method: data.preferred_payout_method,
-        });
+          user_id: user?.id // Link to the authenticated user
+        })
+        .select()
+        .single();
 
       if (error) throw error;
 
+      // Call the edge function to send approval email
+      const response = await fetch(
+        'https://hymhdfllxtzngzgxedce.supabase.co/functions/v1/send-affiliate-approval',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${supabase.auth.getSession() ? (await supabase.auth.getSession()).data.session?.access_token : ''}`,
+          },
+          body: JSON.stringify({
+            affiliateId: affiliateData.id,
+            email: data.email,
+            fullName: data.full_name
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to send approval email');
+      }
+
       toast({
         title: "Application Submitted",
-        description: "We'll review your application and get back to you soon!",
+        description: "We'll send an approval email with next steps!",
       });
 
       navigate('/');
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error submitting application:', error);
       toast({
         title: "Error",
