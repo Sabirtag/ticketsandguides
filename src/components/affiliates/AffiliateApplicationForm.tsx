@@ -49,8 +49,12 @@ export const AffiliateApplicationForm = () => {
       const { error } = await supabase
         .from('affiliates')
         .insert({
-          ...data,
+          full_name: data.full_name,
+          business_name: data.business_name,
+          email: data.email,
           social_links: socialLinksObj,
+          reason: data.reason,
+          preferred_payout_method: data.preferred_payout_method,
         });
 
       if (error) throw error;

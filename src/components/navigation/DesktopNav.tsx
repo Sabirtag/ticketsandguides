@@ -1,7 +1,7 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { ModeToggle } from "@/components/ModeToggle"
 
 const DesktopNav = () => {
   return (
@@ -24,7 +24,6 @@ const DesktopNav = () => {
       <Button variant="ghost" asChild>
         <Link to="/partner">Become a Partner</Link>
       </Button>
-      <ModeToggle />
     </nav>
   );
 };

@@ -32,26 +32,22 @@ const Navbar = () => {
             </Link>
           </div>
           
-          <DesktopNav 
-            isScrolled={isScrolled}
-            isHomePage={isHomePage}
-            currentPath={location.pathname}
-          />
+          <DesktopNav />
           
-          <button 
-            className={`md:hidden ${isScrolled ? 'text-[rgba(100,73,37,255)]' : isHomePage ? 'text-white' : 'text-[rgba(100,73,37,255)]'}`} 
-            onClick={toggleMenu}
-          >
-            {isMenuOpen ? <X /> : <Menu />}
-          </button>
+          <div className="lg:hidden">
+            {isMenuOpen ? (
+              <MobileNav />
+            ) : (
+              <button 
+                className={`md:hidden ${isScrolled ? 'text-[rgba(100,73,37,255)]' : isHomePage ? 'text-white' : 'text-[rgba(100,73,37,255)]'}`} 
+                onClick={toggleMenu}
+              >
+                <Menu />
+              </button>
+            )}
+          </div>
         </div>
       </div>
-      
-      <MobileNav 
-        isOpen={isMenuOpen}
-        onClose={() => setIsMenuOpen(false)}
-        currentPath={location.pathname}
-      />
     </header>
   );
 };
