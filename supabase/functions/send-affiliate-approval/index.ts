@@ -1,6 +1,9 @@
 
 import { serve } from "https://deno.land/std@0.177.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
+import { Resend } from "npm:resend@2.0.0";
+
+const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -23,7 +26,7 @@ serve(async (req) => {
     const requestData: ApprovalEmailRequest = await req.json();
     const { affiliateId, email, fullName } = requestData;
 
-    // Create a token for the approval link
+    // Create a unique token for the approval link
     const token = crypto.randomUUID();
     
     // Create a Supabase client
@@ -31,7 +34,7 @@ serve(async (req) => {
     const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") as string;
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
     
-    // Store the token in a temporary table or field
+    // Store the token in admin_notes
     const { error: updateError } = await supabase
       .from('affiliates')
       .update({ 
@@ -50,19 +53,24 @@ serve(async (req) => {
     const baseUrl = Deno.env.get("PUBLIC_SITE_URL") || "http://localhost:5173";
     const approvalLink = `${baseUrl}/affiliate-approval?token=${token}&id=${affiliateId}`;
 
-    // Send email using your preferred email service
-    // For demo purposes, we'll just log the link
-    console.log(`Approval link for ${fullName}: ${approvalLink}`);
-    console.log(`Would send email to: ${email}`);
+    // Send email using Resend
+    const emailResponse = await resend.emails.send({
+      from: "Lovable <onboarding@resend.dev>",
+      to: [email],
+      subject: "Affiliate Application Approval",
+      html: `
+        <h1>Hello ${fullName}!</h1>
+        <p>Thank you for applying to our affiliate program. Please click the link below to approve your application:</p>
+        <p><a href="${approvalLink}">Click here to approve your application</a></p>
+        <p>This link will expire in 24 hours.</p>
+        <p>Best regards,<br>The Team</p>
+      `,
+    });
 
-    // Return a success response
+    console.log("Email sent successfully:", emailResponse);
+
     return new Response(
-      JSON.stringify({
-        success: true,
-        message: "Approval email sent",
-        // For testing only - remove in production
-        approvalLink
-      }),
+      JSON.stringify({ success: true, message: "Approval email sent" }),
       {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
         status: 200,

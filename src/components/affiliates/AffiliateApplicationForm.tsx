@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -35,7 +34,7 @@ export const AffiliateApplicationForm = () => {
     defaultValues: {
       full_name: '',
       business_name: '',
-      email: 'sabirborah.borah38@gmail.com', // Pre-filled for demonstration
+      email: '',
       social_links: '',
       reason: '',
       preferred_payout_method: 'PayPal',
@@ -44,21 +43,27 @@ export const AffiliateApplicationForm = () => {
 
   const onSubmit = async (data: FormValues) => {
     try {
-      const socialLinksObj = data.social_links ? 
-        { website: data.social_links } : 
-        null;
+      if (!user) {
+        toast({
+          title: "Error",
+          description: "You must be logged in to submit an application",
+          variant: "destructive",
+        });
+        return;
+      }
 
       // Insert the affiliate application
       const { data: affiliateData, error } = await supabase
         .from('affiliates')
         .insert({
+          user_id: user.id,
           full_name: data.full_name,
-          business_name: data.business_name,
+          business_name: data.business_name || null,
           email: data.email,
-          social_links: socialLinksObj,
+          social_links: data.social_links ? { website: data.social_links } : null,
           reason: data.reason,
           preferred_payout_method: data.preferred_payout_method,
-          user_id: user?.id // Link to the authenticated user
+          status: 'pending'
         })
         .select()
         .single();
@@ -66,38 +71,30 @@ export const AffiliateApplicationForm = () => {
       if (error) throw error;
 
       // Call the edge function to send approval email
-      const response = await fetch(
-        'https://hymhdfllxtzngzgxedce.supabase.co/functions/v1/send-affiliate-approval',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${supabase.auth.getSession() ? (await supabase.auth.getSession()).data.session?.access_token : ''}`,
-          },
-          body: JSON.stringify({
-            affiliateId: affiliateData.id,
-            email: data.email,
-            fullName: data.full_name
-          }),
+      const response = await supabase.functions.invoke('send-affiliate-approval', {
+        body: {
+          affiliateId: affiliateData.id,
+          email: data.email,
+          fullName: data.full_name
         }
-      );
+      });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to send approval email');
+      if (!response.data) {
+        throw new Error('Failed to send approval email');
       }
 
       toast({
-        title: "Application Submitted",
+        title: "Application Submitted Successfully",
         description: "We'll send an approval email with next steps!",
       });
 
+      // Redirect to home or a thank you page
       navigate('/');
     } catch (error: any) {
       console.error('Error submitting application:', error);
       toast({
         title: "Error",
-        description: "There was a problem submitting your application. Please try again.",
+        description: "Failed to submit application. Please try again.",
         variant: "destructive",
       });
     }

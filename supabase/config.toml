@@ -14,3 +14,4 @@ port = 54323
 
 [functions.send-affiliate-approval]
 verify_jwt = true
+
