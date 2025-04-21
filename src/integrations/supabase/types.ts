@@ -9,6 +9,183 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      affiliate_clicks: {
+        Row: {
+          affiliate_id: string | null
+          clicked_at: string | null
+          id: string
+          ip_address: string | null
+          referrer: string | null
+          user_agent: string | null
+        }
+        Insert: {
+          affiliate_id?: string | null
+          clicked_at?: string | null
+          id?: string
+          ip_address?: string | null
+          referrer?: string | null
+          user_agent?: string | null
+        }
+        Update: {
+          affiliate_id?: string | null
+          clicked_at?: string | null
+          id?: string
+          ip_address?: string | null
+          referrer?: string | null
+          user_agent?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "affiliate_clicks_affiliate_id_fkey"
+            columns: ["affiliate_id"]
+            isOneToOne: false
+            referencedRelation: "affiliates"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      affiliate_payouts: {
+        Row: {
+          affiliate_id: string | null
+          amount: number
+          created_at: string | null
+          id: string
+          notes: string | null
+          paid_at: string | null
+          payment_method: string
+          transaction_id: string | null
+        }
+        Insert: {
+          affiliate_id?: string | null
+          amount: number
+          created_at?: string | null
+          id?: string
+          notes?: string | null
+          paid_at?: string | null
+          payment_method: string
+          transaction_id?: string | null
+        }
+        Update: {
+          affiliate_id?: string | null
+          amount?: number
+          created_at?: string | null
+          id?: string
+          notes?: string | null
+          paid_at?: string | null
+          payment_method?: string
+          transaction_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "affiliate_payouts_affiliate_id_fkey"
+            columns: ["affiliate_id"]
+            isOneToOne: false
+            referencedRelation: "affiliates"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      affiliate_sales: {
+        Row: {
+          affiliate_id: string | null
+          commission_amount: number
+          commission_rate: number
+          created_at: string | null
+          id: string
+          order_amount: number
+          order_id: string
+          sale_date: string | null
+          status: string | null
+          transaction_id: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          affiliate_id?: string | null
+          commission_amount: number
+          commission_rate: number
+          created_at?: string | null
+          id?: string
+          order_amount: number
+          order_id: string
+          sale_date?: string | null
+          status?: string | null
+          transaction_id?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          affiliate_id?: string | null
+          commission_amount?: number
+          commission_rate?: number
+          created_at?: string | null
+          id?: string
+          order_amount?: number
+          order_id?: string
+          sale_date?: string | null
+          status?: string | null
+          transaction_id?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "affiliate_sales_affiliate_id_fkey"
+            columns: ["affiliate_id"]
+            isOneToOne: false
+            referencedRelation: "affiliates"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      affiliates: {
+        Row: {
+          admin_notes: string | null
+          business_name: string | null
+          commission_rate: number | null
+          created_at: string | null
+          email: string
+          full_name: string
+          id: string
+          preferred_payout_method: string | null
+          reason: string | null
+          referral_code: string | null
+          social_links: Json | null
+          status: string | null
+          updated_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          admin_notes?: string | null
+          business_name?: string | null
+          commission_rate?: number | null
+          created_at?: string | null
+          email: string
+          full_name: string
+          id?: string
+          preferred_payout_method?: string | null
+          reason?: string | null
+          referral_code?: string | null
+          social_links?: Json | null
+          status?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          admin_notes?: string | null
+          business_name?: string | null
+          commission_rate?: number | null
+          created_at?: string | null
+          email?: string
+          full_name?: string
+          id?: string
+          preferred_payout_method?: string | null
+          reason?: string | null
+          referral_code?: string | null
+          social_links?: Json | null
+          status?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -41,7 +218,14 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      generate_referral_code: {
+        Args: { full_name: string }
+        Returns: string
+      }
+      is_admin: {
+        Args: Record<PropertyKey, never>
+        Returns: boolean
+      }
     }
     Enums: {
       [_ in never]: never
