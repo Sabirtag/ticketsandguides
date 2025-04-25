@@ -1,12 +1,11 @@
 
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { ChevronRight, MapPin } from "lucide-react";
+import { MapPin, ChevronRight } from "lucide-react";
 import DestinationsList from "./DestinationsList";
 import { popularDestinations } from "./destinationsData";
 import { Link } from "react-router-dom";
 
-// Update to accept SimpleLocation type
 interface PopularDestinationsProps {
   userLocation: {
     latitude: number;
