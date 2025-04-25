@@ -80,7 +80,7 @@ const LesserKnownPlaces = () => {
                   src={place.image} 
                   alt={place.name}
                   loading="lazy"
-                  className="w-full h-full object-cover transition-transform hover:scale-105 duration-300"
+                  className="w-full h-full object-cover"
                 />
                 <Badge 
                   variant="secondary" 
