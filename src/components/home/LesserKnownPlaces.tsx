@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
 import { MapPin, Compass } from "lucide-react";
@@ -6,7 +6,6 @@ import { Badge } from "@/components/ui/badge";
 
 const LesserKnownPlaces = () => {
   const navigate = useNavigate();
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
   
   const lesserKnownPlaces = [
     {
@@ -69,42 +68,37 @@ const LesserKnownPlaces = () => {
           away from the usual tourist crowds.
         </p>
         
-        <div className="relative">
-          <div 
-            ref={scrollContainerRef} 
-            className="grid grid-cols-1 md:grid-cols-3 gap-5 overflow-x-auto md:overflow-hidden flex-nowrap md:flex-wrap whitespace-nowrap md:whitespace-normal scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0"
-          >
-            {lesserKnownPlaces.map((place) => (
-              <Card 
-                key={place.id} 
-                className="overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-lg hover:scale-[1.02] h-full flex flex-col inline-block md:inline whitespace-normal"
-                onClick={() => handlePlaceClick(place.id)}
-              >
-                <div className="aspect-video relative overflow-hidden">
-                  <img 
-                    src={place.image} 
-                    alt={place.name}
-                    loading="lazy"
-                    className="w-full h-full object-cover transition-transform hover:scale-105 duration-300"
-                  />
-                  <Badge 
-                    variant="secondary" 
-                    className="absolute top-3 right-3 bg-primary/20 text-primary border-primary/10"
-                  >
-                    Hidden Gem
-                  </Badge>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {lesserKnownPlaces.map((place) => (
+            <Card 
+              key={place.id} 
+              className="overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-lg hover:scale-[1.02]"
+              onClick={() => handlePlaceClick(place.id)}
+            >
+              <div className="aspect-video relative overflow-hidden">
+                <img 
+                  src={place.image} 
+                  alt={place.name}
+                  loading="lazy"
+                  className="w-full h-full object-cover transition-transform hover:scale-105 duration-300"
+                />
+                <Badge 
+                  variant="secondary" 
+                  className="absolute top-3 right-3 bg-primary/20 text-primary border-primary/10"
+                >
+                  Hidden Gem
+                </Badge>
+              </div>
+              <CardContent className="p-4">
+                <h3 className="font-bold text-lg mb-2">{place.name}</h3>
+                <div className="flex items-center text-muted-foreground mb-3">
+                  <MapPin className="h-4 w-4 mr-1" />
+                  <span className="text-sm">{place.location}</span>
                 </div>
-                <CardContent className="p-4 flex-grow flex flex-col">
-                  <h3 className="font-bold text-lg mb-2">{place.name}</h3>
-                  <div className="flex items-center text-muted-foreground mb-3">
-                    <MapPin className="h-4 w-4 mr-1" />
-                    <span className="text-sm">{place.location}</span>
-                  </div>
-                  <p className="text-sm text-muted-foreground flex-grow">{place.description}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+                <p className="text-sm text-muted-foreground">{place.description}</p>
+              </CardContent>
+            </Card>
+          ))}
         </div>
       </div>
     </section>

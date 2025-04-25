@@ -1,4 +1,5 @@
-import React, { useMemo, useRef } from "react";
+
+import React, { useMemo } from "react";
 import { Destination } from "./types";
 import DestinationCard from "./DestinationCard";
 import { calculateDistance } from "./utils";
@@ -16,8 +17,6 @@ const DestinationsList: React.FC<DestinationsListProps> = ({
   destinations, 
   userLocation 
 }) => {
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-  
   const destinationsWithDistance = useMemo(() => {
     if (!userLocation) return destinations;
 
@@ -49,21 +48,8 @@ const DestinationsList: React.FC<DestinationsListProps> = ({
 
   return (
     <div>
-      {/* Mobile scroll view */}
-      <div 
-        ref={scrollContainerRef}
-        id="destinations-scroll-container"
-        className="flex overflow-x-auto gap-4 pb-4 scrollbar-hide -mx-4 px-4 md:hidden"
-      >
-        {visibleDestinations.map(destination => (
-          <div key={destination.id} className="flex-shrink-0 w-[270px]">
-            <DestinationCard destination={destination} />
-          </div>
-        ))}
-      </div>
-      
-      {/* Desktop grid view */}
-      <div className="hidden md:grid md:grid-cols-4 gap-6">
+      {/* Responsive grid layout */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
         {visibleDestinations.map(destination => (
           <div key={destination.id}>
             <DestinationCard destination={destination} />
