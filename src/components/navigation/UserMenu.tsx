@@ -11,13 +11,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
+import { User } from "lucide-react";
 
-interface UserMenuProps {
-  isScrolled: boolean;
-  isHomePage: boolean;
-}
-
-const UserMenu = ({ isScrolled, isHomePage }: UserMenuProps) => {
+const UserMenu = () => {
   const { user, profile, signOut } = useAuth();
 
   const getUserInitials = () => {
@@ -35,14 +31,16 @@ const UserMenu = ({ isScrolled, isHomePage }: UserMenuProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className={`relative h-10 w-10 rounded-full ${isScrolled ? '' : isHomePage ? 'text-white' : ''}`}>
+        <Button variant="ghost" className="relative h-10 w-10 rounded-full">
           <Avatar>
             <AvatarImage src={profile?.avatar_url} />
-            <AvatarFallback className="text-black">{getUserInitials()}</AvatarFallback>
+            <AvatarFallback>
+              {user ? getUserInitials() : <User className="h-4 w-4" />}
+            </AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
+      <DropdownMenuContent align="end" className="w-56">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
@@ -51,10 +49,22 @@ const UserMenu = ({ isScrolled, isHomePage }: UserMenuProps) => {
         <DropdownMenuItem asChild>
           <Link to="/bookings">My Bookings</Link>
         </DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => signOut()}>
-          Log out
+        <DropdownMenuItem asChild>
+          <Link to="/guides">Guides</Link>
         </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link to="/partner">Become a Partner</Link>
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        {user ? (
+          <DropdownMenuItem onClick={() => signOut()}>
+            Log out
+          </DropdownMenuItem>
+        ) : (
+          <DropdownMenuItem asChild>
+            <Link to="/auth">Sign in</Link>
+          </DropdownMenuItem>
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   );

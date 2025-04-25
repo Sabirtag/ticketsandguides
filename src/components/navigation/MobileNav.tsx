@@ -26,6 +26,16 @@ const MobileNav = () => {
           </Link>
         </SheetClose>
         <SheetClose asChild>
+          <Link to="/profile" className="flex items-center p-2 hover:bg-accent rounded-lg">
+            Profile
+          </Link>
+        </SheetClose>
+        <SheetClose asChild>
+          <Link to="/bookings" className="flex items-center p-2 hover:bg-accent rounded-lg">
+            My Bookings
+          </Link>
+        </SheetClose>
+        <SheetClose asChild>
           <Link to="/guides" className="flex items-center p-2 hover:bg-accent rounded-lg">
             Guides
           </Link>
