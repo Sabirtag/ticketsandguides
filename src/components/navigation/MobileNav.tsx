@@ -26,23 +26,8 @@ const MobileNav = () => {
           </Link>
         </SheetClose>
         <SheetClose asChild>
-          <Link to="/destinations" className="flex items-center p-2 hover:bg-accent rounded-lg">
-            Destinations
-          </Link>
-        </SheetClose>
-        <SheetClose asChild>
           <Link to="/guides" className="flex items-center p-2 hover:bg-accent rounded-lg">
             Guides
-          </Link>
-        </SheetClose>
-        <SheetClose asChild>
-          <Link to="/blog" className="flex items-center p-2 hover:bg-accent rounded-lg">
-            Blog
-          </Link>
-        </SheetClose>
-        <SheetClose asChild>
-          <Link to="/contact" className="flex items-center p-2 hover:bg-accent rounded-lg">
-            Contact
           </Link>
         </SheetClose>
         <SheetClose asChild>

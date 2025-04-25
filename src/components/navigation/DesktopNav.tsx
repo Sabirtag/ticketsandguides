@@ -10,16 +10,7 @@ const DesktopNav = () => {
         <Link to="/">Home</Link>
       </Button>
       <Button variant="ghost" asChild>
-        <Link to="/destinations">Destinations</Link>
-      </Button>
-      <Button variant="ghost" asChild>
         <Link to="/guides">Guides</Link>
-      </Button>
-      <Button variant="ghost" asChild>
-        <Link to="/blog">Blog</Link>
-      </Button>
-      <Button variant="ghost" asChild>
-        <Link to="/contact">Contact</Link>
       </Button>
       <Button variant="ghost" asChild>
         <Link to="/partner">Become a Partner</Link>
