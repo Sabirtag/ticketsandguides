@@ -1,19 +1,11 @@
-
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-
 const GuideRecruitBanner = () => {
   const navigate = useNavigate();
-  
-  return (
-    <section className="relative py-20">
+  return <section className="relative py-20">
       <div className="absolute inset-0 z-0">
-        <img 
-          src="https://images.unsplash.com/photo-1551038247-3d9af20df552?ixlib=rb-4.0.3&auto=format&fit=crop&w=1500&q=80" 
-          alt="Guide recruitment background" 
-          className="w-full h-full object-cover"
-        />
+        <img src="https://images.unsplash.com/photo-1551038247-3d9af20df552?ixlib=rb-4.0.3&auto=format&fit=crop&w=1500&q=80" alt="Guide recruitment background" className="w-full h-full object-cover" />
         <div className="absolute inset-0 bg-black/60"></div>
       </div>
       
@@ -27,15 +19,10 @@ const GuideRecruitBanner = () => {
           community and help others discover the beauty and significance of our historical treasures.
         </p>
         
-        <Button 
-          className="bg-green-600 hover:bg-green-700 text-white px-8 py-6 text-lg h-auto"
-          onClick={() => navigate("/guides")}
-        >
+        <Button onClick={() => navigate("/guides")} className="text-white px-8 py-6 text-lg h-auto bg-[#006d5b]">
           Register Now
         </Button>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default GuideRecruitBanner;
