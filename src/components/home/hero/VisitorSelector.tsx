@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -42,14 +41,25 @@ const VisitorSelector = ({
     return categories;
   };
   
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Backspace' || e.key === 'Delete') {
+      setVisitors([
+        { type: 'Indian', count: 0 },
+        { type: 'SAARC', count: 0 },
+        { type: 'Foreign', count: 0 }
+      ]);
+    }
+  };
+  
   return (
     <div>
       <Popover open={showVisitors} onOpenChange={setShowVisitors}>
         <PopoverTrigger asChild>
           <Button 
             variant="outline" 
+            onKeyDown={handleKeyDown}
             className={cn(
-              "w-full justify-start text-left font-normal bg-white/90 text-gray-900 border-0",
+              "w-full justify-start text-left font-normal bg-white/90 text-gray-900 border-0 transition-none",
               isCompact ? "h-8 px-2 py-1" : "h-9 sm:h-10",
               "text-xs sm:text-sm"
             )}
@@ -64,25 +74,25 @@ const VisitorSelector = ({
             )}
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-auto sm:w-80 p-3 sm:p-4">
+        <PopoverContent className="w-auto sm:w-80 p-3 sm:p-4 bg-[#FDE1D3] border-0">
           <div className="space-y-3 sm:space-y-4">
             {visitors.map(category => (
               <div key={category.type} className="flex items-center justify-between">
-                <span className="text-xs sm:text-sm">{category.type}</span>
+                <span className="text-xs sm:text-sm text-gray-900">{category.type}</span>
                 <div className="flex items-center gap-1 sm:gap-2">
                   <Button 
                     variant="outline" 
                     size="icon" 
-                    className="h-7 w-7 sm:h-8 sm:w-8 bg-white text-[rgba(100,73,37,255)] border-[rgba(100,73,37,255)] hover:bg-[rgba(100,73,37,0.1)]"
+                    className="h-7 w-7 sm:h-8 sm:w-8 bg-white text-[rgba(100,73,37,255)] border-[rgba(100,73,37,255)] transition-none"
                     onClick={() => handleVisitorCountChange(category.type, false)}
                   >
                     <Minus className="h-3 w-3 sm:h-4 sm:w-4" />
                   </Button>
-                  <span className="w-6 sm:w-8 text-center text-xs sm:text-sm">{category.count}</span>
+                  <span className="w-6 sm:w-8 text-center text-xs sm:text-sm text-gray-900">{category.count}</span>
                   <Button 
                     variant="outline" 
                     size="icon" 
-                    className="h-7 w-7 sm:h-8 sm:w-8 bg-white text-[rgba(100,73,37,255)] border-[rgba(100,73,37,255)] hover:bg-[rgba(100,73,37,0.1)]"
+                    className="h-7 w-7 sm:h-8 sm:w-8 bg-white text-[rgba(100,73,37,255)] border-[rgba(100,73,37,255)] transition-none"
                     onClick={() => handleVisitorCountChange(category.type, true)}
                   >
                     <Plus className="h-3 w-3 sm:h-4 sm:w-4" />

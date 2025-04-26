@@ -18,14 +18,21 @@ const DateSelector = ({
   setDate,
   isCompact = false
 }: DateSelectorProps) => {
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Backspace' || e.key === 'Delete') {
+      setDate(undefined);
+    }
+  };
+
   return (
     <div>
       <Popover>
         <PopoverTrigger asChild>
           <Button 
             variant="outline" 
+            onKeyDown={handleKeyDown}
             className={cn(
-              "w-full justify-start text-left font-normal bg-white/90 text-gray-900 border-0 h-9 sm:h-10 text-xs sm:text-sm",
+              "w-full justify-start text-left font-normal bg-white/90 text-gray-900 border-0 h-9 sm:h-10 text-xs sm:text-sm transition-none",
               isCompact ? "px-2 py-1" : "",
               !date && "text-gray-500"
             )}
@@ -38,14 +45,14 @@ const DateSelector = ({
                 : "Add Date & Time"}
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-auto p-0" align="start">
+        <PopoverContent className="w-auto p-0 bg-[#FDE1D3] border-0" align="start">
           <Calendar 
             mode="single" 
             selected={date} 
             onSelect={setDate} 
             initialFocus 
             disabled={date => date < new Date(new Date().setHours(0, 0, 0, 0))} 
-            className="pointer-events-auto" 
+            className="pointer-events-auto text-gray-900" 
           />
         </PopoverContent>
       </Popover>

@@ -63,8 +63,8 @@ const StickySearchForm: React.FC<StickySearchFormProps> = ({ isVisible }) => {
         isVisible ? "translate-y-0 opacity-100" : "-translate-y-16 opacity-0 pointer-events-none"
       )}
     >
-      <div className="container mx-auto px-4 py-2">
-        <form onSubmit={handleBook} className="flex items-center gap-2">
+      <div className="container mx-auto px-4 py-2 flex justify-center">
+        <form onSubmit={handleBook} className="flex items-center gap-2 max-w-4xl w-full">
           <div className="relative flex-grow max-w-xs">
             <div className="flex items-center bg-white border border-gray-200 rounded-md overflow-hidden">
               <MapPin className="h-4 w-4 text-gray-500 ml-2" />
@@ -114,7 +114,7 @@ const StickySearchForm: React.FC<StickySearchFormProps> = ({ isVisible }) => {
           <Button 
             type="submit" 
             size="sm"
-            className="bg-[#006d5b] hover:bg-[#006d5b]/90 text-white"
+            className="bg-[#006d5b] hover:bg-[#006d5b]/90 text-white transition-transform hover:scale-95 active:scale-90"
           >
             <Search className="h-4 w-4" />
           </Button>
