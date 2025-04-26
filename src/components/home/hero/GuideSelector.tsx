@@ -28,7 +28,7 @@ const GuideSelector = ({
     setShowGuideOptions(false);
   };
   return <div>
-      <label className="inline-block bg-white/90 px-2 py-0.5 rounded text-xs sm:text-sm mb-1">With</label>
+      
       <Popover open={showGuideOptions} onOpenChange={setShowGuideOptions}>
         <PopoverTrigger asChild>
           <Button variant="outline" className="w-full justify-start text-left font-normal bg-white/90 text-gray-900 border-2 border-[#006d5b] h-9 sm:h-10 text-xs sm:text-sm">
