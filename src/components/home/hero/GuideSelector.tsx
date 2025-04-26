@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Sparkles } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-
 interface GuideSelectorProps {
   guideChoice: string;
   showGuideOptions: boolean;
@@ -11,16 +10,14 @@ interface GuideSelectorProps {
   setGuideChoice: React.Dispatch<React.SetStateAction<string>>;
   setShowGuidePreferences: React.Dispatch<React.SetStateAction<boolean>>;
 }
-
-const GuideSelector = ({ 
-  guideChoice, 
+const GuideSelector = ({
+  guideChoice,
   showGuideOptions,
   setShowGuideOptions,
   setGuideChoice,
-  setShowGuidePreferences 
+  setShowGuidePreferences
 }: GuideSelectorProps) => {
   const navigate = useNavigate();
-
   const handleGuideSelection = (choice: string) => {
     setGuideChoice(choice);
     if (choice === "choose_for_me") {
@@ -30,44 +27,25 @@ const GuideSelector = ({
     }
     setShowGuideOptions(false);
   };
-
-  return (
-    <div>
+  return <div>
       <label className="inline-block bg-white/90 px-2 py-0.5 rounded text-xs sm:text-sm mb-1">With</label>
       <Popover open={showGuideOptions} onOpenChange={setShowGuideOptions}>
         <PopoverTrigger asChild>
-          <Button
-            variant="outline"
-            className="w-full justify-start text-left font-normal bg-white/90 text-gray-900 border-2 border-[#006d5b] h-9 sm:h-10 text-xs sm:text-sm"
-          >
+          <Button variant="outline" className="w-full justify-start text-left font-normal bg-white/90 text-gray-900 border-2 border-[#006d5b] h-9 sm:h-10 text-xs sm:text-sm">
             <Sparkles className="mr-2 h-3 w-3 sm:h-4 sm:w-4 text-[#006d5b] flex-shrink-0" />
             <span className="truncate">
-              {guideChoice === "choose_for_me" ? "Guide chosen for you"
-                : guideChoice === "choose_own" ? "Choose own guide"
-                : guideChoice === "no_guide" ? "No guide"
-                : "Get a Guide?"}
+              {guideChoice === "choose_for_me" ? "Guide chosen for you" : guideChoice === "choose_own" ? "Choose own guide" : guideChoice === "no_guide" ? "No guide" : "Get a Guide?"}
             </span>
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-auto sm:w-80">
           <div className="space-y-2 p-2">
-            {["choose_for_me", "choose_own", "no_guide"].map((choice) => (
-              <Button 
-                key={choice}
-                variant="ghost" 
-                className="w-full justify-start text-xs sm:text-sm hover:bg-[#006d5b]/10 hover:text-[#006d5b] text-foreground"
-                onClick={() => handleGuideSelection(choice)}
-              >
-                {choice === "choose_for_me" ? "Choose a guide for me"
-                  : choice === "choose_own" ? "I'll choose my own guide"
-                  : "Don't want a guide"}
-              </Button>
-            ))}
+            {["choose_for_me", "choose_own", "no_guide"].map(choice => <Button key={choice} variant="ghost" onClick={() => handleGuideSelection(choice)} className="w-full justify-start text-xs bg-[#006d5b] font-normal text-white rounded-sm text-center sm:text-sm">
+                {choice === "choose_for_me" ? "Choose a guide for me" : choice === "choose_own" ? "I'll choose my own guide" : "Don't want a guide"}
+              </Button>)}
           </div>
         </PopoverContent>
       </Popover>
-    </div>
-  );
+    </div>;
 };
-
 export default GuideSelector;
