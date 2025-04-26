@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import SearchForm from "./hero/SearchForm";
 import GuidePreferencesDialog from "./hero/GuidePreferencesDialog";
+import StickySearchForm from "./hero/StickySearchForm";
 import { useSearch } from "@/contexts/SearchContext";
 
 interface GuidePreferences {
@@ -16,7 +17,9 @@ const HeroSection = () => {
   const [showGuidePreferences, setShowGuidePreferences] = useState(false);
   const [isFixed, setIsFixed] = useState(false);
   const [isAttached, setIsAttached] = useState(false);
+  const [showStickySearch, setShowStickySearch] = useState(false);
   const searchFormRef = useRef<HTMLDivElement>(null);
+  const heroSectionRef = useRef<HTMLElement>(null);
   
   const backgroundImage = "https://images.unsplash.com/photo-1585135497273-1a86b09fe70e?ixlib=rb-4.0.3&auto=format&fit=crop&q=80";
   
@@ -28,6 +31,8 @@ const HeroSection = () => {
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
+      const heroHeight = heroSectionRef.current?.offsetHeight || 0;
+      const threshold = heroHeight * 0.5;
       
       if (scrollPosition > 10) {
         setIsFixed(true);
@@ -39,6 +44,13 @@ const HeroSection = () => {
       if (scrollPosition > 300) {
         setIsAttached(true);
       }
+      
+      // Show sticky search bar when scrolled past 1/3 of hero section
+      if (scrollPosition > threshold * 0.33) {
+        setShowStickySearch(true);
+      } else {
+        setShowStickySearch(false);
+      }
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -46,7 +58,7 @@ const HeroSection = () => {
   }, []);
 
   return (
-    <section className="relative h-[600px] sm:h-[700px] overflow-hidden mt-16">
+    <section ref={heroSectionRef} className="relative h-[600px] sm:h-[700px] overflow-hidden mt-16">
       <div className="absolute inset-0 z-0">
         <img 
           src={backgroundImage}
@@ -57,11 +69,11 @@ const HeroSection = () => {
       </div>
       
       <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-4">
-        <div className={`mb-8 transition-all duration-300 ${isFixed ? 'opacity-0 -translate-y-20' : 'opacity-100'}`}>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-fitzgerald tracking-wide text-white mb-2 sm:mb-3 bg-clip-text">
+        <div className={`mb-8 transition-all duration-300 ${isFixed ? 'opacity-0 -translate-y-20' : 'opacity-100 transform-none'}`}>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-fitzgerald tracking-wide text-white mb-2 sm:mb-3 bg-clip-text animate-fade-in">
             Discover Heritage With Us
           </h1>
-          <p className="text-base sm:text-lg md:text-xl text-white/90 max-w-2xl font-fitzgerald">
+          <p className="text-base sm:text-lg md:text-xl text-white/90 max-w-2xl font-fitzgerald animate-fade-in">
             Connecting People to Diverse Attractions and Cultural Wonders
           </p>
         </div>
@@ -71,9 +83,9 @@ const HeroSection = () => {
           className={`w-full max-w-5xl transition-all duration-300 ease-out ${
             isFixed 
               ? isAttached 
-                ? 'fixed top-16 left-1/2 transform -translate-x-1/2 z-40 px-4 sm:px-6 md:px-8 w-full'
-                : 'fixed top-20 left-1/2 transform -translate-x-1/2 z-40 px-4 sm:px-6 md:px-8 w-full'
-              : 'relative'
+                ? 'opacity-0 transform scale-90' 
+                : 'opacity-0 transform scale-95'
+              : 'opacity-100 transform-none animate-fade-in'
           }`}
         >
           <SearchForm 
@@ -92,6 +104,8 @@ const HeroSection = () => {
         </div>
       </div>
 
+      <StickySearchForm isVisible={showStickySearch} />
+      
       <GuidePreferencesDialog 
         showGuidePreferences={showGuidePreferences}
         setShowGuidePreferences={setShowGuidePreferences}
