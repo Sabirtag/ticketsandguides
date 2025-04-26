@@ -32,7 +32,7 @@ const DateSelector = ({
             variant="outline" 
             onKeyDown={handleKeyDown}
             className={cn(
-              "w-full justify-start text-left font-normal bg-white/90 text-gray-900 border-0 h-9 sm:h-10 text-xs sm:text-sm transition-none",
+              "w-full justify-start text-left font-normal bg-white/90 text-gray-900 border-0 h-9 sm:h-10 text-xs sm:text-sm transition-none", // Removed hover transition
               isCompact ? "px-2 py-1" : "",
               !date && "text-gray-500"
             )}

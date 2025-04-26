@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -59,7 +60,7 @@ const VisitorSelector = ({
             variant="outline" 
             onKeyDown={handleKeyDown}
             className={cn(
-              "w-full justify-start text-left font-normal bg-white/90 text-gray-900 border-0 transition-none",
+              "w-full justify-start text-left font-normal bg-white/90 text-gray-900 border-0 transition-none", // Removed hover transition
               isCompact ? "h-8 px-2 py-1" : "h-9 sm:h-10",
               "text-xs sm:text-sm"
             )}
@@ -83,7 +84,7 @@ const VisitorSelector = ({
                   <Button 
                     variant="outline" 
                     size="icon" 
-                    className="h-7 w-7 sm:h-8 sm:w-8 bg-white text-[rgba(100,73,37,255)] border-[rgba(100,73,37,255)] transition-none"
+                    className="h-7 w-7 sm:h-8 sm:w-8 bg-white text-[rgba(100,73,37,255)] border-[rgba(100,73,37,255)] transition-none" // Removed hover transition
                     onClick={() => handleVisitorCountChange(category.type, false)}
                   >
                     <Minus className="h-3 w-3 sm:h-4 sm:w-4" />
@@ -92,7 +93,7 @@ const VisitorSelector = ({
                   <Button 
                     variant="outline" 
                     size="icon" 
-                    className="h-7 w-7 sm:h-8 sm:w-8 bg-white text-[rgba(100,73,37,255)] border-[rgba(100,73,37,255)] transition-none"
+                    className="h-7 w-7 sm:h-8 sm:w-8 bg-white text-[rgba(100,73,37,255)] border-[rgba(100,73,37,255)] transition-none" // Removed hover transition
                     onClick={() => handleVisitorCountChange(category.type, true)}
                   >
                     <Plus className="h-3 w-3 sm:h-4 sm:w-4" />

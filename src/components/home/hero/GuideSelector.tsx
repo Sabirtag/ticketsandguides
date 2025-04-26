@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -48,7 +49,7 @@ const GuideSelector = ({
             variant="outline" 
             onKeyDown={handleKeyDown}
             className={cn(
-              "w-full justify-start text-left font-normal bg-white/90 text-gray-900 border-2 border-[#006d5b] transition-none",
+              "w-full justify-start text-left font-normal bg-white/90 text-gray-900 border-0 transition-none", // Removed hover transition
               isCompact ? "h-8 px-2 py-1" : "h-9 sm:h-10",
               "text-xs sm:text-sm"
             )}
