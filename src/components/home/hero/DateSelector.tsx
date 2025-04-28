@@ -23,7 +23,7 @@ const DateSelector = ({
   return <div>
       <Popover>
         <PopoverTrigger asChild>
-          <Button variant="outline" onKeyDown={handleKeyDown} className="w-full bg-white/90 text-gray-900 placeholder:text-gray-500 h-9 sm:h-10 border-2 border-[#006d5b] focus:border-[#006d5b] pl-9 px-[11px] mx-0 text-base font-normal rounded py-0 text-left">
+          <Button variant="outline" onKeyDown={handleKeyDown} className="w-full bg-white/90 text-gray-900 placeholder:text-gray-500 h-9 sm:h-10 border-2 border-[#006d5b] focus:border-[#006d5b] pl-9 mx-0 py-0 px-0 text-sm font-normal rounded text-left">
             <CalendarIcon className={cn("mr-2 h-3 w-3 sm:h-4 sm:w-4", isCompact && "mr-1 h-3 w-3")} />
             {date ? format(date, isCompact ? "MMM d" : "PPP") : isCompact ? "When" : "Add Date & Time"}
           </Button>
