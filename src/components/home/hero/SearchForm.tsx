@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -67,8 +68,9 @@ const SearchForm = (props: SearchFormProps) => {
   }
   
   return (
-    <form onSubmit={handleBook} className="flex flex-col space-y-3 sm:space-y-0 sm:grid sm:grid-cols-2 md:grid-cols-5 sm:gap-3">
-      <div className="md:col-span-1 relative">
+    <form onSubmit={handleBook} className="flex items-end gap-3">
+      <div className="flex-1 relative">
+        <div className="text-gray-500 text-sm mb-1">Where</div>
         <div className="relative">
           <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 h-4 w-4" />
           <Input 
@@ -76,7 +78,7 @@ const SearchForm = (props: SearchFormProps) => {
             value={searchQuery} 
             onChange={e => setSearchQuery(e.target.value)} 
             onFocus={() => setShowSuggestions(true)}
-            className="w-full bg-white/90 text-gray-900 placeholder:text-gray-500 h-9 sm:h-10 border-2 border-[#006d5b] focus:border-[#006d5b] rounded-md pl-9" 
+            className="w-full bg-white/90 text-gray-900 placeholder:text-gray-500 h-10 border-2 border-[#006d5b] focus:border-[#006d5b] rounded-md pl-9" 
           />
         </div>
         {showSuggestions && (
@@ -84,12 +86,12 @@ const SearchForm = (props: SearchFormProps) => {
         )}
       </div>
       
-      <div className="md:col-span-1">
+      <div className="w-[160px]">
         <div className="text-gray-500 text-sm mb-1">When</div>
         <DateSelector date={props.date} setDate={props.setDate} />
       </div>
       
-      <div className="md:col-span-1">
+      <div className="w-[160px]">
         <div className="text-gray-500 text-sm mb-1">Who</div>
         <VisitorSelector 
           visitors={props.visitors} 
@@ -99,7 +101,7 @@ const SearchForm = (props: SearchFormProps) => {
         />
       </div>
       
-      <div className="md:col-span-1">
+      <div className="w-[160px]">
         <div className="text-gray-500 text-sm mb-1">With</div>
         <GuideSelector 
           guideChoice={props.guideChoice} 
@@ -110,10 +112,10 @@ const SearchForm = (props: SearchFormProps) => {
         />
       </div>
       
-      <div className="md:col-span-1">
+      <div className="w-[120px]">
         <Button 
           type="submit" 
-          className="w-full h-9 sm:h-10 bg-[#006d5b] hover:bg-[#006d5b]/90 text-white transition-transform hover:scale-95 active:scale-90 mx-0 my-0 px-0 py-0 font-medium"
+          className="w-full h-10 bg-[#006d5b] hover:bg-[#006d5b]/90 text-white transition-transform hover:scale-95 active:scale-90"
         >
           Book
         </Button>
