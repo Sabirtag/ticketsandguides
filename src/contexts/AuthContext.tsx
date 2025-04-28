@@ -25,18 +25,25 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     const getSession = async () => {
-      const { data } = await supabase.auth.getSession();
-      setUser(data.session?.user || null);
-      if (data.session?.user) {
-        await fetchProfile(data.session.user.id);
+      try {
+        setLoading(true);
+        const { data } = await supabase.auth.getSession();
+        setUser(data.session?.user || null);
+        if (data.session?.user) {
+          await fetchProfile(data.session.user.id);
+        }
+      } catch (error) {
+        console.error("Error getting session:", error);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
 
     getSession();
 
     const { data: authListener } = supabase.auth.onAuthStateChange(
       async (event, session) => {
+        console.log("Auth state change event:", event);
         setUser(session?.user || null);
         if (session?.user) {
           await fetchProfile(session.user.id);
@@ -53,18 +60,24 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   const fetchProfile = async (userId: string) => {
-    const { data, error } = await supabase
-      .from("profiles")
-      .select("*")
-      .eq("id", userId)
-      .single();
+    try {
+      console.log("Fetching profile for user:", userId);
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("id", userId)
+        .single();
 
-    if (error) {
-      console.error("Error fetching profile:", error);
-      return;
+      if (error) {
+        console.error("Error fetching profile:", error);
+        return;
+      }
+
+      console.log("Profile data:", data);
+      setProfile(data);
+    } catch (error) {
+      console.error("Error in fetchProfile:", error);
     }
-
-    setProfile(data);
   };
 
   const signUp = async (email: string, password: string, fullName: string) => {

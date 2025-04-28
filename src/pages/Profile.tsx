@@ -24,10 +24,14 @@ const Profile = () => {
   const [avatarUrl, setAvatarUrl] = useState('');
   const [uploading, setUploading] = useState(false);
   
+  console.log("Profile page - User:", user);
+  console.log("Profile page - Profile data:", profile);
+  
   useEffect(() => {
     if (profile) {
       setFullName(profile.full_name || '');
       setAvatarUrl(profile.avatar_url || '');
+      setPhone(profile.phone || '');
     }
     
     if (user) {
@@ -37,22 +41,31 @@ const Profile = () => {
   
   const handleUpdateProfile = async () => {
     try {
+      if (!user) {
+        toast.error("You must be logged in to update your profile");
+        return;
+      }
+      
       const updates = {
-        id: user?.id,
+        id: user.id,
         full_name: fullName,
         avatar_url: avatarUrl,
+        phone: phone,
         updated_at: new Date().toISOString() // Convert Date to ISO string format
       };
+      
+      console.log("Updating profile with data:", updates);
       
       const { error } = await supabase
         .from('profiles')
         .update(updates)
-        .eq('id', user?.id);
+        .eq('id', user.id);
         
       if (error) throw error;
       
       toast.success('Profile updated successfully!');
     } catch (error: any) {
+      console.error("Error updating profile:", error);
       toast.error(`Error updating profile: ${error.message}`);
     }
   };
@@ -61,13 +74,19 @@ const Profile = () => {
     try {
       setUploading(true);
       
+      if (!user) {
+        throw new Error('You must be logged in to upload an avatar.');
+      }
+      
       if (!event.target.files || event.target.files.length === 0) {
         throw new Error('You must select an image to upload.');
       }
       
       const file = event.target.files[0];
       const fileExt = file.name.split('.').pop();
-      const filePath = `${user?.id}-${Math.random().toString(36).substring(2)}.${fileExt}`;
+      const filePath = `${user.id}-${Math.random().toString(36).substring(2)}.${fileExt}`;
+      
+      console.log("Uploading avatar to path:", filePath);
       
       const { error: uploadError } = await supabase.storage
         .from('avatars')
@@ -83,18 +102,27 @@ const Profile = () => {
         const { error: updateError } = await supabase
           .from('profiles')
           .update({ avatar_url: data.publicUrl })
-          .eq('id', user?.id);
+          .eq('id', user.id);
           
         if (updateError) throw updateError;
         
         toast.success('Avatar uploaded successfully!');
       }
     } catch (error: any) {
+      console.error("Avatar upload error:", error);
       toast.error(`Error uploading avatar: ${error.message}`);
     } finally {
       setUploading(false);
     }
   };
+  
+  if (loading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+      </div>
+    );
+  }
   
   return (
     <ProtectedRoute>

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
@@ -29,12 +28,10 @@ const MyBookings = () => {
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // This is a mock function that would be replaced with actual Supabase query
   const fetchBookings = async () => {
     setIsLoading(true);
     try {
-      // In a real implementation, we would fetch from Supabase
-      // For now, using mock data
+      console.log("Fetching bookings for user:", user?.id);
       const mockBookings: Booking[] = [
         {
           id: '1',
@@ -74,6 +71,7 @@ const MyBookings = () => {
         }
       ];
       
+      console.log("Mock bookings loaded:", mockBookings.length);
       setBookings(mockBookings);
     } catch (error) {
       console.error('Error fetching bookings:', error);
@@ -83,30 +81,15 @@ const MyBookings = () => {
   };
 
   useEffect(() => {
-    fetchBookings();
+    if (user) {
+      fetchBookings();
+    } else {
+      setIsLoading(false);
+    }
   }, [user]);
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'upcoming':
-        return 'bg-blue-100 text-blue-800';
-      case 'completed':
-        return 'bg-green-100 text-green-800';
-      case 'cancelled':
-        return 'bg-red-100 text-red-800';
-      default:
-        return 'bg-gray-100 text-gray-800';
-    }
-  };
-
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return new Intl.DateTimeFormat('en-US', {
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric'
-    }).format(date);
-  };
+  console.log("MyBookings rendering, loading state:", isLoading);
+  console.log("Number of bookings:", bookings.length);
 
   return (
     <ProtectedRoute>
@@ -125,7 +108,7 @@ const MyBookings = () => {
             <TabsContent value="all" className="space-y-4">
               {isLoading ? (
                 <div className="flex justify-center py-12">
-                  <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+                  <div className="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
                 </div>
               ) : bookings.length > 0 ? (
                 bookings.map((booking) => (
@@ -139,7 +122,7 @@ const MyBookings = () => {
             <TabsContent value="upcoming" className="space-y-4">
               {isLoading ? (
                 <div className="flex justify-center py-12">
-                  <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+                  <div className="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
                 </div>
               ) : bookings.filter(b => b.status === 'upcoming').length > 0 ? (
                 bookings
@@ -155,7 +138,7 @@ const MyBookings = () => {
             <TabsContent value="completed" className="space-y-4">
               {isLoading ? (
                 <div className="flex justify-center py-12">
-                  <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+                  <div className="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
                 </div>
               ) : bookings.filter(b => b.status === 'completed').length > 0 ? (
                 bookings

@@ -2,16 +2,21 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { User } from "lucide-react";
+import { toast } from "sonner";
 
 const UserMenu = () => {
+  const navigate = useNavigate();
   const {
     user,
     profile,
     signOut
   } = useAuth();
+  
+  console.log("UserMenu - User:", user);
+  console.log("UserMenu - Profile:", profile);
   
   const getUserInitials = () => {
     if (profile?.full_name) {
@@ -19,8 +24,18 @@ const UserMenu = () => {
     }
     return user?.email?.substring(0, 2).toUpperCase() || "U";
   };
+
+  const handleMenuItemClick = (path: string) => {
+    if (!user) {
+      toast.error("You need to be logged in to access this page");
+      navigate("/auth");
+      return;
+    }
+    navigate(path);
+  };
   
-  return <DropdownMenu>
+  return (
+    <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-10 w-10 rounded-full">
           <Avatar>
@@ -34,26 +49,39 @@ const UserMenu = () => {
       <DropdownMenuContent align="end" className="w-56">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem asChild>
-          <Link to="/profile">Profile</Link>
-        </DropdownMenuItem>
-        <DropdownMenuItem asChild>
-          <Link to="/bookings">My Bookings</Link>
-        </DropdownMenuItem>
-        <DropdownMenuItem asChild>
-          <Link to="/guides">Guides</Link>
-        </DropdownMenuItem>
-        <DropdownMenuItem asChild>
-          <Link to="/partner">Become a Partner</Link>
-        </DropdownMenuItem>
+        {user ? (
+          <>
+            <DropdownMenuItem onClick={() => handleMenuItemClick("/profile")}>
+              Profile
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => handleMenuItemClick("/bookings")}>
+              My Bookings
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => handleMenuItemClick("/guides")}>
+              Guides
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => handleMenuItemClick("/partner")}>
+              Become a Partner
+            </DropdownMenuItem>
+          </>
+        ) : (
+          <DropdownMenuItem asChild>
+            <Link to="/auth">Sign in to access features</Link>
+          </DropdownMenuItem>
+        )}
         <DropdownMenuSeparator />
-        {user ? <DropdownMenuItem onClick={() => signOut()}>
+        {user ? (
+          <DropdownMenuItem onClick={() => signOut()}>
             Log out
-          </DropdownMenuItem> : <DropdownMenuItem asChild>
+          </DropdownMenuItem>
+        ) : (
+          <DropdownMenuItem asChild>
             <Link to="/auth">Sign in</Link>
-          </DropdownMenuItem>}
+          </DropdownMenuItem>
+        )}
       </DropdownMenuContent>
-    </DropdownMenu>;
+    </DropdownMenu>
+  );
 };
 
 export default UserMenu;

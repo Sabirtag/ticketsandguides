@@ -1,6 +1,6 @@
 
-import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import React, { useEffect } from "react";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { Toaster } from "sonner";
 
 import Index from "./pages/Index";
@@ -22,12 +22,26 @@ import AffiliateApproval from '@/components/affiliates/AffiliateApproval';
 import Profile from "@/pages/Profile";
 import MyBookings from "@/pages/MyBookings";
 
+// Route logger component for debugging
+const RouteLogger = () => {
+  const location = useLocation();
+  
+  useEffect(() => {
+    console.log("Current route:", location.pathname);
+  }, [location]);
+  
+  return null;
+};
+
 const App = () => {
+  console.log("App rendering");
+  
   return (
     <BrowserRouter>
       <Toaster />
       <AuthProvider>
         <SearchProvider>
+          <RouteLogger />
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/auth" element={<Auth />} />
