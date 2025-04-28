@@ -24,39 +24,46 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const getSession = async () => {
+    console.log("AuthProvider initializing");
+    const setupAuth = async () => {
       try {
-        setLoading(true);
+        // Set up the auth state listener first
+        const { data: { subscription } } = supabase.auth.onAuthStateChange(
+          async (event, session) => {
+            console.log("Auth state change event:", event);
+            setUser(session?.user || null);
+            
+            if (session?.user) {
+              // Defer profile fetching to avoid Supabase SDK deadlock
+              setTimeout(() => {
+                fetchProfile(session.user.id);
+              }, 0);
+            } else {
+              setProfile(null);
+            }
+          }
+        );
+        
+        // Then check for existing session
         const { data } = await supabase.auth.getSession();
+        console.log("Initial session check:", data.session ? "Session exists" : "No session");
         setUser(data.session?.user || null);
+        
         if (data.session?.user) {
           await fetchProfile(data.session.user.id);
         }
+        
+        setLoading(false);
+        return () => {
+          subscription.unsubscribe();
+        };
       } catch (error) {
-        console.error("Error getting session:", error);
-      } finally {
+        console.error("Error setting up auth:", error);
         setLoading(false);
       }
     };
-
-    getSession();
-
-    const { data: authListener } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        console.log("Auth state change event:", event);
-        setUser(session?.user || null);
-        if (session?.user) {
-          await fetchProfile(session.user.id);
-        } else {
-          setProfile(null);
-        }
-        setLoading(false);
-      }
-    );
-
-    return () => {
-      authListener?.subscription.unsubscribe();
-    };
+    
+    setupAuth();
   }, []);
 
   const fetchProfile = async (userId: string) => {
@@ -105,6 +112,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const signIn = async (email: string, password: string) => {
     try {
+      console.log("Signing in with email:", email);
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
@@ -114,9 +122,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         throw error;
       }
 
+      console.log("Sign in successful, user:", data.user);
       toast.success("Logged in successfully!");
       navigate("/");
     } catch (error: any) {
+      console.error("Sign in error:", error);
       toast.error(error.message || "Invalid login credentials");
     }
   };
@@ -145,6 +155,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         throw error;
       }
       
+      setUser(null);
+      setProfile(null);
       toast.success("Logged out successfully");
       navigate("/");
     } catch (error: any) {

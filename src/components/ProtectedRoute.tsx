@@ -10,6 +10,9 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const { user, loading } = useAuth();
   const location = useLocation();
 
+  console.log("ProtectedRoute - Current path:", location.pathname);
+  console.log("ProtectedRoute - Auth state:", { user: !!user, loading });
+
   // Show a proper loading state while checking authentication
   if (loading) {
     return (
@@ -24,10 +27,12 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
 
   // Redirect to login if not authenticated, preserving the intended location
   if (!user) {
-    return <Navigate to="/auth" state={{ from: location.pathname }} />;
+    console.log("ProtectedRoute - User not authenticated, redirecting to /auth");
+    return <Navigate to="/auth" state={{ from: location.pathname }} replace />;
   }
 
   // Render the protected content
+  console.log("ProtectedRoute - User authenticated, rendering protected content");
   return <>{children}</>;
 };
 
