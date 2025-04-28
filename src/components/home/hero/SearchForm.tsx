@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -86,10 +85,12 @@ const SearchForm = (props: SearchFormProps) => {
       </div>
       
       <div className="md:col-span-1">
+        <div className="text-gray-500 text-sm mb-1">When</div>
         <DateSelector date={props.date} setDate={props.setDate} />
       </div>
       
       <div className="md:col-span-1">
+        <div className="text-gray-500 text-sm mb-1">Who</div>
         <VisitorSelector 
           visitors={props.visitors} 
           setVisitors={props.setVisitors} 
@@ -99,6 +100,7 @@ const SearchForm = (props: SearchFormProps) => {
       </div>
       
       <div className="md:col-span-1">
+        <div className="text-gray-500 text-sm mb-1">With</div>
         <GuideSelector 
           guideChoice={props.guideChoice} 
           showGuideOptions={props.showGuideOptions} 
