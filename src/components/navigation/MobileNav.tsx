@@ -4,8 +4,11 @@ import { Link } from 'react-router-dom';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useAuth } from '@/contexts/AuthContext';
 
 const MobileNav = () => {
+  const { user, signOut } = useAuth();
+  
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -45,6 +48,23 @@ const MobileNav = () => {
             Become a Partner
           </Link>
         </SheetClose>
+        
+        {user ? (
+          <SheetClose asChild>
+            <button
+              onClick={() => signOut()}
+              className="w-full text-left flex items-center p-2 hover:bg-accent rounded-lg text-red-600"
+            >
+              Log Out
+            </button>
+          </SheetClose>
+        ) : (
+          <SheetClose asChild>
+            <Link to="/auth" className="flex items-center p-2 hover:bg-accent rounded-lg">
+              Sign In
+            </Link>
+          </SheetClose>
+        )}
       </SheetContent>
     </Sheet>
   );

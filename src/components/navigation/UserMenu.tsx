@@ -1,21 +1,25 @@
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { User } from "lucide-react";
+
 const UserMenu = () => {
   const {
     user,
     profile,
     signOut
   } = useAuth();
+  
   const getUserInitials = () => {
     if (profile?.full_name) {
       return profile.full_name.split(" ").map((n: string) => n[0]).join("").toUpperCase().substring(0, 2);
     }
     return user?.email?.substring(0, 2).toUpperCase() || "U";
   };
+  
   return <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-10 w-10 rounded-full">
@@ -51,4 +55,5 @@ const UserMenu = () => {
       </DropdownMenuContent>
     </DropdownMenu>;
 };
+
 export default UserMenu;

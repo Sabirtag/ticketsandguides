@@ -19,6 +19,8 @@ import { SearchProvider } from "./contexts/SearchContext";
 import Guides from "./pages/Guides";
 import BecomePartner from '@/pages/BecomePartner';
 import AffiliateApproval from '@/components/affiliates/AffiliateApproval';
+import Profile from "@/pages/Profile";
+import MyBookings from "@/pages/MyBookings";
 
 const App = () => {
   return (
@@ -40,6 +42,8 @@ const App = () => {
             <Route path="/confirmation" element={<BookingConfirmation />} />
             <Route path="/partner" element={<BecomePartner />} />
             <Route path="/affiliate-approval" element={<AffiliateApproval />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/bookings" element={<MyBookings />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </SearchProvider>
