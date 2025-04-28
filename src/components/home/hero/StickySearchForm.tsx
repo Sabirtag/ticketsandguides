@@ -73,7 +73,7 @@ const StickySearchForm: React.FC<StickySearchFormProps> = ({ isVisible }) => {
                 value={searchQuery} 
                 onChange={(e) => setSearchQuery(e.target.value)} 
                 onFocus={() => setShowSuggestions(true)}
-                className="border-0 bg-transparent p-0 h-8 focus-visible:ring-0 pl-1"
+                className="border-0 bg-transparent p-0 h-8 focus-visible:ring-0 pl-1 hover:bg-transparent"
               />
             </div>
             {showSuggestions && (
