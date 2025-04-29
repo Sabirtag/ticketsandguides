@@ -46,5 +46,10 @@
     --sidebar-accent-foreground: 30 10% 98%;
     --sidebar-border: 30 30% 35%;
     --sidebar-ring: 30 80% 80%;
+    
+    /* Layout variables */
+    --navbar-height: 3.5rem; /* 56px - consistent height for navbar */
+    --navbar-height-mobile: 3rem; /* 48px - mobile height */
   }
 }
+

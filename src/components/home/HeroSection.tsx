@@ -32,7 +32,16 @@ const HeroSection = () => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
       const heroHeight = heroSectionRef.current?.offsetHeight || 0;
-      const threshold = heroHeight * 0.5;
+      const navbarHeight = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--navbar-height')) || 56;
+      
+      // Log measurements on first render
+      if (heroSectionRef.current && !isFixed) {
+        console.log(`📏 Hero section height: ${heroHeight}px`);
+        console.log(`📏 Navbar height: ${navbarHeight}px`);
+      }
+      
+      // Only show sticky search when scrolled significantly into hero section (past 1/3)
+      const threshold = heroHeight * 0.33;
       
       if (scrollPosition > 10) {
         setIsFixed(true);
@@ -41,24 +50,27 @@ const HeroSection = () => {
         setIsAttached(false);
       }
       
-      if (scrollPosition > 300) {
-        setIsAttached(true);
-      }
-      
-      // Show sticky search bar when scrolled past 1/3 of hero section
-      if (scrollPosition > threshold * 0.33) {
+      if (scrollPosition > threshold) {
+        console.log(`🔄 Showing sticky search at ${scrollPosition}px (threshold: ${threshold}px)`);
         setShowStickySearch(true);
+        
+        if (scrollPosition > 300) {
+          setIsAttached(true);
+        }
       } else {
+        if (showStickySearch) {
+          console.log(`🔄 Hiding sticky search at ${scrollPosition}px`);
+        }
         setShowStickySearch(false);
       }
     };
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [showStickySearch]);
 
   return (
-    <section ref={heroSectionRef} className="relative h-[600px] sm:h-[700px] overflow-hidden mt-16">
+    <section ref={heroSectionRef} className="relative h-[600px] sm:h-[700px] overflow-hidden">
       <div className="absolute inset-0 z-0">
         <img 
           src={backgroundImage}
@@ -104,7 +116,8 @@ const HeroSection = () => {
         </div>
       </div>
 
-      <StickySearchForm isVisible={showStickySearch} />
+      {/* Only show the sticky search form when scrolled past threshold */}
+      {showStickySearch && <StickySearchForm isVisible={showStickySearch} />}
       
       <GuidePreferencesDialog 
         showGuidePreferences={showGuidePreferences}

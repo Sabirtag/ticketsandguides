@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useScroll } from "@/hooks/use-scroll";
 import DesktopNav from "./navigation/DesktopNav";
@@ -13,9 +13,13 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
   const isScrolled = useScroll();
-
+  
   // Check if we're on the homepage
   const isHomePage = location.pathname === '/';
+
+  useEffect(() => {
+    console.log("🧭 Navigation state:", { isScrolled, isHomePage, path: location.pathname });
+  }, [isScrolled, location.pathname, isHomePage]);
 
   return (
     <>
@@ -27,9 +31,10 @@ const Navbar = () => {
               ? 'bg-transparent' 
               : 'bg-white border-b'
         }`}
+        style={{ height: 'var(--navbar-height)' }}
       >
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="flex h-14 items-center justify-between">
+        <div className="container mx-auto px-4 md:px-6 h-full">
+          <div className="flex h-full items-center justify-between">
             <div className="flex items-center">
               <Link to="/" className="flex items-center">
                 <img 
@@ -49,7 +54,7 @@ const Navbar = () => {
         </div>
       </header>
       {/* Add spacing div to push content below navbar */}
-      <div className="h-14"></div>
+      <div style={{ height: 'var(--navbar-height)' }}></div>
     </>
   );
 };
