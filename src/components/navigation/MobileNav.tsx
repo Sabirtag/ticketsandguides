@@ -5,6 +5,7 @@ import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTr
 import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from '@/contexts/AuthContext';
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const MobileNav = () => {
   const { user, signOut } = useAuth();
@@ -17,54 +18,53 @@ const MobileNav = () => {
         </Button>
       </SheetTrigger>
       <SheetContent className="w-full sm:w-2/3 p-4">
-        <SheetHeader className="text-left">
-          <SheetTitle>Menu</SheetTitle>
-          <SheetDescription>
-            Explore our site.
-          </SheetDescription>
-        </SheetHeader>
-        <SheetClose asChild>
-          <Link to="/" className="flex items-center p-2 hover:bg-accent rounded-lg">
-            Home
-          </Link>
-        </SheetClose>
-        <SheetClose asChild>
-          <Link to="/profile" className="flex items-center p-2 hover:bg-accent rounded-lg">
-            Profile
-          </Link>
-        </SheetClose>
-        <SheetClose asChild>
-          <Link to="/bookings" className="flex items-center p-2 hover:bg-accent rounded-lg">
-            My Bookings
-          </Link>
-        </SheetClose>
-        <SheetClose asChild>
-          <Link to="/guides" className="flex items-center p-2 hover:bg-accent rounded-lg">
-            Guides
-          </Link>
-        </SheetClose>
-        <SheetClose asChild>
-          <Link to="/partner" className="flex items-center p-2 hover:bg-accent rounded-lg">
-            Become a Partner
-          </Link>
-        </SheetClose>
-        
-        {user ? (
-          <SheetClose asChild>
-            <button
-              onClick={() => signOut()}
-              className="w-full text-left flex items-center p-2 hover:bg-accent rounded-lg text-red-600"
-            >
-              Log Out
-            </button>
-          </SheetClose>
-        ) : (
-          <SheetClose asChild>
-            <Link to="/auth" className="flex items-center p-2 hover:bg-accent rounded-lg">
-              Sign In
-            </Link>
-          </SheetClose>
-        )}
+        <ScrollArea className="h-full">
+          <SheetHeader className="text-left">
+            <SheetTitle>Menu</SheetTitle>
+            <SheetDescription>
+              Explore our site.
+            </SheetDescription>
+          </SheetHeader>
+          <div className="mt-4 flex flex-col gap-2">
+            <SheetClose asChild>
+              <Link to="/profile" className="flex items-center p-2 hover:bg-accent rounded-lg">
+                Profile
+              </Link>
+            </SheetClose>
+            <SheetClose asChild>
+              <Link to="/bookings" className="flex items-center p-2 hover:bg-accent rounded-lg">
+                My Bookings
+              </Link>
+            </SheetClose>
+            <SheetClose asChild>
+              <Link to="/guides" className="flex items-center p-2 hover:bg-accent rounded-lg">
+                Guides
+              </Link>
+            </SheetClose>
+            <SheetClose asChild>
+              <Link to="/partner" className="flex items-center p-2 hover:bg-accent rounded-lg">
+                Become a Partner
+              </Link>
+            </SheetClose>
+            
+            {user ? (
+              <SheetClose asChild>
+                <button
+                  onClick={() => signOut()}
+                  className="w-full text-left flex items-center p-2 hover:bg-accent rounded-lg text-red-600"
+                >
+                  Log Out
+                </button>
+              </SheetClose>
+            ) : (
+              <SheetClose asChild>
+                <Link to="/auth" className="flex items-center p-2 hover:bg-accent rounded-lg">
+                  Sign In
+                </Link>
+              </SheetClose>
+            )}
+          </div>
+        </ScrollArea>
       </SheetContent>
     </Sheet>
   );
