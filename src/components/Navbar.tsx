@@ -6,14 +6,14 @@ import { useScroll } from "@/hooks/use-scroll";
 import DesktopNav from "./navigation/DesktopNav";
 import MobileNav from "./navigation/MobileNav";
 
+/**
+ * Main navigation component
+ * Adapts styling based on scroll position and current route
+ */
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
   const isScrolled = useScroll();
-
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
 
   // Check if we're on the homepage
   const isHomePage = location.pathname === '/';

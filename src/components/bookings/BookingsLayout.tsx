@@ -7,6 +7,10 @@ interface BookingsLayoutProps {
   children: React.ReactNode;
 }
 
+/**
+ * Layout component for bookings pages
+ * Provides consistent header and container structure
+ */
 const BookingsLayout = ({ title, children }: BookingsLayoutProps) => {
   return (
     <div className="min-h-screen bg-background">

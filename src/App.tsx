@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { Toaster } from "sonner";
 
+// Page components
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import AuthCallback from "./pages/AuthCallback";
@@ -14,15 +15,22 @@ import ExperienceDetail from "./pages/ExperienceDetail";
 import BookingConfirmation from "./pages/BookingConfirmation";
 import Checkout from "./pages/Checkout";
 import AllDestinations from "./pages/AllDestinations";
-import { AuthProvider } from "./contexts/AuthContext";
-import { SearchProvider } from "./contexts/SearchContext";
 import Guides from "./pages/Guides";
 import BecomePartner from '@/pages/BecomePartner';
-import AffiliateApproval from '@/components/affiliates/AffiliateApproval';
 import Profile from "@/pages/Profile";
 import MyBookings from "@/pages/MyBookings";
 
-// Route logger component for debugging
+// Components
+import AffiliateApproval from '@/components/affiliates/AffiliateApproval';
+
+// Contexts
+import { AuthProvider } from "./contexts/AuthContext";
+import { SearchProvider } from "./contexts/SearchContext";
+
+/**
+ * Route logger component for debugging
+ * Logs the current route path to console
+ */
 const RouteLogger = () => {
   const location = useLocation();
   
@@ -33,6 +41,10 @@ const RouteLogger = () => {
   return null;
 };
 
+/**
+ * Main application component
+ * Sets up routing and global providers
+ */
 const App = () => {
   console.log("App rendering");
   

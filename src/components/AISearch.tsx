@@ -8,13 +8,25 @@ import { useToast } from "@/hooks/use-toast";
 import MonumentSuggestions from "./MonumentSuggestions";
 import { Monument } from "@/data/monuments";
 
+/**
+ * AI-powered search component
+ * Provides search functionality with monument suggestions
+ */
 const AISearch = () => {
   const { searchQuery, setSearchQuery, performSearch, isSearching, searchError } = useSearch();
   const { toast } = useToast();
   const [showSuggestions, setShowSuggestions] = useState(false);
 
+  /**
+   * Handle search form submission
+   */
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!searchQuery.trim()) {
+      return;
+    }
+    
     try {
       await performSearch();
     } catch (error) {
@@ -26,9 +38,19 @@ const AISearch = () => {
     }
   };
 
+  /**
+   * Handle monument selection from suggestions
+   */
   const handleMonumentSelect = (monument: Monument) => {
     setSearchQuery(monument.name);
     setShowSuggestions(false);
+  };
+
+  /**
+   * Hide suggestions after a short delay to allow clicking on them
+   */
+  const handleSuggestionBlur = () => {
+    setTimeout(() => setShowSuggestions(false), 200);
   };
 
   return (
@@ -41,7 +63,7 @@ const AISearch = () => {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             onFocus={() => setShowSuggestions(true)}
-            onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
+            onBlur={handleSuggestionBlur}
             className="pl-9 pr-4 py-2"
           />
           {showSuggestions && (
