@@ -29,7 +29,7 @@ const Navbar = () => {
             ? 'bg-white shadow-md' 
             : isHomePage 
               ? 'bg-transparent' 
-              : 'bg-white border-b'
+              : 'bg-white border-b border-border'
         }`}
         style={{ height: 'var(--navbar-height)' }}
       >
