@@ -35,8 +35,6 @@ const StickySearchForm: React.FC<StickySearchFormProps> = ({ isVisible }) => {
   const [showGuideOptions, setShowGuideOptions] = useState(false);
   const [showGuidePreferences, setShowGuidePreferences] = useState(false);
 
-  console.log("🎨 Rendering StickySearchForm with theme colors, visibility:", isVisible);
-
   const handleMonumentSelect = (monument: Monument) => {
     setSearchQuery(monument.name);
     setShowSuggestions(false);
@@ -69,8 +67,8 @@ const StickySearchForm: React.FC<StickySearchFormProps> = ({ isVisible }) => {
       <div className="container mx-auto px-4 py-2 flex justify-center">
         <form onSubmit={handleBook} className="flex items-center gap-2 max-w-4xl w-full">
           <div className="relative flex-grow max-w-xs">
-            <div className="flex items-center bg-white border border-border rounded-md overflow-hidden">
-              <MapPin className="h-4 w-4 text-muted-foreground ml-2" />
+            <div className="flex items-center bg-white border border-gray-200 rounded-md overflow-hidden">
+              <MapPin className="h-4 w-4 text-gray-500 ml-2" />
               <Input 
                 placeholder="Where to" 
                 value={searchQuery} 
@@ -117,8 +115,7 @@ const StickySearchForm: React.FC<StickySearchFormProps> = ({ isVisible }) => {
           <Button 
             type="submit" 
             size="sm"
-            variant="cta"
-            className="text-white transition-transform hover:scale-95 active:scale-90"
+            className="bg-[#006d5b] hover:bg-[#006d5b]/90 text-white transition-transform hover:scale-95 active:scale-90"
           >
             <Search className="h-4 w-4" />
           </Button>

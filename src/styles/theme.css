@@ -5,24 +5,6 @@
  */
 @layer base {
   :root {
-    /* Primary color palette */
-    --primary: 25 60% 25%; /* The main brand brown color */
-    --primary-foreground: 30 10% 98%;
-    --primary-hover: 25 60% 20%;
-    --primary-active: 25 60% 15%;
-    
-    /* Secondary and accent colors */
-    --secondary: 25 30% 90%;
-    --secondary-foreground: 30 9% 11%;
-    --accent: 25 30% 85%;
-    --accent-foreground: 30 9% 11%;
-    
-    /* Highlight and call-to-action color */
-    --cta: 162 100% 22%; /* Teal color for buttons, previously #006d5b */
-    --cta-foreground: 0 0% 100%;
-    --cta-hover: 162 100% 18%;
-    --cta-active: 162 100% 15%;
-    
     /* Background and foreground colors */
     --background: 35 30% 96%;
     --foreground: 30 10% 15%;
@@ -35,9 +17,17 @@
     --popover: 0 0% 100%;
     --popover-foreground: 30 10% 15%;
     
+    /* Primary and accent colors */
+    --primary: 25 60% 25%;
+    --primary-foreground: 30 10% 98%;
+    --secondary: 25 30% 90%;
+    --secondary-foreground: 30 9% 11%;
+    
     /* Utility colors */
     --muted: 25 20% 92%;
     --muted-foreground: 30 8% 40%;
+    --accent: 25 30% 85%;
+    --accent-foreground: 30 9% 11%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
     
@@ -60,13 +50,6 @@
     /* Layout variables */
     --navbar-height: 3.5rem; /* 56px - consistent height for navbar */
     --navbar-height-mobile: 3rem; /* 48px - mobile height */
-    
-    /* Spacing variables */
-    --spacing-xs: 0.25rem;
-    --spacing-sm: 0.5rem;
-    --spacing-md: 1rem;
-    --spacing-lg: 1.5rem;
-    --spacing-xl: 2rem;
-    --spacing-2xl: 3rem;
   }
 }
+

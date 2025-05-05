@@ -13,7 +13,6 @@ type AuthContextType = {
   signIn: (email: string, password: string) => Promise<void>;
   signInWithGoogle: () => Promise<void>;
   signOut: () => Promise<void>;
-  resetPassword: (email: string) => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -165,28 +164,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  const resetPassword = async (email: string) => {
-    try {
-      console.log("🔑 Requesting password reset for email:", email);
-      const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${window.location.origin}/auth/update-password`,
-      });
-      
-      if (error) {
-        console.log("❌ Password reset error:", error);
-        throw error;
-      }
-      
-      console.log("📧 Password reset email sent successfully");
-      toast.success("Password reset instructions sent to your email");
-      return;
-    } catch (error: any) {
-      console.log("❌ Password reset error:", error);
-      toast.error(error.message || "Failed to send reset instructions");
-      throw error;
-    }
-  };
-
   return (
     <AuthContext.Provider
       value={{
@@ -197,7 +174,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         signIn,
         signInWithGoogle,
         signOut,
-        resetPassword,
       }}
     >
       {children}

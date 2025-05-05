@@ -28,8 +28,6 @@ const HeroSection = () => {
     budget: 1500
   });
 
-  console.log("🎨 Rendering HeroSection with theme colors");
-
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;

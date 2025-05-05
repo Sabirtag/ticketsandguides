@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Mail, Lock } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import LoadingSpinner from "@/components/profile/LoadingSpinner";
 
 const LoginForm = () => {
@@ -13,7 +13,6 @@ const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
 
   const handleLogin = async () => {
     setIsLoading(true);
@@ -53,13 +52,9 @@ const LoginForm = () => {
         <div className="space-y-2">
           <div className="flex items-center justify-between">
             <Label htmlFor="password">Password</Label>
-            <Button 
-              variant="link" 
-              className="p-0 h-auto text-sm text-primary hover:underline"
-              onClick={() => navigate("/auth/reset-password")}
-            >
+            <Link to="/auth/reset-password" className="text-sm text-primary hover:underline">
               Forgot password?
-            </Button>
+            </Link>
           </div>
           <div className="relative">
             <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />

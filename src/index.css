@@ -5,28 +5,24 @@
 
 /* Card hover effects */
 .card-hover {
-  @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
+  transition: all 0.3s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
 /* Button push effect */
 .btn-push {
-  @apply transition-transform duration-200;
+  transition: transform 0.2s ease;
 }
 
 .btn-push:hover {
-  @apply scale-95;
+  transform: scale(0.95);
 }
 
 .btn-push:active {
-  @apply scale-90;
+  transform: scale(0.9);
 }
 
-/* Focus states */
-.focus-ring {
-  @apply focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2;
-}
-
-/* Popover styling consistency */
-.popover-content {
-  @apply bg-popover border border-border shadow-md rounded-md;
-}

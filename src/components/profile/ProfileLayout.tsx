@@ -10,8 +10,6 @@ interface ProfileLayoutProps {
 }
 
 const ProfileLayout = ({ title, loading, children }: ProfileLayoutProps) => {
-  console.log("🎨 Rendering ProfileLayout with theme colors");
-  
   if (loading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
@@ -21,10 +19,10 @@ const ProfileLayout = ({ title, loading, children }: ProfileLayoutProps) => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gray-50">
       <Navbar />
       <div className="container mx-auto px-4 py-20">
-        <h1 className="text-3xl font-bold mb-8 text-foreground font-fitzgerald">{title}</h1>
+        <h1 className="text-3xl font-bold mb-8">{title}</h1>
         {children}
       </div>
     </div>
