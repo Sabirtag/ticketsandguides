@@ -41,7 +41,12 @@ const ResetPassword = () => {
       console.log("📧 Reset email sent successfully");
     } catch (error: any) {
       console.log("❌ Reset password error:", error);
-      setError(error.message || "Failed to send reset instructions");
+      // Handle the captcha error specifically
+      if (error.message?.includes('captcha')) {
+        setError("Our password reset system is currently experiencing issues. Please try again later or contact support.");
+      } else {
+        setError(error.message || "Failed to send reset instructions");
+      }
     } finally {
       setIsLoading(false);
     }

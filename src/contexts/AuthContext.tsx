@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
@@ -170,6 +169,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       console.log("🔑 Requesting password reset for email:", email);
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
         redirectTo: `${window.location.origin}/auth/update-password`,
+        captchaToken: 'disabled'
       });
       
       if (error) {
