@@ -16,7 +16,7 @@ const CityTabs: React.FC<CityTabsProps> = ({
 }) => {
   return <Tabs defaultValue={activeTab} className="w-full">
       <TabsList className="w-full justify-start overflow-x-auto space-x-2 bg-transparent h-auto pb-2 mb-6 border-b scrollbar-none">
-        {cities.slice(0, 6).map(city => <TabsTrigger key={city.id} value={city.name} onClick={() => onTabChange(city.name)} className="px-4 py-2 rounded-full data-[state=active]:bg-[#006d5b] data-[state=active]:text-white whitespace-nowrap">
+        {cities.slice(0, 6).map(city => <TabsTrigger key={city.id} value={city.name} onClick={() => onTabChange(city.name)} className="bg-[rgba(100,73,37,255)] text-white hover:bg-[rgba(100,73,37,0.9)]">
             {city.name}
           </TabsTrigger>)}
       </TabsList>
