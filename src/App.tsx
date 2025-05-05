@@ -19,6 +19,8 @@ import Guides from "./pages/Guides";
 import BecomePartner from '@/pages/BecomePartner';
 import Profile from "@/pages/Profile";
 import MyBookings from "@/pages/MyBookings";
+import ResetPassword from "@/pages/ResetPassword";
+import UpdatePassword from "@/pages/UpdatePassword";
 
 // Components
 import AffiliateApproval from '@/components/affiliates/AffiliateApproval';
@@ -58,6 +60,8 @@ const App = () => {
             <Route path="/" element={<Index />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/auth/callback" element={<AuthCallback />} />
+            <Route path="/auth/reset-password" element={<ResetPassword />} />
+            <Route path="/auth/update-password" element={<UpdatePassword />} />
             <Route path="/guides" element={<Guides />} />
             <Route path="/city/:cityName" element={<CityPage />} />
             <Route path="/monument/:monumentId" element={<BookingSite />} />
