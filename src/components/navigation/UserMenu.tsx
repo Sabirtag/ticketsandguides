@@ -64,11 +64,7 @@ const UserMenu = () => {
               Become a Partner
             </DropdownMenuItem>
           </>
-        ) : (
-          <DropdownMenuItem asChild>
-            <Link to="/auth">Sign in to access features</Link>
-          </DropdownMenuItem>
-        )}
+        ) : null}
         <DropdownMenuSeparator />
         {user ? (
           <DropdownMenuItem onClick={() => signOut()}>
