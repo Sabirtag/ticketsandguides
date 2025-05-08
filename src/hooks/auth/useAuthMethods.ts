@@ -6,17 +6,27 @@ import { toast } from "sonner";
 export function useAuthMethods() {
   const navigate = useNavigate();
 
-  const signUp = async (email: string, password: string, fullName: string) => {
+  const signUp = async (email: string, password: string, fullName: string, captchaToken: string | null = null) => {
     try {
       console.log("📝 Attempting to register user:", email);
+      
+      // Prepare signup options
+      const options: any = {
+        data: {
+          full_name: fullName,
+        }
+      };
+      
+      // Add captcha token if provided
+      if (captchaToken) {
+        console.log("🔒 Including captcha token in registration");
+        options.captchaToken = captchaToken;
+      }
+      
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
-        options: {
-          data: {
-            full_name: fullName,
-          },
-        },
+        options
       });
 
       if (error) {

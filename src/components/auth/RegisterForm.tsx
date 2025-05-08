@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Mail, Lock, User } from "lucide-react";
 import { Link } from "react-router-dom";
 import LoadingSpinner from "@/components/profile/LoadingSpinner";
+import HCaptcha from '@hcaptcha/react-hcaptcha';
 
 const RegisterForm = () => {
   const { signUp, signInWithGoogle } = useAuth();
@@ -15,11 +16,17 @@ const RegisterForm = () => {
   const [fullName, setFullName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const captcha = useRef<HCaptcha>(null);
 
   const handleRegister = async () => {
     setIsLoading(true);
     try {
-      await signUp(email, password, fullName);
+      await signUp(email, password, fullName, captchaToken);
+      // Reset captcha after registration attempt, whether successful or not
+      if (captcha.current) {
+        captcha.current.resetCaptcha();
+      }
     } finally {
       setIsLoading(false);
     }
@@ -81,7 +88,32 @@ const RegisterForm = () => {
             />
           </div>
         </div>
-        <Button className="w-full" onClick={handleRegister} disabled={isLoading}>
+        
+        {/* hCaptcha component */}
+        <div className="flex justify-center my-4">
+          <HCaptcha
+            ref={captcha}
+            sitekey="7a86ef76-b604-483a-ac72-50948218bf6a"
+            onVerify={(token) => {
+              setCaptchaToken(token);
+              console.log("✅ Captcha verified successfully");
+            }}
+            onError={(error) => {
+              console.error("❌ Captcha error:", error);
+              setCaptchaToken(null);
+            }}
+            onExpire={() => {
+              console.log("⏰ Captcha expired");
+              setCaptchaToken(null);
+            }}
+          />
+        </div>
+        
+        <Button 
+          className="w-full" 
+          onClick={handleRegister} 
+          disabled={isLoading || !captchaToken}
+        >
           {isLoading ? <LoadingSpinner className="mr-2 h-4 w-4" /> : null}
           Create Account
         </Button>

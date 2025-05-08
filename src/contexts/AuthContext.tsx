@@ -9,7 +9,7 @@ type AuthContextType = {
   user: User | null;
   profile: any | null;
   loading: boolean;
-  signUp: (email: string, password: string, fullName: string) => Promise<any>;
+  signUp: (email: string, password: string, fullName: string, captchaToken?: string | null) => Promise<any>;
   signIn: (email: string, password: string) => Promise<any>;
   signInWithGoogle: () => Promise<any>;
   signOut: () => Promise<void>;
