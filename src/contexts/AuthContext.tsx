@@ -1,3 +1,4 @@
+
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
@@ -24,21 +25,23 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log("AuthProvider initializing");
+    console.log("🔄 AuthProvider initializing");
     const setupAuth = async () => {
       try {
         // Set up the auth state listener first
         const { data: { subscription } } = supabase.auth.onAuthStateChange(
           async (event, session) => {
-            console.log("Auth state change event:", event);
+            console.log("🔔 Auth state change event:", event);
             setUser(session?.user || null);
             
             if (session?.user) {
+              console.log("👤 User authenticated:", session.user.email);
               // Defer profile fetching to avoid Supabase SDK deadlock
               setTimeout(() => {
                 fetchProfile(session.user.id);
               }, 0);
             } else {
+              console.log("🚫 No authenticated user");
               setProfile(null);
             }
           }
@@ -46,7 +49,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         
         // Then check for existing session
         const { data } = await supabase.auth.getSession();
-        console.log("Initial session check:", data.session ? "Session exists" : "No session");
+        console.log("🔍 Initial session check:", data.session ? "Session exists" : "No session");
         setUser(data.session?.user || null);
         
         if (data.session?.user) {
@@ -58,7 +61,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           subscription.unsubscribe();
         };
       } catch (error) {
-        console.error("Error setting up auth:", error);
+        console.error("❌ Error setting up auth:", error);
         setLoading(false);
       }
     };
@@ -68,7 +71,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const fetchProfile = async (userId: string) => {
     try {
-      console.log("Fetching profile for user:", userId);
+      console.log("🔍 Fetching profile for user:", userId);
       const { data, error } = await supabase
         .from("profiles")
         .select("*")
@@ -76,14 +79,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         .single();
 
       if (error) {
-        console.error("Error fetching profile:", error);
+        console.error("❌ Error fetching profile:", error);
         return;
       }
 
-      console.log("Profile data:", data);
+      console.log("✅ Profile data retrieved:", data);
       setProfile(data);
     } catch (error) {
-      console.error("Error in fetchProfile:", error);
+      console.error("❌ Error in fetchProfile:", error);
     }
   };
 
@@ -112,7 +115,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const signIn = async (email: string, password: string) => {
     try {
-      console.log("Signing in with email:", email);
+      console.log("🔐 Signing in with email:", email);
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
@@ -122,34 +125,46 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         throw error;
       }
 
-      console.log("Sign in successful, user:", data.user);
+      console.log("✅ Sign in successful, user:", data.user);
       toast.success("Logged in successfully!");
       navigate("/");
     } catch (error: any) {
-      console.error("Sign in error:", error);
+      console.error("❌ Sign in error:", error);
       toast.error(error.message || "Invalid login credentials");
     }
   };
 
   const signInWithGoogle = async () => {
     try {
+      console.log("🔵 Initiating Google sign-in");
+      
+      // Get the current URL to construct the redirect URL
+      const currentUrl = window.location.origin;
+      const redirectUrl = `${currentUrl}/auth/callback`;
+      console.log("🔄 Redirect URL:", redirectUrl);
+      
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: "google",
         options: {
-          redirectTo: `${window.location.origin}/auth/callback`,
+          redirectTo: redirectUrl,
         },
       });
 
       if (error) {
+        console.error("❌ Google sign-in error:", error);
         throw error;
       }
+      
+      console.log("🔄 Google auth redirect initiated", data);
     } catch (error: any) {
+      console.error("❌ Google sign-in failed:", error);
       toast.error(error.message || "Failed to sign in with Google");
     }
   };
 
   const signOut = async () => {
     try {
+      console.log("🚪 Signing out");
       const { error } = await supabase.auth.signOut();
       if (error) {
         throw error;
@@ -157,9 +172,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       
       setUser(null);
       setProfile(null);
+      console.log("✅ Signed out successfully");
       toast.success("Logged out successfully");
       navigate("/");
     } catch (error: any) {
+      console.error("❌ Sign out error:", error);
       toast.error(error.message || "Error signing out");
     }
   };
