@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,8 +11,10 @@ import { Lock, ArrowLeft } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import AuthContainer from "@/components/auth/AuthContainer";
 import LoadingSpinner from "@/components/profile/LoadingSpinner";
+import { supabase } from "@/integrations/supabase/client";
 
 const UpdatePassword = () => {
+  const { updatePassword } = useAuth();
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -48,19 +50,8 @@ const UpdatePassword = () => {
     setIsLoading(true);
     try {
       console.log("🔑 Updating password");
-      const { error } = await supabase.auth.updateUser({ password });
-      
-      if (error) {
-        console.log("❌ Update password error:", error);
-        throw error;
-      }
-      
-      console.log("✅ Password updated successfully");
+      await updatePassword(password);
       setIsSuccess(true);
-      toast.success("Password updated successfully");
-      setTimeout(() => {
-        navigate("/auth");
-      }, 3000);
     } catch (error: any) {
       console.log("❌ Update password error:", error);
       setError(error.message || "Failed to update password");
