@@ -28,14 +28,17 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     console.log("🔄 AuthProvider initializing");
     const setupAuth = async () => {
       try {
-        // Set up the auth state listener first
+        // First set up the auth state listener
         const { data: { subscription } } = supabase.auth.onAuthStateChange(
-          async (event, session) => {
+          (event, session) => {
             console.log("🔔 Auth state change event:", event);
+            
+            // Update the user state
             setUser(session?.user || null);
             
             if (session?.user) {
               console.log("👤 User authenticated:", session.user.email);
+              
               // Defer profile fetching to avoid Supabase SDK deadlock
               setTimeout(() => {
                 fetchProfile(session.user.id);
@@ -50,6 +53,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         // Then check for existing session
         const { data } = await supabase.auth.getSession();
         console.log("🔍 Initial session check:", data.session ? "Session exists" : "No session");
+        
+        // Update user state based on session
         setUser(data.session?.user || null);
         
         if (data.session?.user) {
@@ -57,6 +62,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         }
         
         setLoading(false);
+        
         return () => {
           subscription.unsubscribe();
         };
@@ -92,6 +98,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const signUp = async (email: string, password: string, fullName: string) => {
     try {
+      console.log("📝 Attempting to register user:", email);
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
@@ -103,12 +110,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       });
 
       if (error) {
+        console.error("❌ Registration error:", error);
         throw error;
       }
 
+      console.log("✅ Registration successful:", data);
       toast.success("Registration successful! Please check your email for verification.");
       navigate("/");
     } catch (error: any) {
+      console.error("❌ Registration error:", error);
       toast.error(error.message || "An error occurred during registration");
     }
   };
@@ -122,6 +132,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       });
 
       if (error) {
+        console.error("❌ Sign in error:", error);
         throw error;
       }
 
@@ -166,7 +177,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       console.log("🚪 Signing out");
       const { error } = await supabase.auth.signOut();
+      
       if (error) {
+        console.error("❌ Sign out error:", error);
         throw error;
       }
       
@@ -184,9 +197,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const resetPassword = async (email: string) => {
     try {
       console.log("🔑 Requesting password reset for email:", email);
+      
+      // Get the current URL to construct the redirect URL
+      const currentUrl = window.location.origin;
+      const redirectUrl = `${currentUrl}/auth/update-password`;
+      console.log("🔄 Password reset redirect URL:", redirectUrl);
+      
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${window.location.origin}/auth/update-password`,
-        captchaToken: 'disabled'
+        redirectTo: redirectUrl,
       });
       
       if (error) {

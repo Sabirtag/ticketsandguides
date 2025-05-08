@@ -12,25 +12,27 @@ const AuthCallback = () => {
       console.log("🔄 AuthCallback: Processing authentication callback");
       
       try {
-        // Get the current session
-        const { data, error } = await supabase.auth.getSession();
+        // Process the OAuth callback
+        const { data: authData, error: authError } = await supabase.auth.getSession();
         
-        if (error) {
-          console.error("❌ AuthCallback: Error during auth callback:", error);
+        if (authError) {
+          console.error("❌ AuthCallback: Error getting session:", authError);
           toast.error("Authentication failed. Please try again.");
           navigate("/auth");
           return;
         }
         
-        if (data.session) {
-          console.log("✅ AuthCallback: Authentication successful", data.session.user?.email);
+        if (authData.session) {
+          console.log("✅ AuthCallback: Authentication successful", authData.session.user?.email);
           toast.success("Successfully signed in!");
+          
+          // Redirect to the home page
+          navigate("/");
         } else {
-          console.log("⚠️ AuthCallback: No session found after redirect");
+          console.log("⚠️ AuthCallback: No session found after callback");
+          toast.warning("Authentication process did not complete. Please try again.");
+          navigate("/auth");
         }
-        
-        // Redirect to the home page whether successful or not
-        navigate("/");
       } catch (err) {
         console.error("❌ AuthCallback: Unexpected error during auth callback:", err);
         toast.error("An unexpected error occurred during sign in");
