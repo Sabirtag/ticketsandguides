@@ -6,7 +6,6 @@ import { Toaster } from "sonner";
 // Page components
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
-import AuthCallback from "./pages/AuthCallback";
 import CityPage from "./pages/CityPage";
 import NotFound from "./pages/NotFound";
 import BookingSite from "./pages/BookingSite";
@@ -59,7 +58,6 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/auth" element={<Auth />} />
-            <Route path="/auth/callback" element={<AuthCallback />} />
             <Route path="/auth/reset-password" element={<ResetPassword />} />
             <Route path="/auth/update-password" element={<UpdatePassword />} />
             <Route path="/guides" element={<Guides />} />

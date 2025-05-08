@@ -9,9 +9,8 @@ type AuthContextType = {
   user: User | null;
   profile: any | null;
   loading: boolean;
-  signUp: (email: string, password: string, fullName: string, captchaToken?: string | null) => Promise<any>;
+  signUp: (email: string, password: string, fullName: string) => Promise<any>;
   signIn: (email: string, password: string) => Promise<any>;
-  signInWithGoogle: () => Promise<any>;
   signOut: () => Promise<void>;
   resetPassword: (email: string) => Promise<boolean>;
   updatePassword: (password: string) => Promise<boolean>;
@@ -22,7 +21,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   // Combine all auth hooks
   const { user, profile, loading } = useAuthState();
-  const { signUp, signIn, signInWithGoogle, signOut } = useAuthMethods();
+  const { signUp, signIn, signOut } = useAuthMethods();
   const { resetPassword, updatePassword } = usePasswordReset();
 
   // Create combined context value
@@ -32,7 +31,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     loading,
     signUp,
     signIn,
-    signInWithGoogle,
     signOut,
     resetPassword,
     updatePassword

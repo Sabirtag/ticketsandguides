@@ -6,27 +6,18 @@ import { toast } from "sonner";
 export function useAuthMethods() {
   const navigate = useNavigate();
 
-  const signUp = async (email: string, password: string, fullName: string, captchaToken: string | null = null) => {
+  const signUp = async (email: string, password: string, fullName: string) => {
     try {
       console.log("📝 Attempting to register user:", email);
-      
-      // Prepare signup options
-      const options: any = {
-        data: {
-          full_name: fullName,
-        }
-      };
-      
-      // Add captcha token if provided
-      if (captchaToken) {
-        console.log("🔒 Including captcha token in registration");
-        options.captchaToken = captchaToken;
-      }
       
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
-        options
+        options: {
+          data: {
+            full_name: fullName,
+          }
+        }
       });
 
       if (error) {
@@ -69,36 +60,6 @@ export function useAuthMethods() {
     }
   };
 
-  const signInWithGoogle = async () => {
-    try {
-      console.log("🔵 Initiating Google sign-in");
-      
-      // Get the current URL to construct the redirect URL
-      const currentUrl = window.location.origin;
-      const redirectUrl = `${currentUrl}/auth/callback`;
-      console.log("🔄 Redirect URL:", redirectUrl);
-      
-      const { data, error } = await supabase.auth.signInWithOAuth({
-        provider: "google",
-        options: {
-          redirectTo: redirectUrl,
-        },
-      });
-
-      if (error) {
-        console.error("❌ Google sign-in error:", error);
-        throw error;
-      }
-      
-      console.log("🔄 Google auth redirect initiated", data);
-      return data;
-    } catch (error: any) {
-      console.error("❌ Google sign-in failed:", error);
-      toast.error(error.message || "Failed to sign in with Google");
-      throw error;
-    }
-  };
-
   const signOut = async () => {
     try {
       console.log("🚪 Signing out");
@@ -122,7 +83,6 @@ export function useAuthMethods() {
   return {
     signUp,
     signIn,
-    signInWithGoogle,
     signOut
   };
 }
