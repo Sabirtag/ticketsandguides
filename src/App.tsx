@@ -20,9 +20,11 @@ import Profile from "@/pages/Profile";
 import MyBookings from "@/pages/MyBookings";
 import ResetPassword from "@/pages/ResetPassword";
 import UpdatePassword from "@/pages/UpdatePassword";
+import AdminDashboard from "@/pages/AdminDashboard";
 
 // Components
 import AffiliateApproval from '@/components/affiliates/AffiliateApproval';
+import AdminRoute from '@/components/admin/AdminRoute';
 
 // Contexts
 import { AuthProvider } from "./contexts/AuthContext";
@@ -72,6 +74,11 @@ const App = () => {
             <Route path="/affiliate-approval" element={<AffiliateApproval />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/bookings" element={<MyBookings />} />
+            <Route path="/admin" element={
+              <AdminRoute>
+                <AdminDashboard />
+              </AdminRoute>
+            } />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </SearchProvider>
