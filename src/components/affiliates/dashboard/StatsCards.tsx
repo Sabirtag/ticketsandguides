@@ -49,7 +49,7 @@ const StatsCards = ({ stats }: StatsCardsProps) => {
           </div>
         </CardHeader>
         <CardContent>
-          <p className="text-2xl font-bold">${stats.totalEarnings.toFixed(2)}</p>
+          <p className="text-2xl font-bold">₹{stats.totalEarnings.toFixed(2)}</p>
           <p className="text-xs text-muted-foreground mt-1">Your lifetime commission earnings</p>
         </CardContent>
       </Card>
@@ -62,7 +62,7 @@ const StatsCards = ({ stats }: StatsCardsProps) => {
           </div>
         </CardHeader>
         <CardContent>
-          <p className="text-2xl font-bold">${stats.pendingPayouts.toFixed(2)}</p>
+          <p className="text-2xl font-bold">₹{stats.pendingPayouts.toFixed(2)}</p>
           <p className="text-xs text-muted-foreground mt-1">Amount ready for withdrawal</p>
         </CardContent>
       </Card>

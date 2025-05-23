@@ -39,8 +39,8 @@ const ActivityTabs = () => {
                 <TableRow>
                   <TableHead>Date</TableHead>
                   <TableHead>Order ID</TableHead>
-                  <TableHead>Amount</TableHead>
-                  <TableHead>Commission</TableHead>
+                  <TableHead>Amount (₹)</TableHead>
+                  <TableHead>Commission (₹)</TableHead>
                   <TableHead>Status</TableHead>
                 </TableRow>
               </TableHeader>
@@ -67,7 +67,7 @@ const ActivityTabs = () => {
               <TableHeader>
                 <TableRow>
                   <TableHead>Date</TableHead>
-                  <TableHead>Amount</TableHead>
+                  <TableHead>Amount (₹)</TableHead>
                   <TableHead>Method</TableHead>
                   <TableHead>Transaction ID</TableHead>
                 </TableRow>
