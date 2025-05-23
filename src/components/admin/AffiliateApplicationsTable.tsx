@@ -1,12 +1,13 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
-import { CheckCircle, X, Eye } from 'lucide-react';
+import { CheckCircle, X, Eye, Check, Pencil } from 'lucide-react';
 import { format } from 'date-fns';
 
 interface AffiliateApplicationsTableProps {
@@ -18,6 +19,8 @@ interface AffiliateApplicationsTableProps {
 
 const AffiliateApplicationsTable = ({ applications, loading, onRefresh, type }: AffiliateApplicationsTableProps) => {
   const { toast } = useToast();
+  const [editingCommission, setEditingCommission] = useState<string | null>(null);
+  const [commissionValues, setCommissionValues] = useState<Record<string, string>>({});
 
   const handleApprove = async (affiliateId: string) => {
     try {
@@ -67,6 +70,56 @@ const AffiliateApplicationsTable = ({ applications, loading, onRefresh, type }: 
     }
   };
 
+  const handleCommissionEdit = (affiliateId: string, currentRate: number) => {
+    setEditingCommission(affiliateId);
+    setCommissionValues({
+      ...commissionValues,
+      [affiliateId]: currentRate.toString()
+    });
+  };
+
+  const handleCommissionSave = async (affiliateId: string) => {
+    try {
+      const newRate = parseFloat(commissionValues[affiliateId]);
+      
+      if (isNaN(newRate) || newRate < 0 || newRate > 100) {
+        toast({
+          title: "Error",
+          description: "Please enter a valid commission rate between 0 and 100",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      const { error } = await supabase
+        .from('affiliates')
+        .update({ commission_rate: newRate })
+        .eq('id', affiliateId);
+
+      if (error) throw error;
+
+      toast({
+        title: "Success",
+        description: "Commission rate updated successfully",
+      });
+      
+      setEditingCommission(null);
+      onRefresh();
+    } catch (error: any) {
+      console.error('Error updating commission rate:', error);
+      toast({
+        title: "Error",
+        description: error.message || "Failed to update commission rate",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleCommissionCancel = () => {
+    setEditingCommission(null);
+    setCommissionValues({});
+  };
+
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
@@ -111,7 +164,55 @@ const AffiliateApplicationsTable = ({ applications, loading, onRefresh, type }: 
                 {application.status}
               </Badge>
             </TableCell>
-            <TableCell>{application.commission_rate || 10}%</TableCell>
+            <TableCell>
+              <div className="flex items-center gap-2">
+                {editingCommission === application.id ? (
+                  <>
+                    <Input
+                      type="number"
+                      min="0"
+                      max="100"
+                      step="0.1"
+                      value={commissionValues[application.id] || ''}
+                      onChange={(e) => setCommissionValues({
+                        ...commissionValues,
+                        [application.id]: e.target.value
+                      })}
+                      className="w-20"
+                    />
+                    <span className="text-sm">%</span>
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      onClick={() => handleCommissionSave(application.id)}
+                      className="h-8 w-8 p-0"
+                    >
+                      <Check className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      onClick={handleCommissionCancel}
+                      className="h-8 w-8 p-0"
+                    >
+                      <X className="h-4 w-4" />
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <span>{application.commission_rate || 10}%</span>
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      onClick={() => handleCommissionEdit(application.id, application.commission_rate || 10)}
+                      className="h-8 w-8 p-0"
+                    >
+                      <Pencil className="h-4 w-4" />
+                    </Button>
+                  </>
+                )}
+              </div>
+            </TableCell>
             {type === 'approved' && (
               <TableCell>
                 <code className="text-sm bg-muted px-2 py-1 rounded">
