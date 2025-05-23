@@ -21,6 +21,7 @@ import MyBookings from "@/pages/MyBookings";
 import ResetPassword from "@/pages/ResetPassword";
 import UpdatePassword from "@/pages/UpdatePassword";
 import AdminDashboard from "@/pages/AdminDashboard";
+import AffiliateDetail from "@/pages/AffiliateDetail";
 
 // Components
 import AffiliateApproval from '@/components/affiliates/AffiliateApproval';
@@ -77,6 +78,11 @@ const App = () => {
             <Route path="/admin" element={
               <AdminRoute>
                 <AdminDashboard />
+              </AdminRoute>
+            } />
+            <Route path="/admin/affiliate/:id" element={
+              <AdminRoute>
+                <AffiliateDetail />
               </AdminRoute>
             } />
             <Route path="*" element={<NotFound />} />

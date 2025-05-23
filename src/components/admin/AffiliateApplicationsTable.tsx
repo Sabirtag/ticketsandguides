@@ -1,10 +1,11 @@
 
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { useToast } from '@/components/ui/use-toast';
+import { useToast } from '@/hooks/use-toast';
 import { CheckCircle, X, Eye } from 'lucide-react';
 import { format } from 'date-fns';
 
@@ -141,9 +142,11 @@ const AffiliateApplicationsTable = ({ applications, loading, onRefresh, type }: 
                     </Button>
                   </>
                 )}
-                <Button size="sm" variant="outline" className="gap-1">
-                  <Eye className="h-4 w-4" />
-                  View
+                <Button size="sm" variant="outline" className="gap-1" asChild>
+                  <Link to={`/admin/affiliate/${application.id}`}>
+                    <Eye className="h-4 w-4" />
+                    View
+                  </Link>
                 </Button>
               </div>
             </TableCell>
