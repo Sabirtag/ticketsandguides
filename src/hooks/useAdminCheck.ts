@@ -11,10 +11,13 @@ export function useAdminCheck() {
   useEffect(() => {
     const checkAdminStatus = async () => {
       if (!user) {
+        console.log('useAdminCheck: No user found');
         setIsAdmin(false);
         setLoading(false);
         return;
       }
+
+      console.log('useAdminCheck: Checking admin status for user:', user.email);
 
       try {
         const { data, error } = await supabase
@@ -25,13 +28,15 @@ export function useAdminCheck() {
           .maybeSingle();
 
         if (error) {
-          console.error('Error checking admin status:', error);
+          console.error('useAdminCheck: Error checking admin status:', error);
           setIsAdmin(false);
         } else {
-          setIsAdmin(!!data);
+          const adminStatus = !!data;
+          console.log('useAdminCheck: Admin status result:', adminStatus, 'Data:', data);
+          setIsAdmin(adminStatus);
         }
       } catch (error) {
-        console.error('Error in admin check:', error);
+        console.error('useAdminCheck: Error in admin check:', error);
         setIsAdmin(false);
       } finally {
         setLoading(false);

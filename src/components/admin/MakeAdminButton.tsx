@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/components/ui/use-toast';
-import { Loader2 } from 'lucide-react';
+import { Loader2, UserCheck } from 'lucide-react';
 
 const MakeAdminButton = () => {
   const [loading, setLoading] = useState(false);
@@ -13,12 +13,17 @@ const MakeAdminButton = () => {
     try {
       setLoading(true);
       
-      // Use supabase.functions.invoke instead of fetch
+      console.log('Making admin user request...');
+      
+      // Use supabase.functions.invoke to call the edge function
       const { data, error } = await supabase.functions.invoke('make-admin-user');
       
       if (error) {
+        console.error('Edge function error:', error);
         throw new Error(error.message || 'Failed to make user admin');
       }
+      
+      console.log('Edge function response:', data);
       
       if (data.error) {
         throw new Error(data.error);
@@ -26,7 +31,7 @@ const MakeAdminButton = () => {
       
       toast({
         title: "Success!",
-        description: `User ${data.email} has been made an admin.`,
+        description: `User ticketsandguides@gmail.com has been made an admin. ${data.message || ''}`,
       });
       
     } catch (error: any) {
@@ -46,9 +51,14 @@ const MakeAdminButton = () => {
       onClick={makeAdminUser}
       disabled={loading}
       className="gap-2"
+      variant="cta"
     >
-      {loading && <Loader2 className="h-4 w-4 animate-spin" />}
-      Make User Admin
+      {loading ? (
+        <Loader2 className="h-4 w-4 animate-spin" />
+      ) : (
+        <UserCheck className="h-4 w-4" />
+      )}
+      Make Admin: ticketsandguides@gmail.com
     </Button>
   );
 };

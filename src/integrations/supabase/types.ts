@@ -239,6 +239,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      assign_admin_role: {
+        Args: { user_email: string }
+        Returns: Json
+      }
       generate_referral_code: {
         Args: { full_name: string }
         Returns: string
