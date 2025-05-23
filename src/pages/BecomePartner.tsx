@@ -94,10 +94,11 @@ const BecomePartner = () => {
             console.log('BecomePartner: Real-time update received:', payload);
             
             if (payload.eventType === 'UPDATE' || payload.eventType === 'INSERT') {
-              setAffiliateData(payload.new);
-              setAffiliateStatus(payload.new.status);
+              const newData = payload.new as any;
+              setAffiliateData(newData);
+              setAffiliateStatus(newData.status);
               
-              if (payload.new.status === 'approved' && payload.old?.status === 'pending') {
+              if (newData.status === 'approved' && (payload.old as any)?.status === 'pending') {
                 toast({
                   title: "Application Approved!",
                   description: "Your affiliate application has been approved. Welcome to our partner program!",
