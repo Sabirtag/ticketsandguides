@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
@@ -26,16 +25,23 @@ const AffiliateDashboard = () => {
     const fetchAffiliateData = async () => {
       if (!user) return;
 
+      console.log('AffiliateDashboard: Fetching data for user:', user.id);
+
       try {
         // Get affiliate data
         const { data, error } = await supabase
           .from('affiliates')
           .select('*')
           .eq('user_id', user.id)
+          .eq('status', 'approved')
           .single();
 
-        if (error) throw error;
+        if (error) {
+          console.error('AffiliateDashboard: Error fetching affiliate data:', error);
+          throw error;
+        }
         
+        console.log('AffiliateDashboard: Affiliate data:', data);
         setAffiliate(data);
         
         // For now, set dummy stats
@@ -59,10 +65,17 @@ const AffiliateDashboard = () => {
     };
 
     fetchAffiliateData();
-  }, [user]);
+  }, [user, toast]);
 
   const copyReferralLink = () => {
-    if (!affiliate?.referral_code) return;
+    if (!affiliate?.referral_code) {
+      toast({
+        title: "Error",
+        description: "Referral code not available yet",
+        variant: "destructive",
+      });
+      return;
+    }
     
     const baseUrl = window.location.origin;
     const referralLink = `${baseUrl}/?ref=${affiliate.referral_code}`;
@@ -88,11 +101,31 @@ const AffiliateDashboard = () => {
     );
   }
 
+  if (!affiliate) {
+    return (
+      <div className="container mx-auto px-4 py-12">
+        <Card className="border-border/40 shadow-md">
+          <CardContent className="pt-6">
+            <div className="flex justify-center items-center h-64">
+              <div className="text-center">
+                <p className="text-muted-foreground mb-4">No approved affiliate account found</p>
+                <p className="text-sm text-muted-foreground">Please ensure your affiliate application has been approved</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
   return (
     <div className="container mx-auto px-4 py-12">
       <div className="space-y-8">
         <div className="flex justify-between items-center">
-          <h1 className="text-3xl font-bold">Affiliate Dashboard</h1>
+          <div>
+            <h1 className="text-3xl font-bold">Partner Dashboard</h1>
+            <p className="text-muted-foreground mt-2">Welcome back, {affiliate.full_name}!</p>
+          </div>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -123,7 +156,7 @@ const AffiliateDashboard = () => {
           
           <Card className="border-border/40 shadow-md overflow-hidden">
             <CardHeader className="bg-secondary/30 pb-6">
-              <CardTitle>Affiliate Status</CardTitle>
+              <CardTitle>Partner Status</CardTitle>
               <CardDescription>Your current status and commission rate</CardDescription>
             </CardHeader>
             <CardContent className="pt-6">
@@ -132,9 +165,7 @@ const AffiliateDashboard = () => {
                   <div className="bg-muted/60 p-4 rounded-lg">
                     <p className="text-sm text-muted-foreground mb-1">Status</p>
                     <p className="font-medium text-lg">
-                      {affiliate?.status === 'approved' 
-                        ? <span className="text-green-600">Approved</span>
-                        : <span className="text-amber-600">Pending</span>}
+                      <span className="text-green-600">Approved</span>
                     </p>
                   </div>
                   <div className="bg-muted/60 p-4 rounded-lg">
