@@ -5,37 +5,93 @@ import { supabase } from '@/integrations/supabase/client';
 import { AffiliateApplicationForm } from '@/components/affiliates/AffiliateApplicationForm';
 import AffiliateDashboard from '@/components/affiliates/AffiliateDashboard';
 import { Card, CardContent } from '@/components/ui/card';
+import { useToast } from '@/components/ui/use-toast';
 
 const BecomePartner = () => {
   const { user } = useAuth();
   const [affiliateStatus, setAffiliateStatus] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [affiliateData, setAffiliateData] = useState<any>(null);
+  const { toast } = useToast();
 
   useEffect(() => {
     const checkAffiliateStatus = async () => {
       if (!user) {
+        console.log('BecomePartner: No user found');
         setLoading(false);
         return;
       }
 
-      console.log('BecomePartner: Checking affiliate status for user:', user.id);
+      console.log('BecomePartner: Checking affiliate status for user:', user.id, 'email:', user.email);
 
       try {
-        const { data, error } = await supabase
+        // First, check by user_id (most reliable)
+        const { data: userIdData, error: userIdError } = await supabase
           .from('affiliates')
-          .select('status')
+          .select('*')
           .eq('user_id', user.id)
           .maybeSingle();
 
-        if (error) {
-          console.error('BecomePartner: Error checking affiliate status:', error);
-          throw error;
+        if (userIdError) {
+          console.error('BecomePartner: Error checking affiliate by user_id:', userIdError);
         }
-        
-        console.log('BecomePartner: Affiliate data:', data);
-        setAffiliateStatus(data?.status || null);
+
+        // If no record found by user_id, check by email as backup
+        if (!userIdData && user.email) {
+          console.log('BecomePartner: No record found by user_id, checking by email:', user.email);
+          
+          const { data: emailData, error: emailError } = await supabase
+            .from('affiliates')
+            .select('*')
+            .eq('email', user.email)
+            .maybeSingle();
+
+          if (emailError) {
+            console.error('BecomePartner: Error checking affiliate by email:', emailError);
+          }
+
+          // If we found a record by email but not by user_id, there's a mismatch
+          if (emailData && emailData.user_id !== user.id) {
+            console.warn('BecomePartner: User ID mismatch detected!', {
+              currentUserId: user.id,
+              affiliateUserId: emailData.user_id,
+              email: user.email
+            });
+
+            // Update the affiliate record to use the correct user_id
+            const { error: updateError } = await supabase
+              .from('affiliates')
+              .update({ user_id: user.id })
+              .eq('id', emailData.id);
+
+            if (updateError) {
+              console.error('BecomePartner: Error updating user_id:', updateError);
+              toast({
+                title: "Error",
+                description: "Failed to sync affiliate account. Please contact support.",
+                variant: "destructive",
+              });
+            } else {
+              console.log('BecomePartner: Successfully updated user_id for affiliate record');
+              emailData.user_id = user.id; // Update local data
+            }
+          }
+
+          setAffiliateData(emailData);
+          setAffiliateStatus(emailData?.status || null);
+        } else {
+          setAffiliateData(userIdData);
+          setAffiliateStatus(userIdData?.status || null);
+        }
+
+        console.log('BecomePartner: Final affiliate status:', affiliateStatus, 'data:', affiliateData);
       } catch (error) {
-        console.error('Error checking affiliate status:', error);
+        console.error('BecomePartner: Unexpected error:', error);
+        toast({
+          title: "Error",
+          description: "Failed to load affiliate information. Please try again.",
+          variant: "destructive",
+        });
         setAffiliateStatus(null);
       } finally {
         setLoading(false);
@@ -43,7 +99,7 @@ const BecomePartner = () => {
     };
 
     checkAffiliateStatus();
-  }, [user]);
+  }, [user, toast]);
 
   if (loading) {
     return (
@@ -59,7 +115,7 @@ const BecomePartner = () => {
     );
   }
 
-  console.log('BecomePartner: Current affiliate status:', affiliateStatus);
+  console.log('BecomePartner: Rendering with status:', affiliateStatus);
 
   // Show partner dashboard if approved
   if (affiliateStatus === 'approved') {
