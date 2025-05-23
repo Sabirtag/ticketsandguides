@@ -13,8 +13,12 @@ const MakeAdminButton = () => {
     try {
       setLoading(true);
       
-      const response = await fetch('/api/make-admin-user');
-      const data = await response.json();
+      // Use supabase.functions.invoke instead of fetch
+      const { data, error } = await supabase.functions.invoke('make-admin-user');
+      
+      if (error) {
+        throw new Error(error.message || 'Failed to make user admin');
+      }
       
       if (data.error) {
         throw new Error(data.error);
@@ -25,7 +29,7 @@ const MakeAdminButton = () => {
         description: `User ${data.email} has been made an admin.`,
       });
       
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error making user admin:', error);
       toast({
         title: "Error",
