@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import AffiliateApplicationsTable from '@/components/admin/AffiliateApplicationsTable';
 import AdminStats from '@/components/admin/AdminStats';
+import MakeAdminButton from '@/components/admin/MakeAdminButton';
 import Navbar from '@/components/Navbar';
 
 const AdminDashboard = () => {
@@ -51,9 +52,12 @@ const AdminDashboard = () => {
     <div className="min-h-screen bg-background">
       <Navbar />
       <div className="container mx-auto px-4 py-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold">Admin Dashboard</h1>
-          <p className="text-muted-foreground">Manage affiliate applications and monitor performance</p>
+        <div className="mb-8 flex justify-between items-center">
+          <div>
+            <h1 className="text-3xl font-bold">Admin Dashboard</h1>
+            <p className="text-muted-foreground">Manage affiliate applications and monitor performance</p>
+          </div>
+          <MakeAdminButton />
         </div>
 
         <AdminStats />
