@@ -22,6 +22,15 @@ const AffiliateApplicationsTable = ({ applications, loading, onRefresh, type }: 
   const [editingCommission, setEditingCommission] = useState<string | null>(null);
   const [commissionValues, setCommissionValues] = useState<Record<string, string>>({});
 
+  // Debug logging
+  console.log('AffiliateApplicationsTable rendered with:', {
+    applications: applications.length,
+    type,
+    editingCommission,
+    commissionValues,
+    sampleApp: applications[0]
+  });
+
   const handleApprove = async (affiliateId: string) => {
     try {
       const { error } = await supabase
@@ -71,6 +80,7 @@ const AffiliateApplicationsTable = ({ applications, loading, onRefresh, type }: 
   };
 
   const handleCommissionEdit = (affiliateId: string, currentRate: number) => {
+    console.log('Commission edit clicked:', { affiliateId, currentRate });
     setEditingCommission(affiliateId);
     setCommissionValues({
       ...commissionValues,
@@ -79,6 +89,7 @@ const AffiliateApplicationsTable = ({ applications, loading, onRefresh, type }: 
   };
 
   const handleCommissionSave = async (affiliateId: string) => {
+    console.log('Commission save clicked:', { affiliateId, value: commissionValues[affiliateId] });
     try {
       const newRate = parseFloat(commissionValues[affiliateId]);
       
@@ -116,6 +127,7 @@ const AffiliateApplicationsTable = ({ applications, loading, onRefresh, type }: 
   };
 
   const handleCommissionCancel = () => {
+    console.log('Commission edit cancelled');
     setEditingCommission(null);
     setCommissionValues({});
   };
@@ -139,122 +151,144 @@ const AffiliateApplicationsTable = ({ applications, loading, onRefresh, type }: 
   }
 
   return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHead>Name</TableHead>
-          <TableHead>Email</TableHead>
-          <TableHead>Business</TableHead>
-          <TableHead>Applied</TableHead>
-          <TableHead>Status</TableHead>
-          <TableHead>Commission Rate</TableHead>
-          {type === 'approved' && <TableHead>Referral Code</TableHead>}
-          <TableHead>Actions</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {applications.map((application) => (
-          <TableRow key={application.id}>
-            <TableCell className="font-medium">{application.full_name}</TableCell>
-            <TableCell>{application.email}</TableCell>
-            <TableCell>{application.business_name || 'N/A'}</TableCell>
-            <TableCell>{format(new Date(application.created_at), 'MMM dd, yyyy')}</TableCell>
-            <TableCell>
-              <Badge variant={application.status === 'approved' ? 'default' : 'secondary'}>
-                {application.status}
-              </Badge>
-            </TableCell>
-            <TableCell>
-              <div className="flex items-center gap-2">
-                {editingCommission === application.id ? (
-                  <>
-                    <Input
-                      type="number"
-                      min="0"
-                      max="100"
-                      step="0.1"
-                      value={commissionValues[application.id] || ''}
-                      onChange={(e) => setCommissionValues({
-                        ...commissionValues,
-                        [application.id]: e.target.value
-                      })}
-                      className="w-20"
-                    />
-                    <span className="text-sm">%</span>
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      onClick={() => handleCommissionSave(application.id)}
-                      className="h-8 w-8 p-0"
-                    >
-                      <Check className="h-4 w-4" />
-                    </Button>
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      onClick={handleCommissionCancel}
-                      className="h-8 w-8 p-0"
-                    >
-                      <X className="h-4 w-4" />
-                    </Button>
-                  </>
-                ) : (
-                  <>
-                    <span>{application.commission_rate || 10}%</span>
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      onClick={() => handleCommissionEdit(application.id, application.commission_rate || 10)}
-                      className="h-8 w-8 p-0"
-                    >
-                      <Pencil className="h-4 w-4" />
-                    </Button>
-                  </>
-                )}
-              </div>
-            </TableCell>
-            {type === 'approved' && (
-              <TableCell>
-                <code className="text-sm bg-muted px-2 py-1 rounded">
-                  {application.referral_code || 'N/A'}
-                </code>
-              </TableCell>
-            )}
-            <TableCell>
-              <div className="flex items-center gap-2">
-                {type === 'pending' && (
-                  <>
-                    <Button
-                      size="sm"
-                      onClick={() => handleApprove(application.id)}
-                      className="gap-1"
-                    >
-                      <CheckCircle className="h-4 w-4" />
-                      Approve
-                    </Button>
-                    <Button
-                      size="sm"
-                      variant="destructive"
-                      onClick={() => handleReject(application.id)}
-                      className="gap-1"
-                    >
-                      <X className="h-4 w-4" />
-                      Reject
-                    </Button>
-                  </>
-                )}
-                <Button size="sm" variant="outline" className="gap-1" asChild>
-                  <Link to={`/admin/affiliate/${application.id}`}>
-                    <Eye className="h-4 w-4" />
-                    View
-                  </Link>
-                </Button>
-              </div>
-            </TableCell>
+    <div className="overflow-x-auto">
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Name</TableHead>
+            <TableHead>Email</TableHead>
+            <TableHead>Business</TableHead>
+            <TableHead>Applied</TableHead>
+            <TableHead>Status</TableHead>
+            <TableHead className="min-w-[200px]">Commission Rate</TableHead>
+            {type === 'approved' && <TableHead>Referral Code</TableHead>}
+            <TableHead>Actions</TableHead>
           </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+        </TableHeader>
+        <TableBody>
+          {applications.map((application) => {
+            console.log('Rendering application:', { 
+              id: application.id, 
+              commission_rate: application.commission_rate,
+              isEditing: editingCommission === application.id 
+            });
+            
+            return (
+              <TableRow key={application.id}>
+                <TableCell className="font-medium">{application.full_name}</TableCell>
+                <TableCell>{application.email}</TableCell>
+                <TableCell>{application.business_name || 'N/A'}</TableCell>
+                <TableCell>{format(new Date(application.created_at), 'MMM dd, yyyy')}</TableCell>
+                <TableCell>
+                  <Badge variant={application.status === 'approved' ? 'default' : 'secondary'}>
+                    {application.status}
+                  </Badge>
+                </TableCell>
+                <TableCell>
+                  <div className="flex items-center gap-2 min-w-[180px]" style={{ border: '1px solid red' }}>
+                    {editingCommission === application.id ? (
+                      <>
+                        <Input
+                          type="number"
+                          min="0"
+                          max="100"
+                          step="0.1"
+                          value={commissionValues[application.id] || ''}
+                          onChange={(e) => {
+                            console.log('Input changed:', e.target.value);
+                            setCommissionValues({
+                              ...commissionValues,
+                              [application.id]: e.target.value
+                            });
+                          }}
+                          className="w-20"
+                          style={{ border: '2px solid blue' }}
+                        />
+                        <span className="text-sm">%</span>
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          onClick={() => handleCommissionSave(application.id)}
+                          className="h-8 w-8 p-0"
+                          style={{ border: '1px solid green' }}
+                        >
+                          <Check className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          onClick={handleCommissionCancel}
+                          className="h-8 w-8 p-0"
+                          style={{ border: '1px solid orange' }}
+                        >
+                          <X className="h-4 w-4" />
+                        </Button>
+                      </>
+                    ) : (
+                      <>
+                        <span style={{ border: '1px solid purple', padding: '2px' }}>
+                          {application.commission_rate || 10}%
+                        </span>
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          onClick={() => {
+                            console.log('Pencil icon clicked for:', application.id);
+                            handleCommissionEdit(application.id, application.commission_rate || 10);
+                          }}
+                          className="h-8 w-8 p-0"
+                          style={{ border: '1px solid yellow' }}
+                        >
+                          <Pencil className="h-4 w-4" />
+                        </Button>
+                      </>
+                    )}
+                  </div>
+                </TableCell>
+                {type === 'approved' && (
+                  <TableCell>
+                    <code className="text-sm bg-muted px-2 py-1 rounded">
+                      {application.referral_code || 'N/A'}
+                    </code>
+                  </TableCell>
+                )}
+                <TableCell>
+                  <div className="flex items-center gap-2">
+                    {type === 'pending' && (
+                      <>
+                        <Button
+                          size="sm"
+                          onClick={() => handleApprove(application.id)}
+                          className="gap-1"
+                        >
+                          <CheckCircle className="h-4 w-4" />
+                          Approve
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="destructive"
+                          onClick={() => handleReject(application.id)}
+                          className="gap-1"
+                        >
+                          <X className="h-4 w-4" />
+                          Reject
+                        </Button>
+                      </>
+                    )}
+                    <Button size="sm" variant="outline" className="gap-1" asChild>
+                      <Link to={`/admin/affiliate/${application.id}`}>
+                        <Eye className="h-4 w-4" />
+                        View
+                      </Link>
+                    </Button>
+                  </div>
+                </TableCell>
+              </TableRow>
+            );
+          })}
+        </TableBody>
+      </Table>
+    </div>
   );
 };
 
