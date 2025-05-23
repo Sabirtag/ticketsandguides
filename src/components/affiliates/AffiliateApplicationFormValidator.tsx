@@ -30,11 +30,11 @@ export const useAffiliateApplicationValidator = () => {
       providedEmail: applicationData.email
     });
 
-    // Check if user already has an application
+    // Check if user already has an application using the new unique constraint
     const { data: existingApplication, error: checkError } = await supabase
       .from('affiliates')
       .select('id, status, email')
-      .eq('user_id', user.id)
+      .or(`user_id.eq.${user.id},email.eq.${user.email}`)
       .maybeSingle();
 
     if (checkError) {
@@ -48,9 +48,15 @@ export const useAffiliateApplicationValidator = () => {
     }
 
     if (existingApplication) {
+      const statusMessage = existingApplication.status === 'pending' 
+        ? 'Your application is currently under review.'
+        : existingApplication.status === 'approved'
+        ? 'You already have an approved affiliate account.'
+        : 'You have a previous application that was not approved. Please contact support if you wish to reapply.';
+        
       toast({
         title: "Application Already Exists",
-        description: `You already have an application with status: ${existingApplication.status}`,
+        description: statusMessage,
         variant: "destructive",
       });
       return false;

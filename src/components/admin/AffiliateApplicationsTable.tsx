@@ -22,7 +22,6 @@ const AffiliateApplicationsTable = ({ applications, loading, onRefresh, type }: 
   const [editingCommission, setEditingCommission] = useState<string | null>(null);
   const [commissionValues, setCommissionValues] = useState<Record<string, string>>({});
 
-  // Debug logging
   console.log('AffiliateApplicationsTable rendered with:', {
     applications: applications.length,
     type,
@@ -115,6 +114,10 @@ const AffiliateApplicationsTable = ({ applications, loading, onRefresh, type }: 
       });
       
       setEditingCommission(null);
+      setCommissionValues({
+        ...commissionValues,
+        [affiliateId]: ''
+      });
       onRefresh();
     } catch (error: any) {
       console.error('Error updating commission rate:', error);
@@ -185,7 +188,7 @@ const AffiliateApplicationsTable = ({ applications, loading, onRefresh, type }: 
                   </Badge>
                 </TableCell>
                 <TableCell>
-                  <div className="flex items-center gap-2 min-w-[180px]" style={{ border: '1px solid red' }}>
+                  <div className="flex items-center gap-2 min-w-[180px]">
                     {editingCommission === application.id ? (
                       <>
                         <Input
@@ -202,7 +205,6 @@ const AffiliateApplicationsTable = ({ applications, loading, onRefresh, type }: 
                             });
                           }}
                           className="w-20"
-                          style={{ border: '2px solid blue' }}
                         />
                         <span className="text-sm">%</span>
                         <Button
@@ -210,7 +212,6 @@ const AffiliateApplicationsTable = ({ applications, loading, onRefresh, type }: 
                           variant="ghost"
                           onClick={() => handleCommissionSave(application.id)}
                           className="h-8 w-8 p-0"
-                          style={{ border: '1px solid green' }}
                         >
                           <Check className="h-4 w-4" />
                         </Button>
@@ -219,14 +220,13 @@ const AffiliateApplicationsTable = ({ applications, loading, onRefresh, type }: 
                           variant="ghost"
                           onClick={handleCommissionCancel}
                           className="h-8 w-8 p-0"
-                          style={{ border: '1px solid orange' }}
                         >
                           <X className="h-4 w-4" />
                         </Button>
                       </>
                     ) : (
                       <>
-                        <span style={{ border: '1px solid purple', padding: '2px' }}>
+                        <span>
                           {application.commission_rate || 10}%
                         </span>
                         <Button
@@ -237,7 +237,6 @@ const AffiliateApplicationsTable = ({ applications, loading, onRefresh, type }: 
                             handleCommissionEdit(application.id, application.commission_rate || 10);
                           }}
                           className="h-8 w-8 p-0"
-                          style={{ border: '1px solid yellow' }}
                         >
                           <Pencil className="h-4 w-4" />
                         </Button>

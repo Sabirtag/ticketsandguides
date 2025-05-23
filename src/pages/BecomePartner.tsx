@@ -25,66 +25,44 @@ const BecomePartner = () => {
       console.log('BecomePartner: Checking affiliate status for user:', user.id, 'email:', user.email);
 
       try {
-        // First, check by user_id (most reliable)
-        const { data: userIdData, error: userIdError } = await supabase
+        // Use the new unique constraint to get the affiliate record
+        const { data: affiliateData, error } = await supabase
           .from('affiliates')
           .select('*')
-          .eq('user_id', user.id)
+          .or(`user_id.eq.${user.id},email.eq.${user.email}`)
           .maybeSingle();
 
-        if (userIdError) {
-          console.error('BecomePartner: Error checking affiliate by user_id:', userIdError);
+        if (error) {
+          console.error('BecomePartner: Error checking affiliate status:', error);
+          throw error;
         }
 
-        // If no record found by user_id, check by email as backup
-        if (!userIdData && user.email) {
-          console.log('BecomePartner: No record found by user_id, checking by email:', user.email);
+        // If we found a record by email but user_id doesn't match, update it
+        if (affiliateData && affiliateData.user_id !== user.id) {
+          console.log('BecomePartner: Updating user_id for affiliate record');
           
-          const { data: emailData, error: emailError } = await supabase
+          const { error: updateError } = await supabase
             .from('affiliates')
-            .select('*')
-            .eq('email', user.email)
-            .maybeSingle();
+            .update({ user_id: user.id })
+            .eq('id', affiliateData.id);
 
-          if (emailError) {
-            console.error('BecomePartner: Error checking affiliate by email:', emailError);
-          }
-
-          // If we found a record by email but not by user_id, there's a mismatch
-          if (emailData && emailData.user_id !== user.id) {
-            console.warn('BecomePartner: User ID mismatch detected!', {
-              currentUserId: user.id,
-              affiliateUserId: emailData.user_id,
-              email: user.email
+          if (updateError) {
+            console.error('BecomePartner: Error updating user_id:', updateError);
+            toast({
+              title: "Error",
+              description: "Failed to sync affiliate account. Please contact support.",
+              variant: "destructive",
             });
-
-            // Update the affiliate record to use the correct user_id
-            const { error: updateError } = await supabase
-              .from('affiliates')
-              .update({ user_id: user.id })
-              .eq('id', emailData.id);
-
-            if (updateError) {
-              console.error('BecomePartner: Error updating user_id:', updateError);
-              toast({
-                title: "Error",
-                description: "Failed to sync affiliate account. Please contact support.",
-                variant: "destructive",
-              });
-            } else {
-              console.log('BecomePartner: Successfully updated user_id for affiliate record');
-              emailData.user_id = user.id; // Update local data
-            }
+          } else {
+            console.log('BecomePartner: Successfully updated user_id for affiliate record');
+            affiliateData.user_id = user.id; // Update local data
           }
-
-          setAffiliateData(emailData);
-          setAffiliateStatus(emailData?.status || null);
-        } else {
-          setAffiliateData(userIdData);
-          setAffiliateStatus(userIdData?.status || null);
         }
 
-        console.log('BecomePartner: Final affiliate status:', affiliateStatus, 'data:', affiliateData);
+        setAffiliateData(affiliateData);
+        setAffiliateStatus(affiliateData?.status || null);
+
+        console.log('BecomePartner: Final affiliate status:', affiliateData?.status, 'data:', affiliateData);
       } catch (error) {
         console.error('BecomePartner: Unexpected error:', error);
         toast({
@@ -99,6 +77,44 @@ const BecomePartner = () => {
     };
 
     checkAffiliateStatus();
+
+    // Set up real-time subscription for affiliate status changes
+    if (user) {
+      const channel = supabase
+        .channel('affiliate-status-changes')
+        .on(
+          'postgres_changes',
+          {
+            event: '*',
+            schema: 'public',
+            table: 'affiliates',
+            filter: `user_id=eq.${user.id}`
+          },
+          (payload) => {
+            console.log('BecomePartner: Real-time update received:', payload);
+            
+            if (payload.eventType === 'UPDATE' || payload.eventType === 'INSERT') {
+              setAffiliateData(payload.new);
+              setAffiliateStatus(payload.new.status);
+              
+              if (payload.new.status === 'approved' && payload.old?.status === 'pending') {
+                toast({
+                  title: "Application Approved!",
+                  description: "Your affiliate application has been approved. Welcome to our partner program!",
+                });
+              }
+            } else if (payload.eventType === 'DELETE') {
+              setAffiliateData(null);
+              setAffiliateStatus(null);
+            }
+          }
+        )
+        .subscribe();
+
+      return () => {
+        supabase.removeChannel(channel);
+      };
+    }
   }, [user, toast]);
 
   if (loading) {
