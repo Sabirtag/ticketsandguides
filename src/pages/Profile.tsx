@@ -7,6 +7,7 @@ import ProtectedRoute from '@/components/ProtectedRoute';
 import ProfileLayout from '@/components/profile/ProfileLayout';
 import ProfileAvatar from '@/components/profile/ProfileAvatar';
 import ProfileInformation from '@/components/profile/ProfileInformation';
+import PhoneVerification from '@/components/profile/PhoneVerification';
 import AccountSettings from '@/components/profile/AccountSettings';
 
 const Profile = () => {
@@ -14,8 +15,9 @@ const Profile = () => {
   
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
   const [avatarUrl, setAvatarUrl] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [phoneVerified, setPhoneVerified] = useState(false);
   
   console.log("Profile page - User:", user);
   console.log("Profile page - Profile data:", profile);
@@ -24,7 +26,8 @@ const Profile = () => {
     if (profile) {
       setFullName(profile.full_name || '');
       setAvatarUrl(profile.avatar_url || '');
-      setPhone(profile.phone || '');
+      setPhoneNumber(profile.phone || '');
+      setPhoneVerified(profile.phone_verified || false);
     }
     
     if (user) {
@@ -43,7 +46,6 @@ const Profile = () => {
         id: user.id,
         full_name: fullName,
         avatar_url: avatarUrl,
-        phone: phone,
         updated_at: new Date().toISOString()
       };
       
@@ -62,6 +64,11 @@ const Profile = () => {
       toast.error(`Error updating profile: ${error.message}`);
     }
   };
+
+  const handlePhoneVerificationComplete = (verifiedPhone: string) => {
+    setPhoneNumber(verifiedPhone);
+    setPhoneVerified(true);
+  };
   
   return (
     <ProtectedRoute>
@@ -77,13 +84,20 @@ const Profile = () => {
             fullName={fullName}
             setFullName={setFullName}
             email={email}
-            phone={phone}
-            setPhone={setPhone}
             handleUpdateProfile={handleUpdateProfile}
           />
         </div>
         
-        <div className="mt-8">
+        <div className="mt-6">
+          <PhoneVerification
+            userId={user?.id || ''}
+            currentPhone={phoneNumber}
+            isVerified={phoneVerified}
+            onVerificationComplete={handlePhoneVerificationComplete}
+          />
+        </div>
+        
+        <div className="mt-6">
           <AccountSettings />
         </div>
       </ProfileLayout>
