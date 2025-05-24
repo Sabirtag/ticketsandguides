@@ -82,14 +82,14 @@ const GuideSelector = ({
             </span>
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-auto sm:w-80 border-0 bg-popover shadow-md">
-          <div className="space-y-2 p-2">
+        <PopoverContent className="w-auto sm:w-80 border border-border bg-white shadow-lg rounded-lg p-1">
+          <div className="space-y-1">
             {["choose_for_me", "choose_own", "no_guide"].map(choice => (
               <Button 
                 key={choice} 
                 variant="ghost" 
                 onClick={() => handleGuideSelection(choice)} 
-                className="w-full justify-start text-xs text-center transition-none bg-secondary text-foreground font-normal sm:text-base px-px py-[21px] rounded-md"
+                className="w-full justify-start text-sm font-normal text-foreground hover:bg-secondary/80 hover:text-foreground px-3 py-2.5 h-auto rounded-md transition-colors"
               >
                 {choice === "choose_for_me" 
                   ? "Choose a guide for me" 
