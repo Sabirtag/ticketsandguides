@@ -84,13 +84,10 @@ const Profile = () => {
             setFullName={setFullName}
             email={email}
             handleUpdateProfile={handleUpdateProfile}
-          />
-          
-          <PhoneVerification
             userId={user?.id || ''}
             currentPhone={phoneNumber}
-            isVerified={phoneVerified}
-            onVerificationComplete={handlePhoneVerificationComplete}
+            isPhoneVerified={phoneVerified}
+            onPhoneVerificationComplete={handlePhoneVerificationComplete}
           />
         </div>
         
