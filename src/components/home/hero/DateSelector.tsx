@@ -34,14 +34,14 @@ const DateSelector = ({
             variant="outline" 
             onKeyDown={handleKeyDown} 
             className={cn(
-              "w-full justify-start text-left font-normal bg-white/90 text-gray-900 border-0 h-9 sm:h-10 text-xs sm:text-sm transition-none",
-              isCompact ? "px-2 py-1" : "", 
+              "w-full justify-start text-left font-normal bg-white/90 text-gray-900 border-0 transition-none",
+              isCompact ? "h-8 px-2 py-1 text-xs" : "h-12 text-sm", 
               !date && "text-gray-500"
             )}
           >
             <CalendarIcon 
               className={cn(
-                "mr-2 h-3 w-3 sm:h-4 sm:w-4", 
+                "mr-2 h-4 w-4", 
                 isCompact && "mr-1 h-3 w-3"
               )} 
             />

@@ -52,17 +52,16 @@ const GuideSelector = ({
             onKeyDown={handleKeyDown} 
             className={cn(
               "w-full justify-start text-left font-normal bg-white/90 text-gray-900 border-0 transition-none",
-              isCompact ? "h-8 px-2 py-1" : "h-9 sm:h-10", 
-              "text-xs sm:text-sm"
+              isCompact ? "h-8 px-2 py-1 text-xs" : "h-12 text-sm"
             )}
           >
             <Sparkles 
               className={cn(
-                "mr-2 h-3 w-3 sm:h-4 sm:w-4 text-primary flex-shrink-0", 
+                "mr-2 h-4 w-4 text-primary flex-shrink-0", 
                 isCompact && "mr-1 h-3 w-3"
               )} 
             />
-            <span className="truncate text-left text-slate-950 text-sm mx-0 my-0 py-0 px-0">
+            <span className="truncate text-left text-slate-950 mx-0 my-0 py-0 px-0">
               {isCompact 
                 ? guideChoice 
                   ? guideChoice === "choose_for_me" 
@@ -82,14 +81,14 @@ const GuideSelector = ({
             </span>
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-auto sm:w-80 border border-border bg-white shadow-lg rounded-lg p-1">
+        <PopoverContent className="w-auto sm:w-80 border border-border bg-white shadow-lg rounded-lg p-2">
           <div className="space-y-1">
             {["choose_for_me", "choose_own", "no_guide"].map(choice => (
               <Button 
                 key={choice} 
                 variant="ghost" 
                 onClick={() => handleGuideSelection(choice)} 
-                className="w-full justify-start text-sm font-normal text-foreground hover:bg-secondary/80 hover:text-foreground px-3 py-2.5 h-auto rounded-md transition-colors"
+                className="w-full justify-start text-sm font-normal text-foreground hover:bg-accent hover:text-accent-foreground px-3 py-2 h-auto rounded-md transition-colors"
               >
                 {choice === "choose_for_me" 
                   ? "Choose a guide for me" 
