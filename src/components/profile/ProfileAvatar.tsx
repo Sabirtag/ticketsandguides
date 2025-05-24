@@ -31,13 +31,16 @@ const ProfileAvatar = ({ userId, avatarUrl, setAvatarUrl }: ProfileAvatarProps) 
       
       const file = event.target.files[0];
       const fileExt = file.name.split('.').pop();
-      const filePath = `${userId}-${Math.random().toString(36).substring(2)}.${fileExt}`;
+      const fileName = `avatar-${Math.random().toString(36).substring(2)}.${fileExt}`;
+      const filePath = `${userId}/${fileName}`;
       
       console.log("Uploading avatar to path:", filePath);
       
       const { error: uploadError } = await supabase.storage
         .from('avatars')
-        .upload(filePath, file);
+        .upload(filePath, file, {
+          upsert: true
+        });
         
       if (uploadError) throw uploadError;
       
@@ -80,7 +83,7 @@ const ProfileAvatar = ({ userId, avatarUrl, setAvatarUrl }: ProfileAvatarProps) 
         <Label htmlFor="avatar" className="cursor-pointer">
           <div className="flex items-center gap-2 text-sm text-primary">
             <Upload size={16} />
-            <span>Upload new picture</span>
+            <span>{uploading ? 'Uploading...' : 'Upload new picture'}</span>
           </div>
         </Label>
         <Input 
