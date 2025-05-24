@@ -45,10 +45,12 @@ const DateSelector = ({
                 isCompact && "mr-1 h-3 w-3"
               )} 
             />
-            {date 
-              ? format(date, isCompact ? "MMM d" : "PPP") 
-              : isCompact ? "When" : "Add Date & Time"
-            }
+            <span className="text-center">
+              {date 
+                ? format(date, isCompact ? "MMM d" : "PPP") 
+                : isCompact ? "When" : "Add Date & Time"
+              }
+            </span>
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-auto p-0 bg-popover border border-border shadow-md" align="start">

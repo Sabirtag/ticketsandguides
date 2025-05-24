@@ -50,7 +50,7 @@ const GuideSelector = ({
       if (guideChoice === "no_guide") return "None";
       return "Guide";
     } else {
-      if (guideChoice === "choose_for_me") return "Guide Auto";
+      if (guideChoice === "choose_for_me") return "Select Guide";
       if (guideChoice === "choose_own") return "Guide Manual";
       if (guideChoice === "no_guide") return "No Guide";
       return "Add Guide";
