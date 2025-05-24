@@ -2,7 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger, SheetClose } from "@/components/ui/sheet";
-import { Menu } from "lucide-react";
+import { Menu, Home } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from '@/contexts/AuthContext';
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -26,6 +26,12 @@ const MobileNav = () => {
             </SheetDescription>
           </SheetHeader>
           <div className="mt-6 flex flex-col gap-3">
+            <SheetClose asChild>
+              <Link to="/" className="flex items-center p-3 hover:bg-accent rounded-lg transition-colors">
+                <Home className="mr-3 h-4 w-4" />
+                Back to Homepage
+              </Link>
+            </SheetClose>
             <SheetClose asChild>
               <Link to="/profile" className="flex items-center p-3 hover:bg-accent rounded-lg transition-colors">
                 Profile
