@@ -27,41 +27,8 @@ const PhoneVerificationSection = ({
   const [loading, setLoading] = useState(false);
   const [timeLeft, setTimeLeft] = useState(0);
 
-  const formatPhoneNumber = (value: string) => {
-    const digits = value.replace(/\D/g, '');
-    const limitedDigits = digits.slice(0, 10);
-    
-    if (limitedDigits.length > 5) {
-      return `+91 ${limitedDigits.slice(0, 5)} ${limitedDigits.slice(5)}`;
-    } else if (limitedDigits.length > 0) {
-      return `+91 ${limitedDigits}`;
-    }
-    return '+91 ';
-  };
-
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputValue = e.target.value;
-    
-    if (!inputValue.startsWith('+91')) {
-      setPhone('+91 ');
-      return;
-    }
-    
-    const formatted = formatPhoneNumber(inputValue);
-    setPhone(formatted);
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if ([8, 9, 27, 13, 46].indexOf(e.keyCode) !== -1 ||
-        (e.keyCode === 65 && e.ctrlKey === true) ||
-        (e.keyCode === 67 && e.ctrlKey === true) ||
-        (e.keyCode === 86 && e.ctrlKey === true) ||
-        (e.keyCode === 88 && e.ctrlKey === true)) {
-      return;
-    }
-    if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
-      e.preventDefault();
-    }
+    setPhone(e.target.value);
   };
 
   const startCountdown = () => {
@@ -78,9 +45,8 @@ const PhoneVerificationSection = ({
   };
 
   const sendOtp = async () => {
-    const digits = phone.replace(/\D/g, '');
-    if (digits.length !== 12 || !digits.startsWith('91')) {
-      toast.error('Please enter a valid 10-digit phone number');
+    if (!phone.trim()) {
+      toast.error('Please enter a valid phone number');
       return;
     }
 
@@ -160,18 +126,16 @@ const PhoneVerificationSection = ({
                 <Label htmlFor="phone">Phone Number</Label>
                 <Input
                   id="phone"
-                  type="text"
+                  type="tel"
                   value={phone}
                   onChange={handlePhoneChange}
-                  onKeyDown={handleKeyDown}
-                  placeholder="+91 XXXXX XXXXX"
+                  placeholder="+1 (555) 123-4567"
                   disabled={loading}
-                  maxLength={17}
                 />
               </div>
               <Button 
                 onClick={sendOtp} 
-                disabled={loading || phone.length < 17}
+                disabled={loading || !phone.trim()}
                 size="sm"
               >
                 {loading ? 'Sending...' : 'Send Verification Code'}
