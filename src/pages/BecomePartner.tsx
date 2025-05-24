@@ -5,10 +5,15 @@ import { supabase } from '@/integrations/supabase/client';
 import { AffiliateApplicationForm } from '@/components/affiliates/AffiliateApplicationForm';
 import AffiliateDashboard from '@/components/affiliates/AffiliateDashboard';
 import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { ArrowLeft } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/components/ui/use-toast';
+import Navbar from '@/components/Navbar';
 
 const BecomePartner = () => {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [affiliateStatus, setAffiliateStatus] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [affiliateData, setAffiliateData] = useState<any>(null);
@@ -120,14 +125,28 @@ const BecomePartner = () => {
 
   if (loading) {
     return (
-      <div className="container mx-auto px-4 py-8 flex justify-center items-center min-h-[60vh]">
-        <Card className="border-border/40 shadow-md">
-          <CardContent className="pt-6">
-            <div className="flex justify-center items-center h-32">
-              <p className="text-muted-foreground">Loading...</p>
-            </div>
-          </CardContent>
-        </Card>
+      <div className="min-h-screen bg-background">
+        <Navbar />
+        <div className="container mx-auto px-4 py-8">
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            className="flex items-center text-muted-foreground mb-6"
+            onClick={() => navigate(-1)}
+          >
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Back
+          </Button>
+          <div className="flex justify-center items-center min-h-[60vh]">
+            <Card className="border-border/40 shadow-md">
+              <CardContent className="pt-6">
+                <div className="flex justify-center items-center h-32">
+                  <p className="text-muted-foreground">Loading...</p>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
       </div>
     );
   }
@@ -138,8 +157,20 @@ const BecomePartner = () => {
   if (affiliateStatus === 'approved') {
     console.log('BecomePartner: Showing AffiliateDashboard for approved partner');
     return (
-      <div className="container mx-auto px-4 py-8">
-        <AffiliateDashboard />
+      <div className="min-h-screen bg-background">
+        <Navbar />
+        <div className="container mx-auto px-4 py-8">
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            className="flex items-center text-muted-foreground mb-6"
+            onClick={() => navigate(-1)}
+          >
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Back
+          </Button>
+          <AffiliateDashboard />
+        </div>
       </div>
     );
   }
@@ -147,21 +178,33 @@ const BecomePartner = () => {
   // Show application status if pending
   if (affiliateStatus === 'pending') {
     return (
-      <div className="container mx-auto px-4 py-8">
-        <Card className="max-w-2xl mx-auto">
-          <CardContent className="pt-6 text-center">
-            <h2 className="text-2xl font-bold mb-4">Application Under Review</h2>
-            <p className="text-muted-foreground mb-6">
-              Your affiliate application is currently being reviewed by our team. 
-              We'll notify you via email once your application is approved.
-            </p>
-            <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
-              <p className="text-amber-800 text-sm">
-                <strong>Status:</strong> Pending Review
+      <div className="min-h-screen bg-background">
+        <Navbar />
+        <div className="container mx-auto px-4 py-8">
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            className="flex items-center text-muted-foreground mb-6"
+            onClick={() => navigate(-1)}
+          >
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Back
+          </Button>
+          <Card className="max-w-2xl mx-auto">
+            <CardContent className="pt-6 text-center">
+              <h2 className="text-2xl font-bold mb-4">Application Under Review</h2>
+              <p className="text-muted-foreground mb-6">
+                Your affiliate application is currently being reviewed by our team. 
+                We'll notify you via email once your application is approved.
               </p>
-            </div>
-          </CardContent>
-        </Card>
+              <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
+                <p className="text-amber-800 text-sm">
+                  <strong>Status:</strong> Pending Review
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     );
   }
@@ -169,21 +212,33 @@ const BecomePartner = () => {
   // Show application status if rejected
   if (affiliateStatus === 'rejected') {
     return (
-      <div className="container mx-auto px-4 py-8">
-        <Card className="max-w-2xl mx-auto">
-          <CardContent className="pt-6 text-center">
-            <h2 className="text-2xl font-bold mb-4">Application Not Approved</h2>
-            <p className="text-muted-foreground mb-6">
-              Unfortunately, your affiliate application was not approved at this time. 
-              You're welcome to apply again in the future.
-            </p>
-            <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-              <p className="text-red-800 text-sm">
-                <strong>Status:</strong> Not Approved
+      <div className="min-h-screen bg-background">
+        <Navbar />
+        <div className="container mx-auto px-4 py-8">
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            className="flex items-center text-muted-foreground mb-6"
+            onClick={() => navigate(-1)}
+          >
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Back
+          </Button>
+          <Card className="max-w-2xl mx-auto">
+            <CardContent className="pt-6 text-center">
+              <h2 className="text-2xl font-bold mb-4">Application Not Approved</h2>
+              <p className="text-muted-foreground mb-6">
+                Unfortunately, your affiliate application was not approved at this time. 
+                You're welcome to apply again in the future.
               </p>
-            </div>
-          </CardContent>
-        </Card>
+              <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                <p className="text-red-800 text-sm">
+                  <strong>Status:</strong> Not Approved
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     );
   }
@@ -191,8 +246,20 @@ const BecomePartner = () => {
   // Show application form if no application exists
   console.log('BecomePartner: Showing AffiliateApplicationForm');
   return (
-    <div className="container mx-auto px-4 py-8">
-      <AffiliateApplicationForm />
+    <div className="min-h-screen bg-background">
+      <Navbar />
+      <div className="container mx-auto px-4 py-8">
+        <Button 
+          variant="ghost" 
+          size="sm" 
+          className="flex items-center text-muted-foreground mb-6"
+          onClick={() => navigate(-1)}
+        >
+          <ArrowLeft className="mr-2 h-4 w-4" />
+          Back
+        </Button>
+        <AffiliateApplicationForm />
+      </div>
     </div>
   );
 };
