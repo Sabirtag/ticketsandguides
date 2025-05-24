@@ -74,13 +74,13 @@ const StickySearchForm: React.FC<StickySearchFormProps> = ({
         <form onSubmit={handleBook} className="flex items-center gap-2 max-w-4xl w-full justify-center">
           <div className="relative flex-grow max-w-xs">
             <div className="flex items-center bg-white border border-border rounded-md overflow-hidden">
-              <MapPin className="h-4 w-4 text-muted-foreground ml-2" />
+              <MapPin className="h-4 w-4 text-gray-500 ml-2" />
               <Input 
                 placeholder="Where to" 
                 value={searchQuery} 
                 onChange={e => setSearchQuery(e.target.value)} 
                 onFocus={() => setShowSuggestions(true)} 
-                className="border-0 bg-transparent p-0 h-8 focus-visible:ring-0 pl-1" 
+                className="border-0 bg-transparent p-0 h-8 focus-visible:ring-0 pl-1 text-gray-900 placeholder:text-gray-500" 
               />
             </div>
             {showSuggestions && (
