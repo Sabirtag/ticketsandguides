@@ -74,7 +74,10 @@ const ProfileAvatar = ({ userId, avatarUrl, setAvatarUrl }: ProfileAvatarProps) 
       </CardHeader>
       <CardContent className="flex flex-col items-center">
         <Avatar className="w-32 h-32 mb-4">
-          <AvatarImage src={avatarUrl} />
+          <AvatarImage 
+            src={avatarUrl} 
+            className="object-cover"
+          />
           <AvatarFallback>
             <User className="h-16 w-16 text-gray-400" />
           </AvatarFallback>
