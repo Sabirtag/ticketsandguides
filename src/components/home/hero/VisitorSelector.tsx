@@ -63,16 +63,15 @@ const VisitorSelector = ({
             variant="outline" 
             onKeyDown={handleKeyDown} 
             className={cn(
-              "w-full justify-start text-left font-normal bg-white/90 text-gray-900 border-0 transition-none",
+              "w-full justify-center items-center text-center font-normal bg-white/90 text-gray-900 border-0 transition-none",
               isCompact ? "h-8 px-2 py-1 text-xs" : "h-12 text-sm"
             )}
           >
-            {!isCompact ? getTotalVisitors() : (
-              <>
-                <Users className="mr-1 h-3 w-3" />
-                {getTotalVisitors()}
-              </>
-            )}
+            <Users className={cn(
+              "mr-2 h-4 w-4", 
+              isCompact && "mr-1 h-3 w-3"
+            )} />
+            {getTotalVisitors()}
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-auto sm:w-80 border border-border bg-white shadow-lg rounded-lg p-3">

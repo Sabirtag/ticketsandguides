@@ -42,6 +42,20 @@ const GuideSelector = ({
     }
     setShowGuideOptions(false);
   };
+
+  const getButtonText = () => {
+    if (isCompact) {
+      if (guideChoice === "choose_for_me") return "Auto";
+      if (guideChoice === "choose_own") return "Manual";
+      if (guideChoice === "no_guide") return "None";
+      return "Guide";
+    } else {
+      if (guideChoice === "choose_for_me") return "Guide Auto";
+      if (guideChoice === "choose_own") return "Guide Manual";
+      if (guideChoice === "no_guide") return "No Guide";
+      return "Add Guide";
+    }
+  };
   
   return (
     <div>
@@ -51,7 +65,7 @@ const GuideSelector = ({
             variant="outline" 
             onKeyDown={handleKeyDown} 
             className={cn(
-              "w-full justify-start text-left font-normal bg-white/90 text-gray-900 border-0 transition-none",
+              "w-full justify-center items-center text-center font-normal bg-white/90 text-gray-900 border-0 transition-none",
               isCompact ? "h-8 px-2 py-1 text-xs" : "h-12 text-sm"
             )}
           >
@@ -61,23 +75,8 @@ const GuideSelector = ({
                 isCompact && "mr-1 h-3 w-3"
               )} 
             />
-            <span className="truncate text-left text-slate-950 mx-0 my-0 py-0 px-0">
-              {isCompact 
-                ? guideChoice 
-                  ? guideChoice === "choose_for_me" 
-                    ? "Guide chosen" 
-                    : guideChoice === "choose_own" 
-                      ? "Own guide" 
-                      : "No guide" 
-                  : "With" 
-                : guideChoice === "choose_for_me" 
-                  ? "Guide chosen for you" 
-                  : guideChoice === "choose_own" 
-                    ? "Choose own guide" 
-                    : guideChoice === "no_guide" 
-                      ? "No guide" 
-                      : "Get a Guide?"
-              }
+            <span className="text-slate-950">
+              {getButtonText()}
             </span>
           </Button>
         </PopoverTrigger>

@@ -34,7 +34,7 @@ const DateSelector = ({
             variant="outline" 
             onKeyDown={handleKeyDown} 
             className={cn(
-              "w-full justify-start text-left font-normal bg-white/90 text-gray-900 border-0 transition-none",
+              "w-full justify-center items-center text-center font-normal bg-white/90 text-gray-900 border-0 transition-none",
               isCompact ? "h-8 px-2 py-1 text-xs" : "h-12 text-sm", 
               !date && "text-gray-500"
             )}
