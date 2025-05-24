@@ -1,4 +1,5 @@
 
+
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -80,7 +81,7 @@ const GuideSelector = ({
             </span>
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-auto sm:w-80 border border-border bg-white shadow-lg rounded-lg p-2">
+        <PopoverContent className="w-auto sm:w-80 border border-border bg-white shadow-lg rounded-lg p-2" align="center">
           <div className="space-y-1">
             {["choose_for_me", "choose_own", "no_guide"].map(choice => (
               <Button 

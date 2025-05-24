@@ -76,7 +76,7 @@ const VisitorSelector = ({
             </span>
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-auto sm:w-80 border border-border bg-white shadow-lg rounded-lg p-3">
+        <PopoverContent className="w-auto sm:w-80 border border-border bg-white shadow-lg rounded-lg p-3" align="center">
           <div className="space-y-3">
             {visitors.map(category => (
               <div key={category.type} className="flex items-center justify-between">

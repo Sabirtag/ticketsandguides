@@ -55,7 +55,7 @@ const DateSelector = ({
             </div>
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-auto p-0 bg-popover border border-border shadow-md" align="start">
+        <PopoverContent className="w-auto p-0 bg-popover border border-border shadow-md" align="center">
           <Calendar 
             mode="single" 
             selected={date} 
