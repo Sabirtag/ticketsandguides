@@ -39,18 +39,20 @@ const DateSelector = ({
               !date && "text-gray-500"
             )}
           >
-            <CalendarIcon 
-              className={cn(
-                "mr-2 h-4 w-4", 
-                isCompact && "mr-1 h-3 w-3"
-              )} 
-            />
-            <span className="text-center">
-              {date 
-                ? format(date, isCompact ? "MMM d" : "PPP") 
-                : isCompact ? "When" : "Add Date & Time"
-              }
-            </span>
+            <div className="flex items-center justify-center">
+              <CalendarIcon 
+                className={cn(
+                  "h-4 w-4", 
+                  isCompact ? "mr-1 h-3 w-3" : "mr-1.5"
+                )} 
+              />
+              <span className="text-center">
+                {date 
+                  ? format(date, isCompact ? "MMM d" : "PPP") 
+                  : isCompact ? "When" : "Add Date & Time"
+                }
+              </span>
+            </div>
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-auto p-0 bg-popover border border-border shadow-md" align="start">
