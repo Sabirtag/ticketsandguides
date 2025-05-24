@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -45,7 +44,7 @@ const GuideSelector = ({
 
   const getButtonText = () => {
     if (isCompact) {
-      if (guideChoice === "choose_for_me") return "Auto";
+      if (guideChoice === "choose_for_me") return "Guide";
       if (guideChoice === "choose_own") return "Manual";
       if (guideChoice === "no_guide") return "None";
       return "Guide";
