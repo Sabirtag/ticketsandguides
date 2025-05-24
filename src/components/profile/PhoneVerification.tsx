@@ -27,20 +27,45 @@ const PhoneVerification = ({ userId, currentPhone, isVerified, onVerificationCom
     // Remove all non-digits
     const digits = value.replace(/\D/g, '');
     
+    // Limit to 10 digits for Indian numbers
+    const limitedDigits = digits.slice(0, 10);
+    
     // Format as +91 XXXXX XXXXX for Indian numbers
-    if (digits.length <= 10) {
-      if (digits.length > 5) {
-        return `+91 ${digits.slice(0, 5)} ${digits.slice(5)}`;
-      } else if (digits.length > 0) {
-        return `+91 ${digits}`;
-      }
+    if (limitedDigits.length > 5) {
+      return `+91 ${limitedDigits.slice(0, 5)} ${limitedDigits.slice(5)}`;
+    } else if (limitedDigits.length > 0) {
+      return `+91 ${limitedDigits}`;
     }
-    return `+91 ${digits.slice(0, 5)} ${digits.slice(5, 10)}`;
+    return '+91 ';
   };
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const formatted = formatPhoneNumber(e.target.value);
+    const inputValue = e.target.value;
+    
+    // If user tries to delete the +91 prefix, reset it
+    if (!inputValue.startsWith('+91')) {
+      setPhone('+91 ');
+      return;
+    }
+    
+    const formatted = formatPhoneNumber(inputValue);
     setPhone(formatted);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    // Allow: backspace, delete, tab, escape, enter
+    if ([8, 9, 27, 13, 46].indexOf(e.keyCode) !== -1 ||
+        // Allow: Ctrl+A, Ctrl+C, Ctrl+V, Ctrl+X
+        (e.keyCode === 65 && e.ctrlKey === true) ||
+        (e.keyCode === 67 && e.ctrlKey === true) ||
+        (e.keyCode === 86 && e.ctrlKey === true) ||
+        (e.keyCode === 88 && e.ctrlKey === true)) {
+      return;
+    }
+    // Ensure that it is a number and stop the keypress
+    if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+      e.preventDefault();
+    }
   };
 
   const startCountdown = () => {
@@ -57,8 +82,10 @@ const PhoneVerification = ({ userId, currentPhone, isVerified, onVerificationCom
   };
 
   const sendOtp = async () => {
-    if (!phone || phone.length < 10) {
-      toast.error('Please enter a valid phone number');
+    // Extract digits from phone number
+    const digits = phone.replace(/\D/g, '');
+    if (digits.length !== 12 || !digits.startsWith('91')) {
+      toast.error('Please enter a valid 10-digit phone number');
       return;
     }
 
@@ -158,16 +185,18 @@ const PhoneVerification = ({ userId, currentPhone, isVerified, onVerificationCom
               <Label htmlFor="phone">Phone Number</Label>
               <Input
                 id="phone"
-                type="tel"
+                type="text"
                 value={phone}
                 onChange={handlePhoneChange}
+                onKeyDown={handleKeyDown}
                 placeholder="+91 XXXXX XXXXX"
                 disabled={loading}
+                maxLength={17}
               />
             </div>
             <Button 
               onClick={sendOtp} 
-              disabled={loading || !phone}
+              disabled={loading || phone.length < 17}
               className="w-full"
             >
               {loading ? 'Sending...' : 'Send Verification Code'}

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
@@ -86,9 +85,7 @@ const Profile = () => {
             email={email}
             handleUpdateProfile={handleUpdateProfile}
           />
-        </div>
-        
-        <div className="mt-6">
+          
           <PhoneVerification
             userId={user?.id || ''}
             currentPhone={phoneNumber}
