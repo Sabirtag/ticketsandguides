@@ -33,14 +33,14 @@ const Navbar = () => {
         }`}
         style={{ height: 'var(--navbar-height)' }}
       >
-        <div className="container mx-auto px-4 md:px-6 h-full">
+        <div className="container mx-auto px-2 sm:px-4 lg:px-6 h-full">
           <div className="flex h-full items-center justify-between">
             <div className="flex items-center">
               <Link to="/" className="flex items-center">
                 <img 
                   src="/lovable-uploads/78423913-30f6-412f-abc1-8063a3b6b1ce.png" 
                   alt="TAG - Tickets and Guides" 
-                  className="h-10 w-auto"
+                  className="h-8 sm:h-10 w-auto"
                 />
               </Link>
             </div>

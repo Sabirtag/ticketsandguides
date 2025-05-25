@@ -47,8 +47,8 @@ const BookingCard = ({ booking }: BookingCardProps) => {
 
   return (
     <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-200">
-      <CardHeader className="pb-4">
-        <div className="flex justify-between items-start">
+      <CardHeader className="pb-3 sm:pb-4">
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2">
           <div className="flex-1">
             <h3 className="text-lg font-semibold mb-1">{booking.destination}</h3>
             <div className="flex items-center gap-1 text-sm text-gray-500">
@@ -56,66 +56,66 @@ const BookingCard = ({ booking }: BookingCardProps) => {
               {booking.location}
             </div>
           </div>
-          <Badge variant="secondary" className={`${getStatusBadgeStyle(booking.status)} font-medium`}>
+          <Badge variant="secondary" className={`${getStatusBadgeStyle(booking.status)} font-medium self-start`}>
             {booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}
           </Badge>
         </div>
       </CardHeader>
       
       <CardContent className="py-0">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-3 sm:mb-4">
           <div className="flex items-center gap-2">
-            <Calendar className="h-4 w-4 text-primary" />
-            <div>
+            <Calendar className="h-4 w-4 text-primary flex-shrink-0" />
+            <div className="min-w-0">
               <p className="text-xs text-gray-500">Date</p>
-              <p className="text-sm font-medium">{formatDate(booking.date)}</p>
+              <p className="text-sm font-medium truncate">{formatDate(booking.date)}</p>
             </div>
           </div>
           
           <div className="flex items-center gap-2">
-            <Clock className="h-4 w-4 text-primary" />
-            <div>
+            <Clock className="h-4 w-4 text-primary flex-shrink-0" />
+            <div className="min-w-0">
               <p className="text-xs text-gray-500">Time</p>
-              <p className="text-sm font-medium">{booking.time}</p>
+              <p className="text-sm font-medium truncate">{booking.time}</p>
             </div>
           </div>
           
           <div className="flex items-center gap-2">
-            <User className="h-4 w-4 text-primary" />
-            <div>
+            <User className="h-4 w-4 text-primary flex-shrink-0" />
+            <div className="min-w-0">
               <p className="text-xs text-gray-500">Guests</p>
               <p className="text-sm font-medium">{booking.ticketCount}</p>
             </div>
           </div>
           
           <div className="flex items-center gap-2">
-            <CreditCard className="h-4 w-4 text-primary" />
-            <div>
+            <CreditCard className="h-4 w-4 text-primary flex-shrink-0" />
+            <div className="min-w-0">
               <p className="text-xs text-gray-500">Amount</p>
               <p className="text-sm font-bold text-green-600">₹{booking.totalAmount}</p>
             </div>
           </div>
         </div>
         
-        <div className="flex items-center justify-between text-xs text-gray-500 bg-gray-50 px-3 py-2 rounded-md">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between text-xs text-gray-500 bg-gray-50 px-3 py-2 rounded-md gap-1 sm:gap-0">
           <div className="flex items-center gap-1">
-            <Ticket className="h-3 w-3" />
-            <span>ID: {booking.ticketId}</span>
+            <Ticket className="h-3 w-3 flex-shrink-0" />
+            <span className="truncate">ID: {booking.ticketId}</span>
           </div>
-          <span>{booking.paymentMethod}</span>
+          <span className="truncate">{booking.paymentMethod}</span>
         </div>
       </CardContent>
       
-      <CardFooter className="pt-4 flex justify-end gap-2">
+      <CardFooter className="pt-3 sm:pt-4 flex flex-col sm:flex-row justify-end gap-2">
         {booking.status === 'upcoming' && (
           <>
-            <Button variant="outline" size="sm">Cancel</Button>
-            <Button size="sm">Download</Button>
+            <Button variant="outline" size="sm" className="w-full sm:w-auto">Cancel</Button>
+            <Button size="sm" className="w-full sm:w-auto">Download</Button>
           </>
         )}
         
         {booking.status === 'completed' && (
-          <Button size="sm">Download</Button>
+          <Button size="sm" className="w-full sm:w-auto">Download</Button>
         )}
       </CardFooter>
     </Card>

@@ -69,4 +69,11 @@
     --spacing-xl: 2rem;
     --spacing-2xl: 3rem;
   }
+  
+  /* Mobile-specific adjustments */
+  @media (max-width: 640px) {
+    :root {
+      --navbar-height: var(--navbar-height-mobile);
+    }
+  }
 }

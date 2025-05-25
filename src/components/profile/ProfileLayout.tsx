@@ -27,17 +27,17 @@ const ProfileLayout = ({ title, loading, children }: ProfileLayoutProps) => {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <div className="container mx-auto px-4 py-20">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
         <Button 
           variant="ghost" 
           size="sm" 
-          className="flex items-center text-muted-foreground mb-6"
+          className="flex items-center text-muted-foreground mb-4 sm:mb-6"
           onClick={() => navigate(-1)}
         >
           <ArrowLeft className="mr-2 h-4 w-4" />
           Back
         </Button>
-        <h1 className="text-3xl font-bold mb-8 text-foreground font-fitzgerald">{title}</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 text-foreground font-fitzgerald">{title}</h1>
         {children}
       </div>
     </div>

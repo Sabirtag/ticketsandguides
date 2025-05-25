@@ -19,16 +19,16 @@ const Auth = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         <div className="flex justify-center">
           <div className="w-full max-w-md">
-            <Link to="/" className="flex items-center text-muted-foreground hover:text-primary mb-6">
+            <Link to="/" className="flex items-center text-muted-foreground hover:text-primary mb-4 sm:mb-6">
               <ArrowLeft className="mr-2 h-4 w-4" />
               Back to home
             </Link>
             
             <Tabs defaultValue="login" className="w-full">
-              <TabsList className="grid w-full grid-cols-2 mb-8">
+              <TabsList className="grid w-full grid-cols-2 mb-6 sm:mb-8">
                 <TabsTrigger value="login">Login</TabsTrigger>
                 <TabsTrigger value="register">Register</TabsTrigger>
               </TabsList>

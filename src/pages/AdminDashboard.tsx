@@ -51,39 +51,43 @@ const AdminDashboard = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <div className="container mx-auto px-4 py-8">
-        <div className="mb-8 flex justify-between items-center">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+        <div className="mb-6 sm:mb-8 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
           <div>
-            <h1 className="text-3xl font-bold">Admin Dashboard</h1>
-            <p className="text-muted-foreground">Manage affiliate applications and monitor performance</p>
+            <h1 className="text-2xl sm:text-3xl font-bold">Admin Dashboard</h1>
+            <p className="text-muted-foreground text-sm sm:text-base">Manage affiliate applications and monitor performance</p>
           </div>
           <MakeAdminButton />
         </div>
 
         <AdminStats />
 
-        <Tabs defaultValue="pending" className="mt-8">
-          <TabsList className="mb-6">
-            <TabsTrigger value="pending" className="flex items-center gap-2">
-              Pending Applications
+        <Tabs defaultValue="pending" className="mt-6 sm:mt-8">
+          <TabsList className="mb-4 sm:mb-6 grid w-full grid-cols-2">
+            <TabsTrigger value="pending" className="flex items-center gap-2 text-sm">
+              <span className="hidden sm:inline">Pending Applications</span>
+              <span className="sm:hidden">Pending</span>
               {pendingApplications.length > 0 && (
                 <span className="bg-primary text-primary-foreground rounded-full px-2 py-1 text-xs">
                   {pendingApplications.length}
                 </span>
               )}
             </TabsTrigger>
-            <TabsTrigger value="approved">Approved Affiliates</TabsTrigger>
+            <TabsTrigger value="approved" className="text-sm">
+              <span className="hidden sm:inline">Approved Affiliates</span>
+              <span className="sm:hidden">Approved</span>
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="pending">
             <Card>
               <CardHeader>
-                <CardTitle>Pending Affiliate Applications</CardTitle>
-                <CardDescription>
+                <CardTitle className="text-lg sm:text-xl">Pending Affiliate Applications</CardTitle>
+                <CardDescription className="text-sm">
                   Review and approve new affiliate applications
                 </CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="p-0 sm:p-6">
                 <AffiliateApplicationsTable
                   applications={pendingApplications}
                   loading={loading}
@@ -97,12 +101,12 @@ const AdminDashboard = () => {
           <TabsContent value="approved">
             <Card>
               <CardHeader>
-                <CardTitle>Approved Affiliates</CardTitle>
-                <CardDescription>
+                <CardTitle className="text-lg sm:text-xl">Approved Affiliates</CardTitle>
+                <CardDescription className="text-sm">
                   Manage existing affiliate partnerships
                 </CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="p-0 sm:p-6">
                 <AffiliateApplicationsTable
                   applications={approvedAffiliates}
                   loading={loading}

@@ -78,29 +78,29 @@ const GuideApplication = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         <Button 
           variant="ghost" 
           size="sm" 
-          className="flex items-center text-muted-foreground mb-6"
+          className="flex items-center text-muted-foreground mb-4 sm:mb-6"
           onClick={() => navigate(-1)}
         >
           <ArrowLeft className="mr-2 h-4 w-4" />
           Back
         </Button>
 
-        <div className="max-w-3xl mx-auto">
+        <div className="max-w-4xl mx-auto">
           <Card>
-            <CardHeader className="text-center">
-              <CardTitle className="text-3xl font-bold">Become a TAG Guide</CardTitle>
-              <p className="text-muted-foreground">
+            <CardHeader className="text-center px-4 sm:px-6 lg:px-8">
+              <CardTitle className="text-2xl sm:text-3xl font-bold">Become a TAG Guide</CardTitle>
+              <p className="text-sm sm:text-base text-muted-foreground mt-2">
                 Join our community of passionate heritage guides and help visitors discover India's rich history and culture.
               </p>
             </CardHeader>
-            <CardContent>
+            <CardContent className="px-4 sm:px-6 lg:px-8">
               <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                  <div className="grid md:grid-cols-2 gap-4">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 sm:space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <FormField
                       control={form.control}
                       name="fullName"
@@ -130,7 +130,7 @@ const GuideApplication = () => {
                     />
                   </div>
 
-                  <div className="grid md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <FormField
                       control={form.control}
                       name="phone"
@@ -255,9 +255,9 @@ const GuideApplication = () => {
                     )}
                   />
 
-                  <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
-                    <h3 className="font-semibold text-amber-800 mb-2">What happens next?</h3>
-                    <ul className="text-sm text-amber-700 space-y-1">
+                  <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 sm:p-4">
+                    <h3 className="font-semibold text-amber-800 mb-2 text-sm sm:text-base">What happens next?</h3>
+                    <ul className="text-xs sm:text-sm text-amber-700 space-y-1">
                       <li>• We'll review your application within 5-7 business days</li>
                       <li>• Shortlisted candidates will be contacted for an interview</li>
                       <li>• Successful applicants will undergo training and certification</li>
@@ -267,7 +267,7 @@ const GuideApplication = () => {
 
                   <Button 
                     type="submit" 
-                    className="w-full bg-[rgba(100,73,37,255)] hover:bg-[rgba(100,73,37,0.9)]"
+                    className="w-full bg-[rgba(100,73,37,255)] hover:bg-[rgba(100,73,37,0.9)] py-2 sm:py-3"
                     disabled={form.formState.isSubmitting}
                   >
                     {form.formState.isSubmitting ? 'Submitting...' : 'Submit Application'}

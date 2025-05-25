@@ -54,8 +54,8 @@ const AllDestinations = () => {
     <div className="min-h-screen bg-background">
       <Navbar />
       
-      <div className="container px-4 py-8 mx-auto">
-        <div className="mb-6">
+      <div className="container px-4 sm:px-6 lg:px-8 py-6 sm:py-8 mx-auto">
+        <div className="mb-4 sm:mb-6">
           <Button 
             variant="ghost" 
             size="sm" 
@@ -67,14 +67,14 @@ const AllDestinations = () => {
           </Button>
         </div>
         
-        <div className="flex items-center gap-2 mb-6">
-          <MapPin className="h-6 w-6 text-primary" />
-          <h1 className="text-2xl md:text-3xl font-bold font-fitzgerald">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-2 mb-6 sm:mb-8">
+          <MapPin className="h-5 w-5 sm:h-6 sm:w-6 text-primary flex-shrink-0" />
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold font-fitzgerald">
             All Popular Destinations in India
           </h1>
         </div>
         
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
           {allDestinations.map((destination) => (
             <Link 
               key={destination.id} 
@@ -89,11 +89,11 @@ const AllDestinations = () => {
                     aspectRatio="portrait"
                   />
                   
-                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent pt-12 pb-4 px-4">
-                    <h3 className="text-xl font-bold text-white font-fitzgerald">{destination.name}</h3>
-                    <p className="text-white/80 text-sm mt-1">{destination.location}</p>
+                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent pt-8 sm:pt-12 pb-3 sm:pb-4 px-3 sm:px-4">
+                    <h3 className="text-lg sm:text-xl font-bold text-white font-fitzgerald line-clamp-2">{destination.name}</h3>
+                    <p className="text-white/80 text-sm mt-1 line-clamp-1">{destination.location}</p>
                     
-                    <div className="flex items-center text-white/90 text-sm mt-3">
+                    <div className="flex items-center text-white/90 text-sm mt-2 sm:mt-3">
                       <p className="font-medium">From ₹{parseInt(destination.price?.split(' ')[0].replace(/[^\d]/g, '') || '0')}</p>
                       <p className="ml-1">per person</p>
                     </div>
