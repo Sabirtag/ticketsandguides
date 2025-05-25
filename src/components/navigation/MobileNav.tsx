@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger, SheetClose } from "@/components/ui/sheet";
@@ -6,14 +5,14 @@ import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from '@/contexts/AuthContext';
 import { ScrollArea } from "@/components/ui/scroll-area";
-
 const MobileNav = () => {
-  const { user, signOut } = useAuth();
-  
-  return (
-    <Sheet>
+  const {
+    user,
+    signOut
+  } = useAuth();
+  return <Sheet>
       <SheetTrigger asChild>
-        <Button variant="ghost" size="sm" className="p-0 px-2">
+        <Button variant="ghost" size="sm" className="p-0 px-2 text-inherit bg-inherit">
           <Menu className="h-5 w-5" />
         </Button>
       </SheetTrigger>
@@ -47,27 +46,18 @@ const MobileNav = () => {
               </Link>
             </SheetClose>
             
-            {user ? (
-              <SheetClose asChild>
-                <button
-                  onClick={() => signOut()}
-                  className="w-full text-left flex items-center p-3 hover:bg-accent rounded-lg transition-colors text-red-600"
-                >
+            {user ? <SheetClose asChild>
+                <button onClick={() => signOut()} className="w-full text-left flex items-center p-3 hover:bg-accent rounded-lg transition-colors text-red-600">
                   Log Out
                 </button>
-              </SheetClose>
-            ) : (
-              <SheetClose asChild>
+              </SheetClose> : <SheetClose asChild>
                 <Link to="/auth" className="flex items-center p-3 hover:bg-accent rounded-lg transition-colors">
                   Sign In
                 </Link>
-              </SheetClose>
-            )}
+              </SheetClose>}
           </div>
         </ScrollArea>
       </SheetContent>
-    </Sheet>
-  );
+    </Sheet>;
 };
-
 export default MobileNav;
