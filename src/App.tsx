@@ -15,6 +15,7 @@ import BookingConfirmation from "./pages/BookingConfirmation";
 import Checkout from "./pages/Checkout";
 import AllDestinations from "./pages/AllDestinations";
 import Guides from "./pages/Guides";
+import GuideApplication from "./pages/GuideApplication";
 import BecomePartner from '@/pages/BecomePartner';
 import Profile from "@/pages/Profile";
 import MyBookings from "@/pages/MyBookings";
@@ -64,6 +65,7 @@ const App = () => {
             <Route path="/auth/reset-password" element={<ResetPassword />} />
             <Route path="/auth/update-password" element={<UpdatePassword />} />
             <Route path="/guides" element={<Guides />} />
+            <Route path="/guide-application" element={<GuideApplication />} />
             <Route path="/city/:cityName" element={<CityPage />} />
             <Route path="/monument/:monumentId" element={<BookingSite />} />
             <Route path="/destination/:id" element={<DestinationDetail />} />
