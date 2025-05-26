@@ -1,3 +1,4 @@
+
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
@@ -68,7 +69,44 @@ const LesserKnownPlaces = () => {
           away from the usual tourist crowds.
         </p>
         
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {/* Mobile horizontal scrollable layout */}
+        <div className="md:hidden overflow-x-auto scrollbar-none pb-4">
+          <div className="flex gap-3 min-w-max">
+            {lesserKnownPlaces.map((place) => (
+              <Card 
+                key={place.id} 
+                className="overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-lg hover:scale-[1.02] w-52 flex-shrink-0"
+                onClick={() => handlePlaceClick(place.id)}
+              >
+                <div className="aspect-video relative overflow-hidden">
+                  <img 
+                    src={place.image} 
+                    alt={place.name}
+                    loading="lazy"
+                    className="w-full h-full object-cover"
+                  />
+                  <Badge 
+                    variant="secondary" 
+                    className="absolute top-2 right-2 bg-primary/20 text-primary border-primary/10 text-xs"
+                  >
+                    Hidden Gem
+                  </Badge>
+                </div>
+                <CardContent className="p-3">
+                  <h3 className="font-bold text-sm mb-1 line-clamp-2">{place.name}</h3>
+                  <div className="flex items-center text-muted-foreground mb-2">
+                    <MapPin className="h-3 w-3 mr-1" />
+                    <span className="text-xs">{place.location}</span>
+                  </div>
+                  <p className="text-xs text-muted-foreground line-clamp-3">{place.description}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+
+        {/* Desktop grid layout */}
+        <div className="hidden md:grid md:grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {lesserKnownPlaces.map((place) => (
             <Card 
               key={place.id} 
