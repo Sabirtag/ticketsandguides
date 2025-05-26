@@ -18,7 +18,7 @@ const PopularDestinations: React.FC<PopularDestinationsProps> = ({
   return <section className="py-8 md:py-12 bg-white">
       <div className="container px-4 md:px-6">
         <div className="flex items-center gap-2 mb-6">
-          <MapPin className="h-6 w-6 text-primary" />
+          
           <h2 className="text-2xl md:text-3xl font-bold font-fitzgerald">
             {userLocation ? "Popular Destinations Near You" : "Popular Destinations in India"}
           </h2>
