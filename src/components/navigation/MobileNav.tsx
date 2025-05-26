@@ -1,25 +1,33 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger, SheetClose } from "@/components/ui/sheet";
-import { Menu } from "lucide-react";
+import { Menu, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from '@/contexts/AuthContext';
 import { ScrollArea } from "@/components/ui/scroll-area";
+
 const MobileNav = () => {
-  const {
-    user,
-    signOut
-  } = useAuth();
-  return <Sheet>
+  const { user, signOut } = useAuth();
+
+  return (
+    <Sheet>
       <SheetTrigger asChild>
         <Button variant="ghost" size="sm" className="p-0 px-2 text-inherit bg-inherit">
           <Menu className="h-5 w-5" />
         </Button>
       </SheetTrigger>
-      <SheetContent className="w-full sm:w-2/3 p-4 overflow-y-auto">
+      <SheetContent className="w-full sm:w-2/3 p-4 overflow-y-auto" hideCloseButton>
         <ScrollArea className="h-full pr-4">
           <SheetHeader className="text-left">
-            <SheetTitle>Menu</SheetTitle>
+            <div className="flex items-center gap-2">
+              <SheetClose asChild>
+                <Button variant="ghost" size="icon" className="h-8 w-8">
+                  <ArrowLeft className="h-4 w-4" />
+                </Button>
+              </SheetClose>
+              <SheetTitle>Menu</SheetTitle>
+            </div>
             <SheetDescription>
               Explore our site.
             </SheetDescription>
@@ -46,18 +54,24 @@ const MobileNav = () => {
               </Link>
             </SheetClose>
             
-            {user ? <SheetClose asChild>
+            {user ? (
+              <SheetClose asChild>
                 <button onClick={() => signOut()} className="w-full text-left flex items-center p-3 hover:bg-accent rounded-lg transition-colors text-red-600">
                   Log Out
                 </button>
-              </SheetClose> : <SheetClose asChild>
+              </SheetClose>
+            ) : (
+              <SheetClose asChild>
                 <Link to="/auth" className="flex items-center p-3 hover:bg-accent rounded-lg transition-colors">
                   Sign In
                 </Link>
-              </SheetClose>}
+              </SheetClose>
+            )}
           </div>
         </ScrollArea>
       </SheetContent>
-    </Sheet>;
+    </Sheet>
+  );
 };
+
 export default MobileNav;
