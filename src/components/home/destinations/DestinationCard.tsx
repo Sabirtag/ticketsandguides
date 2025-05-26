@@ -26,11 +26,11 @@ const DestinationCard: React.FC<DestinationCardProps> = ({
             aspectRatio="portrait" 
           />
           
-          <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent pt-12 pb-4 px-4">
-            <h3 className="text-xl md:text-2xl font-bold text-white font-fitzgerald">{destination.name}</h3>
+          <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent pt-8 md:pt-12 pb-3 md:pb-4 px-3 md:px-4">
+            <h3 className="text-lg md:text-xl lg:text-2xl font-bold text-white font-fitzgerald line-clamp-2">{destination.name}</h3>
             
             {destination.distance !== undefined && (
-              <p className="text-white/80 text-sm mt-1">
+              <p className="text-white/80 text-xs md:text-sm mt-1">
                 {destination.distance < 1 
                   ? `${Math.round(destination.distance * 1000)} m away` 
                   : `${destination.distance.toFixed(1)} km away`
@@ -38,7 +38,7 @@ const DestinationCard: React.FC<DestinationCardProps> = ({
               </p>
             )}
             
-            <div className="flex items-center text-white/90 text-sm mt-3">
+            <div className="flex items-center text-white/90 text-xs md:text-sm mt-2 md:mt-3">
               <p className="font-medium">
                 From ₹{parseInt(destination.price?.split(' ')[0].replace(/[^\d]/g, '') || '0')}
               </p>

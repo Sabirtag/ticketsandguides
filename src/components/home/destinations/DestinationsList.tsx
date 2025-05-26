@@ -48,8 +48,19 @@ const DestinationsList: React.FC<DestinationsListProps> = ({
 
   return (
     <div>
-      {/* Responsive grid layout */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+      {/* Mobile horizontal scrollable layout */}
+      <div className="md:hidden overflow-x-auto scrollbar-none pb-4">
+        <div className="flex gap-3 min-w-max">
+          {visibleDestinations.map(destination => (
+            <div key={destination.id} className="w-44 flex-shrink-0">
+              <DestinationCard destination={destination} />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Desktop grid layout */}
+      <div className="hidden md:grid md:grid-cols-4 gap-4 md:gap-6">
         {visibleDestinations.map(destination => (
           <div key={destination.id}>
             <DestinationCard destination={destination} />
