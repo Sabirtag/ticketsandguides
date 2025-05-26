@@ -19,7 +19,7 @@ const WhyTagSection = () => {
         </div>
         
         {/* Mobile horizontal scrollable layout */}
-        <div className="md:hidden overflow-x-auto pb-4">
+        <div className="md:hidden overflow-x-auto scrollbar-none pb-4">
           <div className="flex gap-3 min-w-max">
             <Card className="shadow-sm card-hover animate-fade-in w-44 flex-shrink-0">
               <CardContent className="p-3">
