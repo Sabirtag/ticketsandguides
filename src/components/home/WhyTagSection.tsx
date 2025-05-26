@@ -18,7 +18,63 @@ const WhyTagSection = () => {
           </p>
         </div>
         
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+        {/* Mobile horizontal scrollable layout */}
+        <div className="md:hidden overflow-x-auto pb-4">
+          <div className="flex gap-3 min-w-max">
+            <Card className="shadow-sm card-hover animate-fade-in w-44 flex-shrink-0">
+              <CardContent className="p-3">
+                <BadgeCheck className="h-6 w-6 text-[rgba(100,73,37,255)] mb-2" />
+                <h3 className="text-sm font-fitzgerald mb-1">Authentic Experience</h3>
+                <p className="text-muted-foreground text-xs font-satoshi">
+                  Skip the queue with our e-tickets and enjoy direct entry.
+                </p>
+              </CardContent>
+            </Card>
+            
+            <Card className="shadow-sm card-hover animate-fade-in [animation-delay:100ms] w-44 flex-shrink-0">
+              <CardContent className="p-3">
+                <Clock className="h-6 w-6 text-[rgba(100,73,37,255)] mb-2" />
+                <h3 className="text-sm font-fitzgerald mb-1">Real-time Availability</h3>
+                <p className="text-muted-foreground text-xs font-satoshi">
+                  Book tickets for your preferred date and time.
+                </p>
+              </CardContent>
+            </Card>
+            
+            <Card className="shadow-sm card-hover animate-fade-in [animation-delay:200ms] w-44 flex-shrink-0">
+              <CardContent className="p-3">
+                <CreditCard className="h-6 w-6 text-[rgba(100,73,37,255)] mb-2" />
+                <h3 className="text-sm font-fitzgerald mb-1">Secure Payments</h3>
+                <p className="text-muted-foreground text-xs font-satoshi">
+                  Multiple payment options with bank-grade security.
+                </p>
+              </CardContent>
+            </Card>
+            
+            <Card className="shadow-sm card-hover animate-fade-in [animation-delay:300ms] w-44 flex-shrink-0">
+              <CardContent className="p-3">
+                <Users className="h-6 w-6 text-[rgba(100,73,37,255)] mb-2" />
+                <h3 className="text-sm font-fitzgerald mb-1">Expert Guides</h3>
+                <p className="text-muted-foreground text-xs font-satoshi">
+                  Connect with certified local guides for enhanced experiences.
+                </p>
+              </CardContent>
+            </Card>
+            
+            <Card className="shadow-sm card-hover animate-fade-in [animation-delay:400ms] w-44 flex-shrink-0">
+              <CardContent className="p-3">
+                <Shield className="h-6 w-6 text-[rgba(100,73,37,255)] mb-2" />
+                <h3 className="text-sm font-fitzgerald mb-1">Government Authorized</h3>
+                <p className="text-muted-foreground text-xs font-satoshi">
+                  Official platform by Archaeological Survey of India.
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+
+        {/* Desktop grid layout */}
+        <div className="hidden md:grid md:grid-cols-5 gap-4">
           <Card className="shadow-sm card-hover animate-fade-in">
             <CardContent className="p-4">
               <BadgeCheck className="h-8 w-8 text-[rgba(100,73,37,255)] mb-2" />
