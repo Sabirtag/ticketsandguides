@@ -73,7 +73,7 @@ const MobileSearchForm = ({
           </div>
           <Sheet>
             <SheetTrigger asChild>
-              <Button type="button" variant="outline" size="icon" className="shrink-0 bg-white text-[#006d5b] border-[#006d5b] hover:bg-[#006d5b]/10">
+              <Button type="button" variant="outline" size="icon" className="bg-[rgba(100,73,37,255)] text-white hover:bg-[rgba(100,73,37,0.9)], border-[rgba(100,73,37,255)] ">
                 <Search className="h-4 w-4" />
               </Button>
             </SheetTrigger>
