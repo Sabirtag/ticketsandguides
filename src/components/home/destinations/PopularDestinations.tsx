@@ -33,7 +33,7 @@ const PopularDestinations: React.FC<PopularDestinationsProps> = ({
         
         <div className="flex justify-center mt-5 md:hidden">
           <Button variant="cta" className="px-6 py-2 text-sm" asChild>
-            <Link to="/destinations">View All</Link>
+            <Link to="/destinations" className="bg-[rgba(100,73,37,255)] text-white hover:bg-[rgba(100,73,37,0.9)]">View All</Link>
           </Button>
         </div>
       </div>
