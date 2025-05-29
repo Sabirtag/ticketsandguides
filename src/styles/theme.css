@@ -5,57 +5,57 @@
  */
 @layer base {
   :root {
-    /* Primary color palette - Updated to match logo */
-    --primary: 210 100% 40%; /* Deep blue from logo */
-    --primary-foreground: 0 0% 100%;
-    --primary-hover: 210 100% 35%;
-    --primary-active: 210 100% 30%;
+    /* Primary color palette */
+    --primary: 25 60% 25%; /* The main brand brown color */
+    --primary-foreground: 30 10% 98%;
+    --primary-hover: 25 60% 20%;
+    --primary-active: 25 60% 15%;
     
     /* Secondary and accent colors */
-    --secondary: 210 20% 90%;
-    --secondary-foreground: 210 15% 15%;
-    --accent: 210 20% 85%;
-    --accent-foreground: 210 15% 15%;
+    --secondary: 25 30% 90%;
+    --secondary-foreground: 30 9% 11%;
+    --accent: 25 30% 85%;
+    --accent-foreground: 30 9% 11%;
     
-    /* Highlight and call-to-action color - Updated to match logo */
-    --cta: 210 100% 40%; /* Same deep blue as primary */
+    /* Highlight and call-to-action color */
+    --cta: 162 100% 22%; /* Teal color for buttons, previously #006d5b */
     --cta-foreground: 0 0% 100%;
-    --cta-hover: 210 100% 35%;
-    --cta-active: 210 100% 30%;
+    --cta-hover: 162 100% 18%;
+    --cta-active: 162 100% 15%;
     
     /* Background and foreground colors */
-    --background: 210 10% 98%;
-    --foreground: 210 15% 15%;
+    --background: 35 30% 96%;
+    --foreground: 30 10% 15%;
     
     /* Card related colors */
     --card: 0 0% 100%;
-    --card-foreground: 210 15% 15%;
+    --card-foreground: 30 10% 15%;
     
     /* Popover related colors */
     --popover: 0 0% 100%;
-    --popover-foreground: 210 15% 15%;
+    --popover-foreground: 30 10% 15%;
     
     /* Utility colors */
-    --muted: 210 15% 92%;
-    --muted-foreground: 210 10% 40%;
+    --muted: 25 20% 92%;
+    --muted-foreground: 30 8% 40%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
     
     /* Border and input styles */
-    --border: 210 15% 85%;
-    --input: 210 15% 85%;
-    --ring: 210 100% 40%;
+    --border: 30 15% 85%;
+    --input: 30 15% 85%;
+    --ring: 25 60% 25%;
     --radius: 0.75rem;
     
-    /* Sidebar specific colors - Updated to match logo */
-    --sidebar-background: 210 100% 40%;
-    --sidebar-foreground: 0 0% 100%;
-    --sidebar-primary: 210 20% 90%;
-    --sidebar-primary-foreground: 210 100% 40%;
-    --sidebar-accent: 210 50% 50%;
-    --sidebar-accent-foreground: 0 0% 100%;
-    --sidebar-border: 210 30% 50%;
-    --sidebar-ring: 210 80% 80%;
+    /* Sidebar specific colors */
+    --sidebar-background: 25 60% 25%;
+    --sidebar-foreground: 30 10% 98%;
+    --sidebar-primary: 30 70% 90%;
+    --sidebar-primary-foreground: 25 60% 25%;
+    --sidebar-accent: 30 50% 40%;
+    --sidebar-accent-foreground: 30 10% 98%;
+    --sidebar-border: 30 30% 35%;
+    --sidebar-ring: 30 80% 80%;
     
     /* Layout variables */
     --navbar-height: 3.5rem; /* 56px - consistent height for navbar */

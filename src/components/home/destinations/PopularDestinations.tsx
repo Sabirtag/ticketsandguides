@@ -14,15 +14,16 @@ interface PopularDestinationsProps {
 const PopularDestinations: React.FC<PopularDestinationsProps> = ({
   userLocation
 }) => {
-  console.log("🎨 Rendering PopularDestinations with updated theme colors");
+  console.log("🎨 Rendering PopularDestinations with theme colors");
   return <section className="py-8 md:py-12 bg-white">
       <div className="container px-4 md:px-6">
         <div className="flex items-center gap-2 mb-6">
-          <h2 className="text-2xl md:text-3xl font-bold font-fitzgerald text-primary">
+          
+          <h2 className="text-2xl md:text-3xl font-bold font-fitzgerald">
             {userLocation ? "Popular Destinations Near You" : "Popular Destinations in India"}
           </h2>
           <Button variant="cta" size="sm" className="hidden md:flex items-center ml-auto" asChild>
-            <Link to="/destinations">
+            <Link to="/destinations" className="bg-[rgba(100,73,37,255)] text-white hover:bg-[rgba(100,73,37,0.9)]">
               View All <ChevronRight className="h-4 w-4 ml-1" />
             </Link>
           </Button>
@@ -32,7 +33,7 @@ const PopularDestinations: React.FC<PopularDestinationsProps> = ({
         
         <div className="flex justify-center mt-5 md:hidden">
           <Button variant="cta" className="px-6 py-2 text-sm" asChild>
-            <Link to="/destinations">View All</Link>
+            <Link to="/destinations" className="bg-[rgba(100,73,37,255)] text-white hover:bg-[rgba(100,73,37,0.9)]">View All</Link>
           </Button>
         </div>
       </div>

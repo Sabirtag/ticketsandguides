@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 const GuideRecruitBanner = () => {
   const navigate = useNavigate();
   
-  console.log("🎨 Rendering GuideRecruitBanner with updated theme colors");
+  console.log("🎨 Rendering GuideRecruitBanner with theme colors");
   
   return (
     <section className="relative py-12 sm:py-16 lg:py-20">
@@ -32,7 +32,7 @@ const GuideRecruitBanner = () => {
         <Button 
           variant="cta" 
           onClick={() => navigate("/guide-application")} 
-          className="px-6 sm:px-8 py-2 sm:py-3 text-sm sm:text-base"
+          className="bg-[rgba(100,73,37,255)] text-white hover:bg-[rgba(100,73,37,0.9)] px-6 sm:px-8 py-2 sm:py-3 text-sm sm:text-base"
         >
           Register Now
         </Button>

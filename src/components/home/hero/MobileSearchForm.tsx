@@ -72,7 +72,7 @@ const MobileSearchForm = ({
           </div>
           <Sheet>
             <SheetTrigger asChild>
-              <Button type="button" variant="outline" size="icon" className="bg-primary text-white hover:bg-primary/90">
+              <Button type="button" variant="outline" size="icon" className="bg-[rgba(100,73,37,255)] text-white hover:bg-[rgba(100,73,37,0.9)]">
                 <Search className="h-4 w-4" />
               </Button>
             </SheetTrigger>
@@ -112,7 +112,7 @@ const MobileSearchForm = ({
                   <GuideSelector guideChoice={guideChoice} showGuideOptions={showGuideOptions} setShowGuideOptions={setShowGuideOptions} setGuideChoice={setGuideChoice} setShowGuidePreferences={setShowGuidePreferences} />
                 </div>
 
-                <Button type="submit" className="w-full mt-6 bg-primary hover:bg-primary/90">
+                <Button type="submit" className="w-full mt-6 bg-[rgba(100,73,37,255)] hover:bg-[rgba(100,73,37,0.9)]">
                   Search
                 </Button>
               </div>
