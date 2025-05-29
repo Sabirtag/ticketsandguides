@@ -21,7 +21,7 @@ const HeroSection = () => {
   const searchFormRef = useRef<HTMLDivElement>(null);
   const heroSectionRef = useRef<HTMLElement>(null);
   
-  const backgroundImage = "https://images.unsplash.com/photo-1585135497273-1a86b09fe70e?ixlib=rb-4.0.3&auto=format&fit=crop&q=80";
+  const backgroundImage = "/lovable-uploads/850d7625-915b-47a9-9fe7-b6bf5a05510e.png";
   
   const [guidePreferences, setGuidePreferences] = useState<GuidePreferences>({
     languages: [],
@@ -76,7 +76,7 @@ const HeroSection = () => {
       <div className="absolute inset-0 z-0">
         <img 
           src={backgroundImage}
-          alt="Indian architectural detail" 
+          alt="Red Fort - Indian Heritage Architecture" 
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-black/30"></div>
