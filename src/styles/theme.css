@@ -61,6 +61,11 @@
     --navbar-height: 3.5rem; /* 56px - consistent height for navbar */
     --navbar-height-mobile: 3rem; /* 48px - mobile height */
     
+    /* Navbar padding constants to avoid magic numbers */
+    --navbar-padding-mobile: 0.5rem; /* 8px - equivalent to px-2 */
+    --navbar-padding-tablet: 1rem; /* 16px - equivalent to sm:px-4 */
+    --navbar-padding-desktop: 1.5rem; /* 24px - equivalent to lg:px-6 */
+    
     /* Spacing variables */
     --spacing-xs: 0.25rem;
     --spacing-sm: 0.5rem;
