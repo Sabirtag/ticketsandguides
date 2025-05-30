@@ -49,7 +49,7 @@ const Navbar = () => {
     <>
       <header 
         data-navbar
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-2 sm:px-4 lg:px-6 ${
           isScrolled 
             ? 'bg-white shadow-md' 
             : isHomePage 
@@ -57,26 +57,9 @@ const Navbar = () => {
               : 'bg-white border-b border-border'
         }`}
         style={{ 
-          height: 'var(--navbar-height)',
-          paddingLeft: 'var(--navbar-padding-mobile)',
-          paddingRight: 'var(--navbar-padding-mobile)'
+          height: 'var(--navbar-height)'
         }}
       >
-        <style jsx>{`
-          @media (min-width: 640px) {
-            header[data-navbar] {
-              padding-left: var(--navbar-padding-tablet);
-              padding-right: var(--navbar-padding-tablet);
-            }
-          }
-          @media (min-width: 1024px) {
-            header[data-navbar] {
-              padding-left: var(--navbar-padding-desktop);
-              padding-right: var(--navbar-padding-desktop);
-            }
-          }
-        `}</style>
-        
         <div className="h-full max-w-7xl mx-auto">
           <div className="flex h-full items-center justify-between">
             <div className="flex items-center">
