@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
 import { MapPin, Compass } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { getRandomImage } from "@/utils/pexels";
+
 const LesserKnownPlaces = () => {
   const navigate = useNavigate();
+  const [placeImages, setPlaceImages] = useState<Record<number, string>>({});
+  
   const lesserKnownPlaces = [{
     id: 101,
     name: "Champaner-Pavagadh Archaeological Park",
@@ -42,13 +46,41 @@ const LesserKnownPlaces = () => {
     image: "https://images.unsplash.com/photo-1558350768-7a5acc6cc520?ixlib=rb-4.0.3&auto=format&fit=crop&w=1500&q=80",
     description: "One of the oldest stone structures in India dating back to the 3rd century BCE."
   }];
+  
+  useEffect(() => {
+    const fetchImages = async () => {
+      const imagePromises = lesserKnownPlaces.map(async (place) => {
+        try {
+          const image = await getRandomImage(`${place.name} ${place.location} archaeological heritage`);
+          return { 
+            id: place.id, 
+            url: image?.src.medium || place.image 
+          };
+        } catch (error) {
+          console.error(`Error fetching image for ${place.name}:`, error);
+          return { id: place.id, url: place.image };
+        }
+      });
+
+      const images = await Promise.all(imagePromises);
+      const imageMap = images.reduce((acc, { id, url }) => {
+        acc[id] = url;
+        return acc;
+      }, {} as Record<number, string>);
+      
+      setPlaceImages(imageMap);
+    };
+
+    fetchImages();
+  }, []);
+
   const handlePlaceClick = (id: number) => {
     navigate(`/booking?site=${id}`);
   };
+  
   return <section className="py-8 md:py-12 bg-white">
       <div className="container px-4 md:px-6">
         <div className="flex items-center gap-2 mb-4">
-          
           <h2 className="text-2xl md:text-3xl font-bold font-fitzgerald">Hidden Gems of India</h2>
         </div>
         <p className="text-muted-foreground mb-6 max-w-3xl">
@@ -61,7 +93,12 @@ const LesserKnownPlaces = () => {
           <div className="flex gap-3 min-w-max">
             {lesserKnownPlaces.map(place => <Card key={place.id} className="overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-lg hover:scale-[1.02] w-52 flex-shrink-0" onClick={() => handlePlaceClick(place.id)}>
                 <div className="aspect-video relative overflow-hidden">
-                  <img src={place.image} alt={place.name} loading="lazy" className="w-full h-full object-cover" />
+                  <img 
+                    src={placeImages[place.id] || place.image} 
+                    alt={place.name} 
+                    loading="lazy" 
+                    className="w-full h-full object-cover" 
+                  />
                   <Badge variant="secondary" className="absolute top-2 right-2 bg-primary/20 text-primary border-primary/10 text-xs">
                     Hidden Gem
                   </Badge>
@@ -82,7 +119,12 @@ const LesserKnownPlaces = () => {
         <div className="hidden md:grid md:grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {lesserKnownPlaces.map(place => <Card key={place.id} className="overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-lg hover:scale-[1.02]" onClick={() => handlePlaceClick(place.id)}>
               <div className="aspect-video relative overflow-hidden">
-                <img src={place.image} alt={place.name} loading="lazy" className="w-full h-full object-cover" />
+                <img 
+                  src={placeImages[place.id] || place.image} 
+                  alt={place.name} 
+                  loading="lazy" 
+                  className="w-full h-full object-cover" 
+                />
                 <Badge variant="secondary" className="absolute top-3 right-3 bg-primary/20 text-primary border-primary/10">
                   Hidden Gem
                 </Badge>

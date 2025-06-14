@@ -1,12 +1,30 @@
-
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { MapPin } from "lucide-react";
 import { CityDisplayProps } from "./types";
+import { getRandomImage } from "@/utils/pexels";
 
 /**
  * Displays a city card with image and basic information
  */
 const CityCard: React.FC<CityDisplayProps> = ({ city, onCityClick }) => {
+  const [cityImage, setCityImage] = useState<string>(city.image);
+
+  useEffect(() => {
+    const fetchCityImage = async () => {
+      try {
+        const image = await getRandomImage(`${city.name} city India landmarks`);
+        if (image?.src.medium) {
+          setCityImage(image.src.medium);
+        }
+      } catch (error) {
+        console.error(`Error fetching image for ${city.name}:`, error);
+        // Keep the original image as fallback
+      }
+    };
+
+    fetchCityImage();
+  }, [city.name]);
+
   // Handle city selection
   const handleClick = React.useCallback(() => {
     onCityClick(city.id);
@@ -19,7 +37,7 @@ const CityCard: React.FC<CityDisplayProps> = ({ city, onCityClick }) => {
     >
       <div className="relative aspect-[16/9]">
         <img 
-          src={city.image} 
+          src={cityImage} 
           alt={`${city.name} city`}
           loading="lazy"
           className="w-full h-full object-cover"

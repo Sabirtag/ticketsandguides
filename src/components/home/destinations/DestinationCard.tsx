@@ -1,9 +1,10 @@
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Destination } from "./types";
 import ImageGallery from "@/components/common/ImageGallery";
 import { destinationGalleryImages } from "./destinationImages";
+import { getRandomImage } from "@/utils/pexels";
 
 interface DestinationCardProps {
   destination: Destination;
@@ -14,14 +15,36 @@ const DestinationCard: React.FC<DestinationCardProps> = ({
 }) => {
   console.log("🎨 Rendering DestinationCard with hover effects");
   
-  const images = destinationGalleryImages[destination.id] || [destination.image];
+  const [destinationImages, setDestinationImages] = useState<string[]>([destination.image]);
+
+  useEffect(() => {
+    const fetchDestinationImages = async () => {
+      try {
+        const image = await getRandomImage(`${destination.name} ${destination.location} monument heritage`);
+        if (image?.src.medium) {
+          setDestinationImages([image.src.medium]);
+        } else {
+          // Fallback to original gallery images
+          const images = destinationGalleryImages[destination.id] || [destination.image];
+          setDestinationImages(images);
+        }
+      } catch (error) {
+        console.error(`Error fetching image for ${destination.name}:`, error);
+        // Fallback to original gallery images
+        const images = destinationGalleryImages[destination.id] || [destination.image];
+        setDestinationImages(images);
+      }
+    };
+
+    fetchDestinationImages();
+  }, [destination.id, destination.name, destination.location, destination.image]);
   
   return (
     <Link to={`/destination/${destination.id}`} className="block group">
       <div className="relative rounded-xl overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-lg hover:-translate-y-1 h-full">
         <div className="relative overflow-hidden aspect-[3/4]">
           <ImageGallery 
-            images={images} 
+            images={destinationImages} 
             alt={destination.name} 
             aspectRatio="portrait" 
           />
