@@ -4,7 +4,7 @@
  * Provides functions to fetch images from Pexels API
  */
 
-const PEXELS_API_KEY = import.meta.env.VITE_PEXELS_API_KEY || 'YOUR_PEXELS_API_KEY';
+const PEXELS_API_KEY = '1QHiKMx6pH3ZkLWLLuAnfO39SJoJLLmwPjSBMaRkzwApeHGwAFuSqQU3';
 const PEXELS_BASE_URL = 'https://api.pexels.com/v1';
 
 interface PexelsPhoto {
