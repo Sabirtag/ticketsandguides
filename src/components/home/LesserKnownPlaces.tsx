@@ -1,53 +1,78 @@
-
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
-import { MapPin } from "lucide-react";
+import { MapPin, Compass } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { getRandomImage } from "@/utils/pexels";
 
 const LesserKnownPlaces = () => {
   const navigate = useNavigate();
-  
-  // Use a fixed high-quality archaeological site image from Pexels
-  const defaultImage = "https://images.pexels.com/photos/3408354/pexels-photo-3408354.jpeg?auto=compress&cs=tinysrgb&w=800";
+  const [placeImages, setPlaceImages] = useState<Record<number, string>>({});
   
   const lesserKnownPlaces = [{
     id: 101,
     name: "Champaner-Pavagadh Archaeological Park",
     location: "Gujarat",
-    image: defaultImage,
+    image: "https://images.unsplash.com/photo-1582045253062-f9333f16af8f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1500&q=80",
     description: "A UNESCO World Heritage Site with prehistoric chalcolithic sites, a hill fortress, and remains of early Hindu capital."
   }, {
     id: 102,
     name: "Rani Ki Vav",
     location: "Patan, Gujarat",
-    image: defaultImage,
+    image: "https://images.unsplash.com/photo-1627301517544-daabf68f73ba?ixlib=rb-4.0.3&auto=format&fit=crop&w=1500&q=80",
     description: "An intricately constructed stepwell built in the 11th century as a memorial to King Bhimdev I."
   }, {
     id: 103,
     name: "Great Living Chola Temples",
     location: "Tamil Nadu",
-    image: defaultImage,
+    image: "https://images.unsplash.com/photo-1610036615665-21c9058de0c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1500&q=80",
     description: "Ancient temples built by the Chola Dynasty between the 10th and 12th centuries."
   }, {
     id: 104,
     name: "Hill Forts of Rajasthan",
     location: "Rajasthan",
-    image: defaultImage,
+    image: "https://images.unsplash.com/photo-1544124094-8aea0312204a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1500&q=80",
     description: "Less visited but spectacular hill forts built between the 5th and 18th centuries."
   }, {
     id: 105,
     name: "Kailasa Temple, Ellora Caves",
     location: "Maharashtra",
-    image: defaultImage,
+    image: "https://images.unsplash.com/photo-1626191010580-36b194290a5e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1500&q=80",
     description: "The largest monolithic rock excavation in the world, carved from a single rock."
   }, {
     id: 106,
     name: "Buddhist Monuments at Sanchi",
     location: "Madhya Pradesh",
-    image: defaultImage,
+    image: "https://images.unsplash.com/photo-1558350768-7a5acc6cc520?ixlib=rb-4.0.3&auto=format&fit=crop&w=1500&q=80",
     description: "One of the oldest stone structures in India dating back to the 3rd century BCE."
   }];
+  
+  useEffect(() => {
+    const fetchImages = async () => {
+      const imagePromises = lesserKnownPlaces.map(async (place) => {
+        try {
+          const image = await getRandomImage(`${place.name} ${place.location} archaeological heritage`);
+          return { 
+            id: place.id, 
+            url: image?.src.medium || place.image 
+          };
+        } catch (error) {
+          console.error(`Error fetching image for ${place.name}:`, error);
+          return { id: place.id, url: place.image };
+        }
+      });
+
+      const images = await Promise.all(imagePromises);
+      const imageMap = images.reduce((acc, { id, url }) => {
+        acc[id] = url;
+        return acc;
+      }, {} as Record<number, string>);
+      
+      setPlaceImages(imageMap);
+    };
+
+    fetchImages();
+  }, []);
 
   const handlePlaceClick = (id: number) => {
     navigate(`/booking?site=${id}`);
@@ -69,7 +94,7 @@ const LesserKnownPlaces = () => {
             {lesserKnownPlaces.map(place => <Card key={place.id} className="overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-lg hover:scale-[1.02] w-52 flex-shrink-0" onClick={() => handlePlaceClick(place.id)}>
                 <div className="aspect-video relative overflow-hidden">
                   <img 
-                    src={place.image} 
+                    src={placeImages[place.id] || place.image} 
                     alt={place.name} 
                     loading="lazy" 
                     className="w-full h-full object-cover" 
@@ -95,7 +120,7 @@ const LesserKnownPlaces = () => {
           {lesserKnownPlaces.map(place => <Card key={place.id} className="overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-lg hover:scale-[1.02]" onClick={() => handlePlaceClick(place.id)}>
               <div className="aspect-video relative overflow-hidden">
                 <img 
-                  src={place.image} 
+                  src={placeImages[place.id] || place.image} 
                   alt={place.name} 
                   loading="lazy" 
                   className="w-full h-full object-cover" 

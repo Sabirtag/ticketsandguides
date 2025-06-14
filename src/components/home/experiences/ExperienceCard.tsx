@@ -1,8 +1,10 @@
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Star } from "lucide-react";
 import { Experience } from "./types";
 import ImageGallery from "@/components/common/ImageGallery";
+import { experienceGalleryImages } from "./experienceImages";
+import { getRandomImage } from "@/utils/pexels";
 
 interface ExperienceCardProps {
   experience: Experience;
@@ -10,8 +12,29 @@ interface ExperienceCardProps {
 }
 
 const ExperienceCard = ({ experience, onClick }: ExperienceCardProps) => {
-  // Use a fixed high-quality experience image from Pexels
-  const experienceImages = ["https://images.pexels.com/photos/1059078/pexels-photo-1059078.jpeg?auto=compress&cs=tinysrgb&w=800"];
+  const [experienceImages, setExperienceImages] = useState<string[]>([experience.image]);
+
+  useEffect(() => {
+    const fetchExperienceImages = async () => {
+      try {
+        const image = await getRandomImage(`${experience.title} ${experience.location} tourism activity`);
+        if (image?.src.medium) {
+          setExperienceImages([image.src.medium]);
+        } else {
+          // Fallback to original gallery images
+          const images = experienceGalleryImages[experience.id] || [experience.image];
+          setExperienceImages(images);
+        }
+      } catch (error) {
+        console.error(`Error fetching image for ${experience.title}:`, error);
+        // Fallback to original gallery images
+        const images = experienceGalleryImages[experience.id] || [experience.image];
+        setExperienceImages(images);
+      }
+    };
+
+    fetchExperienceImages();
+  }, [experience.id, experience.title, experience.location, experience.image]);
   
   return (
     <div 
