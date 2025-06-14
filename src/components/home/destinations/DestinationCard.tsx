@@ -1,8 +1,10 @@
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Destination } from "./types";
 import ImageGallery from "@/components/common/ImageGallery";
+import { destinationGalleryImages } from "./destinationImages";
+import { getRandomImage } from "@/utils/pexels";
 
 interface DestinationCardProps {
   destination: Destination;
@@ -13,8 +15,29 @@ const DestinationCard: React.FC<DestinationCardProps> = ({
 }) => {
   console.log("🎨 Rendering DestinationCard with hover effects");
   
-  // Use a fixed high-quality destination image from Pexels
-  const destinationImages = ["https://images.pexels.com/photos/1603650/pexels-photo-1603650.jpeg?auto=compress&cs=tinysrgb&w=800"];
+  const [destinationImages, setDestinationImages] = useState<string[]>([destination.image]);
+
+  useEffect(() => {
+    const fetchDestinationImages = async () => {
+      try {
+        const image = await getRandomImage(`${destination.name} ${destination.location} monument heritage`);
+        if (image?.src.medium) {
+          setDestinationImages([image.src.medium]);
+        } else {
+          // Fallback to original gallery images
+          const images = destinationGalleryImages[destination.id] || [destination.image];
+          setDestinationImages(images);
+        }
+      } catch (error) {
+        console.error(`Error fetching image for ${destination.name}:`, error);
+        // Fallback to original gallery images
+        const images = destinationGalleryImages[destination.id] || [destination.image];
+        setDestinationImages(images);
+      }
+    };
+
+    fetchDestinationImages();
+  }, [destination.id, destination.name, destination.location, destination.image]);
   
   return (
     <Link to={`/destination/${destination.id}`} className="block group">

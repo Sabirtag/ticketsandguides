@@ -6,14 +6,12 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, MapPin } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { popularDestinations } from "@/components/home/destinations/destinationsData";
+import { destinationGalleryImages, additionalDestinations } from "@/components/home/destinations/destinationImages";
 import ImageGallery from "@/components/common/ImageGallery";
 
 const AllDestinations = () => {
   const navigate = useNavigate();
   console.log("🎨 Rendering AllDestinations with theme colors");
-  
-  // Use a fixed high-quality destination image from Pexels
-  const defaultDestinationImage = "https://images.pexels.com/photos/1603650/pexels-photo-1603650.jpeg?auto=compress&cs=tinysrgb&w=800";
   
   // Combine existing destinations with additional ones
   const allDestinations = [
@@ -22,7 +20,7 @@ const AllDestinations = () => {
       id: 9,
       name: "Victoria Memorial",
       location: "Kolkata, West Bengal",
-      image: defaultDestinationImage,
+      image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da",
       popularity: 4.5,
       price: "₹50 - ₹200"
     },
@@ -30,7 +28,7 @@ const AllDestinations = () => {
       id: 10,
       name: "Elephanta Caves",
       location: "Mumbai, Maharashtra",
-      image: defaultDestinationImage,
+      image: "https://images.unsplash.com/photo-1533929736458-ca588d08c8be",
       popularity: 4.4,
       price: "₹40 - ₹600"
     },
@@ -38,7 +36,7 @@ const AllDestinations = () => {
       id: 11,
       name: "Kumbhalgarh Fort",
       location: "Rajsamand, Rajasthan",
-      image: defaultDestinationImage,
+      image: "https://images.unsplash.com/photo-1598324789736-4861f89564a0",
       popularity: 4.6,
       price: "₹100 - ₹200"
     },
@@ -46,7 +44,7 @@ const AllDestinations = () => {
       id: 12,
       name: "Thiruvananthapuram Palace",
       location: "Kerala",
-      image: defaultDestinationImage,
+      image: "https://images.unsplash.com/photo-1573227896778-05db88d4268d",
       popularity: 4.3,
       price: "₹50 - ₹350"
     }
@@ -86,7 +84,7 @@ const AllDestinations = () => {
               <div className="relative rounded-xl overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-lg hover:-translate-y-1 h-full">
                 <div className="relative overflow-hidden aspect-[3/4]">
                   <ImageGallery 
-                    images={[defaultDestinationImage]}
+                    images={destinationGalleryImages[destination.id] || additionalDestinations[destination.id] || [destination.image]}
                     alt={destination.name}
                     aspectRatio="portrait"
                   />
