@@ -1,42 +1,17 @@
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { MapPin, Star, Clock, Calendar, Info, Check, X } from "lucide-react";
+import { MapPin, Star, Clock, Calendar, Check } from "lucide-react";
 import { useSearch } from "@/contexts/SearchContext";
-import { getRandomImage } from "@/utils/pexels";
 
 const SearchResults = () => {
   const { searchResults, isSearching, searchQuery } = useSearch();
-  const [siteImages, setSiteImages] = useState<Record<number, string>>({});
-
-  useEffect(() => {
-    const fetchImages = async () => {
-      const imagePromises = searchResults.map(async (site) => {
-        try {
-          const image = await getRandomImage(`${site.name} monument architecture`);
-          return { id: site.id, url: image?.src.medium || "https://images.pexels.com/photos/1653877/pexels-photo-1653877.jpeg?auto=compress&cs=tinysrgb&w=800" };
-        } catch (error) {
-          console.error(`Error fetching image for ${site.name}:`, error);
-          return { id: site.id, url: "https://images.pexels.com/photos/1653877/pexels-photo-1653877.jpeg?auto=compress&cs=tinysrgb&w=800" };
-        }
-      });
-
-      const images = await Promise.all(imagePromises);
-      const imageMap = images.reduce((acc, { id, url }) => {
-        acc[id] = url;
-        return acc;
-      }, {} as Record<number, string>);
-      
-      setSiteImages(imageMap);
-    };
-
-    if (searchResults.length > 0) {
-      fetchImages();
-    }
-  }, [searchResults]);
+  
+  // Use a fixed high-quality monument image from Pexels for all search results
+  const defaultImage = "https://images.pexels.com/photos/1659438/pexels-photo-1659438.jpeg?auto=compress&cs=tinysrgb&w=800";
 
   if (isSearching) {
     return (
@@ -71,7 +46,7 @@ const SearchResults = () => {
           <Card key={site.id} className="group overflow-hidden transition-all hover:shadow-lg border-border/60">
             <div className="h-52 overflow-hidden relative">
               <img
-                src={siteImages[site.id] || "https://images.pexels.com/photos/1653877/pexels-photo-1653877.jpeg?auto=compress&cs=tinysrgb&w=800"}
+                src={defaultImage}
                 alt={site.name}
                 className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
               />
