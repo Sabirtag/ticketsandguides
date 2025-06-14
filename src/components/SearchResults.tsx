@@ -43,7 +43,7 @@ const SearchResults = () => {
           <Card key={site.id} className="group overflow-hidden transition-all hover:shadow-lg border-border/60">
             <div className="h-52 overflow-hidden relative">
               <img
-                src={site.image || "https://images.unsplash.com/photo-1564507592333-c60657eea523?q=80&w=2071&auto=format&fit=crop"}
+                src={site.image || "https://images.pexels.com/photos/1653877/pexels-photo-1653877.jpeg?auto=compress&cs=tinysrgb&w=800"}
                 alt={site.name}
                 className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
               />
