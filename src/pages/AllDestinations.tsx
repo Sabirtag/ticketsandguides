@@ -1,16 +1,17 @@
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/home/Footer";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, MapPin } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { popularDestinations } from "@/components/home/destinations/destinationsData";
-import { destinationGalleryImages, additionalDestinations } from "@/components/home/destinations/destinationImages";
 import ImageGallery from "@/components/common/ImageGallery";
+import { getRandomImage } from "@/utils/pexels";
 
 const AllDestinations = () => {
   const navigate = useNavigate();
+  const [destinationsWithImages, setDestinationsWithImages] = useState<any[]>([]);
   console.log("🎨 Rendering AllDestinations with theme colors");
   
   // Combine existing destinations with additional ones
@@ -49,6 +50,31 @@ const AllDestinations = () => {
       price: "₹50 - ₹350"
     }
   ];
+
+  useEffect(() => {
+    const fetchDestinationImages = async () => {
+      const destinationsWithPexelsImages = await Promise.all(
+        allDestinations.map(async (destination) => {
+          try {
+            const image = await getRandomImage(`${destination.name} ${destination.location} monument heritage architecture`);
+            return {
+              ...destination,
+              pexelsImage: image?.src.medium || destination.image
+            };
+          } catch (error) {
+            console.error(`Error fetching image for ${destination.name}:`, error);
+            return {
+              ...destination,
+              pexelsImage: destination.image
+            };
+          }
+        })
+      );
+      setDestinationsWithImages(destinationsWithPexelsImages);
+    };
+
+    fetchDestinationImages();
+  }, []);
   
   return (
     <div className="min-h-screen bg-background">
@@ -75,7 +101,7 @@ const AllDestinations = () => {
         </div>
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
-          {allDestinations.map((destination) => (
+          {(destinationsWithImages.length > 0 ? destinationsWithImages : allDestinations).map((destination) => (
             <Link 
               key={destination.id} 
               to={`/destination/${destination.id}`}
@@ -84,7 +110,7 @@ const AllDestinations = () => {
               <div className="relative rounded-xl overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-lg hover:-translate-y-1 h-full">
                 <div className="relative overflow-hidden aspect-[3/4]">
                   <ImageGallery 
-                    images={destinationGalleryImages[destination.id] || additionalDestinations[destination.id] || [destination.image]}
+                    images={[destination.pexelsImage || destination.image]}
                     alt={destination.name}
                     aspectRatio="portrait"
                   />
