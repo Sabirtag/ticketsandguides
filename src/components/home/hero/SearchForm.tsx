@@ -82,7 +82,7 @@ const SearchForm = (props: SearchFormProps) => {
       </div>
       
       <div className="w-[120px]">
-        <Button type="submit" variant="cta" className="px-[40px] h-12 w-full bg-[#c23b22] font-extrabold text-base text-inherit">
+        <Button type="submit" variant="cta" className="bg-[rgba(100,73,37,255)] text-white hover:bg-[rgba(100,73,37,0.9)] font-normal">
           Book
         </Button>
       </div>
