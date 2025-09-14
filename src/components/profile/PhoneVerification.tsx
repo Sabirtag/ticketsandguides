@@ -80,6 +80,11 @@ const PhoneVerification = ({ userId, currentPhone, isVerified, onVerificationCom
         throw new Error(response.error.message);
       }
 
+      // Call the new security function to invalidate the OTP after successful verification
+      await supabase.rpc('invalidate_phone_verification_code', { 
+        user_id: userId 
+      });
+
       toast.success('Phone number verified successfully!');
       onVerificationComplete(phone);
       setStep('phone');
