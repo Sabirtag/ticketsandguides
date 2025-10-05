@@ -23,6 +23,7 @@ import ResetPassword from "@/pages/ResetPassword";
 import UpdatePassword from "@/pages/UpdatePassword";
 import AdminDashboard from "@/pages/AdminDashboard";
 import AffiliateDetail from "@/pages/AffiliateDetail";
+import TermsOfService from "@/pages/TermsOfService";
 
 // Components
 import AffiliateApproval from '@/components/affiliates/AffiliateApproval';
@@ -87,6 +88,7 @@ const App = () => {
                 <AffiliateDetail />
               </AdminRoute>
             } />
+            <Route path="/terms" element={<TermsOfService />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </SearchProvider>
