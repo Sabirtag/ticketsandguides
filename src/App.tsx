@@ -24,6 +24,7 @@ import UpdatePassword from "@/pages/UpdatePassword";
 import AdminDashboard from "@/pages/AdminDashboard";
 import AffiliateDetail from "@/pages/AffiliateDetail";
 import TermsOfService from "@/pages/TermsOfService";
+import PrivacyPolicy from "@/pages/PrivacyPolicy";
 
 // Components
 import AffiliateApproval from '@/components/affiliates/AffiliateApproval';
@@ -89,6 +90,7 @@ const App = () => {
               </AdminRoute>
             } />
             <Route path="/terms" element={<TermsOfService />} />
+            <Route path="/privacy" element={<PrivacyPolicy />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </SearchProvider>
