@@ -39,6 +39,7 @@ const Footer = () => {
               <li><Button variant="link" className="p-0 h-auto text-muted-foreground hover:text-foreground bg-transparent hover:bg-transparent transition-transform hover:scale-95">Contact Us</Button></li>
               <li><Button variant="link" className="p-0 h-auto text-muted-foreground hover:text-foreground bg-transparent hover:bg-transparent transition-transform hover:scale-95" onClick={() => navigate('/terms')}>Terms of Service</Button></li>
               <li><Button variant="link" className="p-0 h-auto text-muted-foreground hover:text-foreground bg-transparent hover:bg-transparent transition-transform hover:scale-95" onClick={() => navigate('/privacy')}>Privacy Policy</Button></li>
+              <li><Button variant="link" className="p-0 h-auto text-muted-foreground hover:text-foreground bg-transparent hover:bg-transparent transition-transform hover:scale-95" onClick={() => navigate('/policies')}>Other Policies</Button></li>
             </ul>
           </div>
           <div>
@@ -131,6 +132,7 @@ const Footer = () => {
                     <li><Button variant="link" className="p-0 h-auto text-left justify-start text-muted-foreground hover:text-foreground bg-transparent hover:bg-transparent transition-transform hover:scale-95">Contact Us</Button></li>
                     <li><Button variant="link" className="p-0 h-auto text-left justify-start text-muted-foreground hover:text-foreground bg-transparent hover:bg-transparent transition-transform hover:scale-95" onClick={() => navigate('/terms')}>Terms of Service</Button></li>
                     <li><Button variant="link" className="p-0 h-auto text-left justify-start text-muted-foreground hover:text-foreground bg-transparent hover:bg-transparent transition-transform hover:scale-95" onClick={() => navigate('/privacy')}>Privacy Policy</Button></li>
+                    <li><Button variant="link" className="p-0 h-auto text-left justify-start text-muted-foreground hover:text-foreground bg-transparent hover:bg-transparent transition-transform hover:scale-95" onClick={() => navigate('/policies')}>Other Policies</Button></li>
                   </ul>
                 </div>
               )}
