@@ -1,22 +1,15 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/home/Footer";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 const OtherPolicies = () => {
-  return (
-    <div className="min-h-screen flex flex-col">
+  return <div className="min-h-screen flex flex-col">
       <Navbar />
       <main className="flex-1 container mx-auto px-4 py-8 mt-16">
         <h1 className="text-4xl font-bold mb-8 text-foreground">Other Policies</h1>
         
         <Accordion type="single" collapsible className="w-full space-y-4">
           <AccordionItem value="item-1" className="border rounded-lg px-6">
-            <AccordionTrigger className="text-xl font-semibold">
+            <AccordionTrigger className="font-bold mt-8 mb-4 font-fitzgerald text-lg text-inherit">
               Account Authenticity and Requirements
             </AccordionTrigger>
             <AccordionContent className="text-muted-foreground space-y-4">
@@ -46,7 +39,7 @@ const OtherPolicies = () => {
           </AccordionItem>
 
           <AccordionItem value="item-2" className="border rounded-lg px-6">
-            <AccordionTrigger className="text-xl font-semibold">
+            <AccordionTrigger className="font-bold mt-8 mb-4 font-fitzgerald text-lg text-inherit">
               Community Expectations
             </AccordionTrigger>
             <AccordionContent className="text-muted-foreground space-y-4">
@@ -90,7 +83,7 @@ const OtherPolicies = () => {
           </AccordionItem>
 
           <AccordionItem value="item-3" className="border rounded-lg px-6">
-            <AccordionTrigger className="text-xl font-semibold">
+            <AccordionTrigger className="font-bold mt-8 mb-4 font-fitzgerald text-lg text-inherit">
               Payments and Payouts
             </AccordionTrigger>
             <AccordionContent className="text-muted-foreground space-y-4">
@@ -112,7 +105,7 @@ const OtherPolicies = () => {
           </AccordionItem>
 
           <AccordionItem value="item-4" className="border rounded-lg px-6">
-            <AccordionTrigger className="text-xl font-semibold">
+            <AccordionTrigger className="font-bold mt-8 mb-4 font-fitzgerald text-lg text-inherit">
               Safety
             </AccordionTrigger>
             <AccordionContent className="text-muted-foreground space-y-4">
@@ -125,7 +118,7 @@ const OtherPolicies = () => {
           </AccordionItem>
 
           <AccordionItem value="item-5" className="border rounded-lg px-6">
-            <AccordionTrigger className="text-xl font-semibold">
+            <AccordionTrigger className="font-bold mt-8 mb-4 font-fitzgerald text-lg text-inherit">
               Nondiscrimination and Accessibility
             </AccordionTrigger>
             <AccordionContent className="text-muted-foreground space-y-4">
@@ -157,7 +150,7 @@ const OtherPolicies = () => {
           </AccordionItem>
 
           <AccordionItem value="item-6" className="border rounded-lg px-6">
-            <AccordionTrigger className="text-xl font-semibold">
+            <AccordionTrigger className="font-bold mt-8 mb-4 font-fitzgerald text-lg text-inherit">
               Cancellations and Refunds
             </AccordionTrigger>
             <AccordionContent className="text-muted-foreground space-y-4">
@@ -209,7 +202,7 @@ const OtherPolicies = () => {
           </AccordionItem>
 
           <AccordionItem value="item-7" className="border rounded-lg px-6">
-            <AccordionTrigger className="text-xl font-semibold">
+            <AccordionTrigger className="font-bold mt-8 mb-4 font-fitzgerald text-lg text-inherit">
               Copyright Policy
             </AccordionTrigger>
             <AccordionContent className="text-muted-foreground space-y-4">
@@ -221,7 +214,7 @@ const OtherPolicies = () => {
           </AccordionItem>
 
           <AccordionItem value="item-8" className="border rounded-lg px-6">
-            <AccordionTrigger className="text-xl font-semibold">
+            <AccordionTrigger className="font-bold mt-8 mb-4 font-fitzgerald text-lg text-inherit">
               Cookie Policy
             </AccordionTrigger>
             <AccordionContent className="text-muted-foreground space-y-4">
@@ -244,7 +237,7 @@ const OtherPolicies = () => {
           </AccordionItem>
 
           <AccordionItem value="item-9" className="border rounded-lg px-6">
-            <AccordionTrigger className="text-xl font-semibold">
+            <AccordionTrigger className="font-bold mt-8 mb-4 font-fitzgerald text-lg text-inherit">
               Ad Choice Policy
             </AccordionTrigger>
             <AccordionContent className="text-muted-foreground space-y-4">
@@ -255,7 +248,7 @@ const OtherPolicies = () => {
           </AccordionItem>
 
           <AccordionItem value="item-10" className="border rounded-lg px-6">
-            <AccordionTrigger className="text-xl font-semibold">
+            <AccordionTrigger className="font-bold mt-8 mb-4 font-fitzgerald text-inherit text-lg">
               Reviews Policy
             </AccordionTrigger>
             <AccordionContent className="text-muted-foreground space-y-4">
@@ -292,7 +285,7 @@ const OtherPolicies = () => {
           </AccordionItem>
 
           <AccordionItem value="item-11" className="border rounded-lg px-6">
-            <AccordionTrigger className="text-xl font-semibold">
+            <AccordionTrigger className="font-bold mt-8 mb-4 font-fitzgerald text-inherit text-lg">
               Content Policy
             </AccordionTrigger>
             <AccordionContent className="text-muted-foreground space-y-4">
@@ -333,7 +326,7 @@ const OtherPolicies = () => {
           </AccordionItem>
 
           <AccordionItem value="item-12" className="border rounded-lg px-6">
-            <AccordionTrigger className="text-xl font-semibold">
+            <AccordionTrigger className="font-bold mt-8 mb-4 font-fitzgerald text-inherit text-lg">
               Dispute Resolution Policy
             </AccordionTrigger>
             <AccordionContent className="text-muted-foreground space-y-4">
@@ -371,7 +364,7 @@ const OtherPolicies = () => {
           </AccordionItem>
 
           <AccordionItem value="item-13" className="border rounded-lg px-6">
-            <AccordionTrigger className="text-xl font-semibold">
+            <AccordionTrigger className="font-bold mt-8 mb-4 font-fitzgerald bg-transparent text-inherit text-lg">
               Curator Quality Standards
             </AccordionTrigger>
             <AccordionContent className="text-muted-foreground space-y-4">
@@ -408,8 +401,6 @@ const OtherPolicies = () => {
         </Accordion>
       </main>
       <Footer />
-    </div>
-  );
+    </div>;
 };
-
 export default OtherPolicies;
